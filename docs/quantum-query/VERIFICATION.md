@@ -1,5 +1,38 @@
 # Quantum query verification
 
+## Standalone release 0.1.0 — 27 September 2026
+
+The dedicated repository's [CI run](https://github.com/troyjlee/quantum-query-complexity/actions/runs/36309258539)
+passed at [`bd6b593be115d6162cef6b6539fc6fa34c340346`](https://github.com/troyjlee/quantum-query-complexity/tree/bd6b593be115d6162cef6b6539fc6fa34c340346),
+the commit tagged `v0.1.0`. This was a Linux build of the standalone package
+using Lean/Mathlib **4.35.0-rc2** and `LEAN_NUM_THREADS=1`.
+
+| Check | Result |
+| --- | --- |
+| Library, examples, regression checks, and Palomar modules | Passed, 3,088 build jobs including cached dependencies |
+| Separate downstream Lake project | Passed, 2,864 build jobs including cached dependencies |
+| Six direct axiom audits (`--trust=0`) | All passed; only `propext`, `Classical.choice`, and `Quot.sound` encountered |
+| Comparator statement and axiom checks | All seven selected Palomar theorems accepted |
+| Lean, NanoDa, and con-ron proof replay | All accepted; con-ron checked 40,765 exported declarations |
+
+The audit counts match the historical table below except that the adversary
+audit now checks **222** declarations, reflecting the strengthened
+characterization proof. All six module counts and theorem-pin counts are
+unchanged. The downstream check builds an independent Lake project with a
+dependency on this library and proves examples using the public algorithm
+and adversary APIs.
+
+On macOS ARM64, both new usage-example modules were also checked directly
+with Lean. The TCS consumer's usage file was checked against the actual Git
+dependency after moving its former local quantum build artifacts out of the
+import path. A byte-for-byte comparison confirmed that extraction preserved
+all 251 production Lean files, including the root, and both Palomar modules.
+
+These are repository verification results. They do not constitute a Palomar
+service review or registration.
+
+## Source-snapshot history
+
 The historical records below describe the source snapshot in
 [`tcs-formalizations`](https://github.com/troyjlee/tcs-formalizations/tree/6cb3955276c61ef96bd1011fd8321ce17db699a0).
 [Source provenance](../../PROVENANCE.md) describes the extraction into this

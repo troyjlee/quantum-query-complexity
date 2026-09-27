@@ -47,7 +47,8 @@ imports reduce the amount of code loaded into a downstream proof.
 | Classical postprocessing of an algorithm's output | `QuantumQueryComplexity.Quantum.Postcomp` |
 | Adversary characterization of query complexity | `QuantumQueryComplexity.Quantum.Characterization` |
 | Algorithm bounds from supplied promise duals | `QuantumQueryComplexity.Quantum.UniformHasDual` |
-| Amplitude amplification / estimation | `QuantumQueryComplexity.Quantum.Amplitude.Amplification` / `.Estimation` |
+| Amplitude amplification | `QuantumQueryComplexity.Quantum.Amplitude.Amplification` |
+| Amplitude estimation | `QuantumQueryComplexity.Quantum.Amplitude.Estimation` |
 | Robust search | `QuantumQueryComplexity.Quantum.RobustSearch.Public` |
 | Quantum-walk search | `QuantumQueryComplexity.Quantum.Walk.MNRS` |
 

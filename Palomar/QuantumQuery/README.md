@@ -67,9 +67,26 @@ is necessary; this checks a trusted local checkout and does not reproduce
 the isolation of Palomar's service. Default `lake build` includes the pair,
 and CI checks this foundations package.
 The [library verification record](../../docs/quantum-query/VERIFICATION.md)
-separately covers the migration build and six library axiom audits.
+also covers the standalone downstream-project check and six library axiom audits.
 
-## Local verification record — 27 September 2026
+## Standalone verification — 27 September 2026
+
+The standalone [CI run](https://github.com/troyjlee/quantum-query-complexity/actions/runs/36309258539)
+passed at release `v0.1.0`, commit
+`bd6b593be115d6162cef6b6539fc6fa34c340346`, on Linux with Lean/Mathlib
+**4.35.0-rc2**. The full build passed (3,088 jobs including cached dependencies),
+as did the separate downstream Lake project and all six direct axiom audits.
+Comparator accepted all seven statements and their axiom dependencies.
+Lean, NanoDa, and con-ron accepted the proofs; con-ron checked **40,765**
+exported declarations. This checks the dedicated repository independently
+of the earlier TCS build recorded below.
+
+## Source-snapshot verification — 27 September 2026
+
+The following checks were run before extraction, on the quantum sources in
+[`tcs-formalizations` at `6cb3955`](https://github.com/troyjlee/tcs-formalizations/tree/6cb3955276c61ef96bd1011fd8321ce17db699a0).
+The standalone repository preserves the production Lean sources and both
+Palomar modules byte for byte; see [source provenance](../../PROVENANCE.md).
 
 | Check | Result |
 | --- | --- |
@@ -103,16 +120,16 @@ reviewed alongside the mechanical checks.
 | Lean project directory | `.` |
 | Comparator configuration | `Palomar/QuantumQuery/comparator.json` |
 | Formalization metadata | `Palomar/QuantumQuery/formalization.yaml` |
-| Commit | Full 40-character SHA of the final checked, publicly pushed commit containing this package |
+| Commit | `bd6b593be115d6162cef6b6539fc6fa34c340346` (`v0.1.0`) |
 
 This is one submission supported by five source papers. It does not select
 the library's amplitude, robust-search, walk, tree-search, relational, or
 application theorems. Those are documented in the correspondence inventory
 and can receive separate packages later.
 
-After the final files are committed and pushed, record `git rev-parse HEAD`
-and use that immutable SHA. Use a commit in this standalone repository; the earlier TCS snapshot
-records the source of the extraction. Preparing or checking these files
+The commit above is the checked, publicly pushed standalone release. If the
+submission's statements, proofs, or metadata change, rerun the relevant
+checks and supply the new full commit SHA. Preparing or checking these files
 neither starts a Palomar review nor registers an entry. Recheck the
 [current submission guidance](https://palomar-registry.org/how-to-submit)
 at submission time.
