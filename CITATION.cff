@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this library, please cite it using this metadata and the release or commit used."
+title: "Quantum query complexity in Lean"
+type: software
+version: 0.1.0
+authors:
+  - family-names: Lee
+    given-names: Troy
+    orcid: "https://orcid.org/0000-0001-6912-2338"
+    affiliation: "University of Technology Sydney"
+license: Apache-2.0
+repository-code: "https://github.com/troyjlee/quantum-query-complexity"
+keywords:
+  - Lean 4
+  - Mathlib
+  - formalized mathematics
+  - quantum query complexity
+  - adversary bound
+  - quantum algorithms
+abstract: >-
+  A reusable Lean library for finite quantum query algorithms, adversary
+  duality and composition, query-complexity characterizations, the polynomial
+  method, amplitude amplification and estimation, robust search, quantum
+  walks, and query bounds for classic examples. Documentation records oracle
+  conventions, mathematical sources, and adaptations of the published results.

@@ -1,0 +1,18 @@
+{
+  "challenge_module": "Palomar.QuantumQuery.Challenge",
+  "solution_module": "Palomar.QuantumQuery.Solution",
+  "theorem_names": [
+    "PalomarQuantumQuery.strong_duality",
+    "PalomarQuantumQuery.composition",
+    "PalomarQuantumQuery.value_characterization",
+    "PalomarQuantumQuery.xor_characterization",
+    "PalomarQuantumQuery.uniform_dual_upper_bound",
+    "PalomarQuantumQuery.value_probability_polynomial",
+    "PalomarQuantumQuery.xor_probability_polynomial"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

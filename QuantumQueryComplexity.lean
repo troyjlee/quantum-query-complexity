@@ -1,0 +1,163 @@
+import QuantumQueryComplexity.Spectral
+import QuantumQueryComplexity.SchurMultiplier
+import QuantumQueryComplexity.Bipartite
+import QuantumQueryComplexity.Defs
+import QuantumQueryComplexity.Basic
+import QuantumQueryComplexity.Composition.Hat
+import QuantumQueryComplexity.Composition.Compose
+import QuantumQueryComplexity.Composition.SchurPSD
+import QuantumQueryComplexity.Composition.Eigen
+import QuantumQueryComplexity.Composition.Span
+import QuantumQueryComplexity.Composition.NormCompose
+import QuantumQueryComplexity.Composition.Mask
+import QuantumQueryComplexity.Composition.Main
+import QuantumQueryComplexity.Dual
+import QuantumQueryComplexity.DualCompose
+import QuantumQueryComplexity.Pad
+import QuantumQueryComplexity.Weighted
+import QuantumQueryComplexity.Star
+import QuantumQueryComplexity.AndOr
+import QuantumQueryComplexity.OrAnd
+import QuantumQueryComplexity.WeightedOr
+import QuantumQueryComplexity.WeightedDual
+import QuantumQueryComplexity.ReadOnce
+import QuantumQueryComplexity.Tree
+import QuantumQueryComplexity.ReadOnceCerts
+import QuantumQueryComplexity.Relational.Defs
+import QuantumQueryComplexity.Relational.Tensor
+import QuantumQueryComplexity.Relational.Main
+import QuantumQueryComplexity.FirstDiff
+import QuantumQueryComplexity.ComposeShared
+import QuantumQueryComplexity.Pullback
+import QuantumQueryComplexity.Max.Defs
+import QuantumQueryComplexity.Max.Staircase
+import QuantumQueryComplexity.Max.Weighted
+import QuantumQueryComplexity.Max.Simple
+import QuantumQueryComplexity.Max.Dyadic
+import QuantumQueryComplexity.Max.Lower
+import QuantumQueryComplexity.Max.Combined
+import QuantumQueryComplexity.Duality.Gram
+import QuantumQueryComplexity.Duality.Witness
+import QuantumQueryComplexity.Duality.Compact
+import QuantumQueryComplexity.Duality.Main
+import QuantumQueryComplexity.Duality.GramOn
+import QuantumQueryComplexity.Duality.WitnessOn
+import QuantumQueryComplexity.Duality.CompactOn
+import QuantumQueryComplexity.Duality.MainOn
+import QuantumQueryComplexity.Duality.FiniteOutputOn
+import QuantumQueryComplexity.Scan.Defs
+import QuantumQueryComplexity.Scan.Dual
+import QuantumQueryComplexity.Scan.Max
+import QuantumQueryComplexity.Scan.Average
+import QuantumQueryComplexity.Scan.Record
+import QuantumQueryComplexity.Scan.Final
+import QuantumQueryComplexity.Scan.Uniform
+import QuantumQueryComplexity.HasDual
+import QuantumQueryComplexity.Scan.Weighted
+import QuantumQueryComplexity.Scan.Join
+import QuantumQueryComplexity.Scan.Bounded
+import QuantumQueryComplexity.Scan.Potential
+import QuantumQueryComplexity.Oriented
+import QuantumQueryComplexity.LetterCode
+import QuantumQueryComplexity.Promise.Defs
+import QuantumQueryComplexity.Promise.Basic
+import QuantumQueryComplexity.Promise.Transport
+import QuantumQueryComplexity.Promise.Post
+import QuantumQueryComplexity.Promise.PostInjective
+import QuantumQueryComplexity.Promise.PacketParity
+import QuantumQueryComplexity.Promise.Compose
+import QuantumQueryComplexity.DecisionTree
+import QuantumQueryComplexity.PredictionTree
+import QuantumQueryComplexity.RejectionTree
+import QuantumQueryComplexity.PredictionTreeCompose
+import QuantumQueryComplexity.TreeSearch
+import QuantumQueryComplexity.TreeSearch.Cost
+import QuantumQueryComplexity.TreeSearch.Optimal
+import QuantumQueryComplexity.TreeSearch.Examples
+import QuantumQueryComplexity.Chain
+import QuantumQueryComplexity.LearningGraph.Defs
+import QuantumQueryComplexity.LearningGraph.Cut
+import QuantumQueryComplexity.LearningGraph.Dual
+import QuantumQueryComplexity.ED.Defs
+import QuantumQueryComplexity.ED.Flow
+import QuantumQueryComplexity.ED.Count
+import QuantumQueryComplexity.ED.Cost
+import QuantumQueryComplexity.ED.Main
+import QuantumQueryComplexity.EDLower.Cells
+import QuantumQueryComplexity.EDLower.Gee
+import QuantumQueryComplexity.EDLower.PairOps
+import QuantumQueryComplexity.EDLower.Gram
+import QuantumQueryComplexity.EDLower.Mask
+import QuantumQueryComplexity.EDLower.WBounds
+import QuantumQueryComplexity.EDLower.Count
+import QuantumQueryComplexity.EDLower.Main
+import QuantumQueryComplexity.KD.Defs
+import QuantumQueryComplexity.KD.Flow
+import QuantumQueryComplexity.KD.Count
+import QuantumQueryComplexity.KD.Cost
+import QuantumQueryComplexity.KD.Main
+import QuantumQueryComplexity.CoordRecode
+import QuantumQueryComplexity.Scan.PerCoord
+import QuantumQueryComplexity.Promise.HasDual
+import QuantumQueryComplexity.Promise.ComposeShared
+import QuantumQueryComplexity.Promise.PredictionTreeCompose
+import QuantumQueryComplexity.Promise.TreeSearch
+import QuantumQueryComplexity.PredictionTreeAdversary
+import QuantumQueryComplexity.Promise.Max
+import QuantumQueryComplexity.Adaptive
+import QuantumQueryComplexity.BinarySearch
+import QuantumQueryComplexity.LDS.Defs
+import QuantumQueryComplexity.LDS.Lower
+import QuantumQueryComplexity.LDS.Window
+import QuantumQueryComplexity.LDS.Search
+import QuantumQueryComplexity.LDS.Node
+import QuantumQueryComplexity.LDS.Child
+import QuantumQueryComplexity.LDS.Mirror
+import QuantumQueryComplexity.LDS.Recur
+import QuantumQueryComplexity.LDS.Cost
+import QuantumQueryComplexity.LDS.NodeDual
+import QuantumQueryComplexity.LDS.Dyadic
+import QuantumQueryComplexity.LDS.Outer
+import QuantumQueryComplexity.LDS.OuterCost
+import QuantumQueryComplexity.LDS.Main
+import QuantumQueryComplexity.Quantum
+import QuantumQueryComplexity.Quantum.AcceptanceB
+import QuantumQueryComplexity.Quantum.AcceptanceC
+import QuantumQueryComplexity.Quantum.AcceptanceD
+import QuantumQueryComplexity.Quantum.AcceptanceH
+import QuantumQueryComplexity.Quantum.AcceptanceL
+import QuantumQueryComplexity.Quantum.AcceptanceM
+import QuantumQueryComplexity.Quantum.AcceptanceN
+import QuantumQueryComplexity.Quantum.AcceptanceO
+import QuantumQueryComplexity.Quantum.AcceptanceQ
+import QuantumQueryComplexity.Quantum.Characterization
+import QuantumQueryComplexity.Quantum.EDApplications
+import QuantumQueryComplexity.Quantum.KDApplications
+import QuantumQueryComplexity.Quantum.LDSApplications
+import QuantumQueryComplexity.Quantum.MaxApplications
+import QuantumQueryComplexity.Quantum.ReadOnceApplications
+import QuantumQueryComplexity.Quantum.UniformHasDual
+import QuantumQueryComplexity.Quantum.PredictionTreeCompose
+import QuantumQueryComplexity.Quantum.TreeSearch
+import QuantumQueryComplexity.Polynomial.Boolean
+import QuantumQueryComplexity.Quantum.PolynomialMethod
+import QuantumQueryComplexity.Quantum.XorPolynomialMethod
+import QuantumQueryComplexity.Quantum.PolynomialLowerBound
+
+/-!
+# QuantumQueryComplexity
+
+The library root: the negative-weight adversary bound `advPM`, its duality
+theory, composition theorems, the explicit-dual toolkit (`HasDual`, promise
+duals, scans, adaptive descriptor composition), the quantum query model with
+the dual-to-algorithm extraction and the `advPMOn`/`qQueryOn`
+characterization, and the classic examples (element distinctness,
+`k`-distinctness, longest distinct substring, maximum, read-once formulas)
+with their operational endpoints and statement pins, and the polynomial method
+(`Quantum/PolynomialMethod.lean`: for Boolean inputs, acceptance probabilities
+are polynomials of degree at most `2T`, for the native and the XOR oracle,
+with the lower-bound transfer).
+
+`Test/LibraryBoundary.lean` checks that this library's imports stay within
+Lean, Mathlib, and `QuantumQueryComplexity`.
+-/

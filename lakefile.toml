@@ -1,0 +1,37 @@
+name = "QuantumQueryComplexity"
+version = "0.1.0"
+description = "Quantum query algorithms, adversary bounds, and the polynomial method in Lean"
+license = "Apache-2.0"
+homepage = "https://github.com/troyjlee/quantum-query-complexity"
+keywords = ["quantum", "query-complexity", "formalization", "mathlib"]
+defaultTargets = ["QuantumQueryComplexity", "QuantumQueryComplexityChecks", "QuantumQueryExamples", "Palomar"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0-rc2"
+
+[[lean_lib]]
+name = "QuantumQueryComplexity"
+
+[lean_lib.leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[lean_lib]]
+name = "QuantumQueryComplexityChecks"
+
+[lean_lib.leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[lean_lib]]
+name = "QuantumQueryExamples"
+
+[[lean_lib]]
+name = "Palomar"
+globs = ["Palomar.+"]

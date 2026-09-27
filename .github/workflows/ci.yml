@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      LEAN_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build library, examples, regression checks, and Palomar statements
+        uses: leanprover/lean-action@v1
+      - name: Check use from a separate Lake project
+        run: python3 scripts/check-downstream.py
+      - name: Audit axiom dependencies
+        run: |
+          for audit in Adversary Polynomial Amplitude RobustSearch QuantumWalk TreeSearch; do
+            lake env lean --trust=0 "QuantumQueryComplexity/Test/${audit}Axioms.lean"
+          done
+      - name: Compare Palomar statements and replay proofs
+        run: python3 scripts/check-palomar.py --no-sandbox

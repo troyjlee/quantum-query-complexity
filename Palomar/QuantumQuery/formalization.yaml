@@ -1,0 +1,167 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Adversary bounds and the polynomial method for quantum queries"
+  description: >-
+    Lean proofs of strong duality and exact block composition for the
+    negative-weight adversary bound on total Boolean functions, explicit
+    constant-factor characterizations of bounded-error quantum query
+    complexity in value and Boolean XOR oracle models, and uniform
+    extraction of query algorithms from supplied promise dual certificates.
+    The submission also proves that every output probability of a q-query
+    algorithm on Boolean inputs has a real polynomial representation of
+    degree at most 2q in each model. Seven statements are compared against
+    a standalone Mathlib-only specification of the finite quantum model.
+  authors: ["Troy Lee"]
+  responsible_maintainers: ["Troy Lee"]
+  license: "Apache-2.0"
+
+classification:
+  arxiv: ["quant-ph", "cs.CC"]
+  msc2020: ["68Q12", "81P68"]
+
+sources:
+  - title: "Negative weights make adversaries stronger"
+    authors: ["Peter Høyer", "Troy Lee", "Robert Špalek"]
+    id: "https://arxiv.org/abs/quant-ph/0611054v2"
+    type: "paper"
+    location: "Definition 2; Theorem 2; Theorem 13 and Lemma 16"
+    relationship: "adapts"
+    note: >-
+      Source of the negative-weight lower bound and the lower direction of
+      composition. The submitted primal uses real symmetric matrices and
+      normalized masks, as in LMRSS Definition 3.3 and BL Definition 6.
+      The lower constants are weakened and depend on the specified oracle
+      conventions; the general weighted composition theorem is not selected.
+  - title: "Quantum query complexity of state conversion"
+    authors: ["Troy Lee", "Rajat Mittal", "Ben W. Reichardt", "Robert Špalek", "Mario Szegedy"]
+    id: "https://arxiv.org/abs/1011.3020v2"
+    type: "paper"
+    location: "Definition 3.1; Theorems 3.4 and 4.1; Lemma 4.2; Section 4.1"
+    relationship: "adapts"
+    note: >-
+      The Boolean-output equality in Theorem 3.4 supplies the duality target.
+      Theorem 4.1 supplies the function-evaluation extraction target and
+      reflection-based proof architecture. The submitted certificate bound
+      is 8192(1+c) at error 1/3. Near-optimal dual certificates yield the
+      native characterization upper constant 2^14; oracle simulation gives
+      2^15 for XOR queries. General state conversion, arbitrary-error
+      asymptotics, and continuous-time equivalence are not submitted.
+  - title: "Reflections for quantum query algorithms"
+    authors: ["Ben W. Reichardt"]
+    id: "https://arxiv.org/abs/1005.1601v1"
+    type: "paper"
+    location: "Theorem 1.3; Section 1 and reflection-based algorithm"
+    relationship: "adapts"
+    note: >-
+      The total Boolean specialization of the adversary characterization.
+      The selected upper proof uses the LMRSS-style extraction in this
+      library, rather than a line-by-line transcription of this paper.
+      The submitted constants and padded oracle models are explicit.
+  - title: "The quantum query complexity of composition with a relation"
+    authors: ["Aleksandrs Belovs", "Troy Lee"]
+    id: "https://arxiv.org/abs/2004.06439v1"
+    type: "paper"
+    location: "Theorems 1 and 7; Definitions 5–6; composition proof ingredients in Section 3"
+    relationship: "formalizes"
+    note: >-
+      Theorem 1 is the total Boolean perfect-composition statement, credited
+      there to HLS and Reichardt. Theorem 7 restates the Boolean all-pairs
+      dual program from LMRSS. The submitted value equality uses an infimum
+      over finite real vector families. This submission does not assert the
+      paper's relational composition equality (Theorem 22).
+  - title: "Quantum Lower Bounds by Polynomials"
+    authors: ["Robert Beals", "Harry Buhrman", "Richard Cleve", "Michele Mosca", "Ronald de Wolf"]
+    id: "https://arxiv.org/abs/quant-ph/9802049v3"
+    type: "paper"
+    location: "Lemmas 4.1–4.2, especially Lemma 4.2"
+    relationship: "adapts"
+    note: >-
+      Output-fiber specialization of the probability-polynomial lemma,
+      directly proved for both value and XOR queries. Degree at most 2q
+      and equality on the Boolean cube are submitted; multilinearity and
+      the paper's later lower-bound applications are not selected.
+
+status:
+  scope: >-
+    Finite query indices and alphabets, arbitrary finite workspaces,
+    input-independent unitary steps, and final computational-basis
+    measurement. Strong duality, exact composition, and both characterizations
+    concern total Boolean functions. The uniform certificate upper bound
+    allows a finite promise domain and any nonempty decidable output type;
+    its input is a supplied all-pairs real dual certificate of nonnegative
+    cost. Polynomial claims concern Boolean input and one readout value.
+    Seven named theorems are selected; other library results are catalogued
+    for provenance but are not claims of this submission.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude (Anthropic)", "Codex (OpenAI)"]
+      framework: "Claude and Codex coding agents"
+      tool_setup: "Human-directed Lean and Mathlib development, compiler feedback, source review, and proof checks."
+      prompting_notes: "Formalize the cited results, make paper-to-theorem correspondence explicit, and prepare independent Palomar statements and proof adapters."
+  spend_usd: "not specified"
+  notes: >-
+    Troy Lee directed the formalization and submission scope. AI assistance
+    is credited separately from human authorship. Specific model versions
+    and resource totals are not specified. Challenge theorem placeholders
+    are deliberate comparison inputs and excluded from proof sorry counts.
+
+fidelity:
+  divergences: >-
+    Value queries swap a blank answer with the queried letter. Boolean XOR
+    queries fix the blank answer; both models include an idle query index.
+    Removal of the padded sectors is not separately formalized. Native
+    characterization constants are 1/36 and 2^14, and XOR constants are 1/72
+    and 2^15. The primal uses real symmetric matrices with the L2 operator
+    norm; no separate real-versus-complex optimization equivalence is claimed.
+    Duality compares infimum and supremum values and does not submit optimizer
+    attainment. The uniform certificate theorem is not the full finite-output
+    adversary characterization of LMRSS Theorem 1.1. Probability polynomials
+    are not asserted to be multilinear. Bounds count queries, not gate count,
+    running time, or effective synthesis. The source map records additional
+    scope distinctions and changes of proof.
+
+review:
+  status: "agent-reviewed"
+  notes: >-
+    AI-assisted inspection of the versioned source papers and Lean theorem
+    statements, with explicit bridges between the standalone specification
+    and library definitions. No independent human peer review, endorsement
+    by the source authors, or Palomar service review is claimed. Reproduction
+    commands and the completed local validation record are in
+    Palomar/QuantumQuery/README.md. The detailed source map is
+    docs/quantum-query/PAPER_CORRESPONDENCE.md.
+
+alignment:
+  namespace: "PalomarQuantumQuery"
+  module: "Palomar.QuantumQuery.Solution"
+  statements:
+    - source: "LMRSS Theorem 3.4, Boolean-output equality; BL Theorem 7"
+      lean: "PalomarQuantumQuery.strong_duality"
+      status: "proved for total Boolean functions, with real vector duals"
+    - source: "BL Theorem 1; HLS Theorem 13, uniform total Boolean case"
+      lean: "PalomarQuantumQuery.composition"
+      status: "proved exactly, including constant functions"
+    - source: "Reichardt Theorem 1.3; HLS Theorem 2; LMRSS extraction"
+      lean: "PalomarQuantumQuery.value_characterization"
+      status: "proved at error 1/3, constants 1/36 and 2^14"
+    - source: "Reichardt Theorem 1.3 transported by proved oracle simulations"
+      lean: "PalomarQuantumQuery.xor_characterization"
+      status: "proved for padded XOR, constants 1/72 and 2^15"
+    - source: "LMRSS Theorem 4.1, function-evaluation specialization"
+      lean: "PalomarQuantumQuery.uniform_dual_upper_bound"
+      status: "proved from a supplied dual of cost c, bound 8192(1+c)"
+    - source: "BBCMW Lemma 4.2, value-oracle adaptation"
+      lean: "PalomarQuantumQuery.value_probability_polynomial"
+      status: "proved, total degree at most 2q on the Boolean cube"
+    - source: "BBCMW Lemma 4.2, padded XOR model"
+      lean: "PalomarQuantumQuery.xor_probability_polynomial"
+      status: "proved directly, total degree at most 2q on the Boolean cube"
+
+acknowledgements: "Lean, Mathlib, the cited paper authors, Anthropic Claude, and OpenAI Codex."
