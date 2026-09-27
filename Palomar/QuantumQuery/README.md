@@ -69,7 +69,7 @@ and CI checks this foundations package.
 The [library verification record](../../docs/quantum-query/VERIFICATION.md)
 also covers the standalone downstream-project check and six library axiom audits.
 
-## Standalone verification — 27 September 2026
+## Historical standalone verification — 27 September 2026
 
 The standalone [CI run](https://github.com/troyjlee/quantum-query-complexity/actions/runs/36309258539)
 passed at release `v0.1.0`, commit
@@ -118,16 +118,18 @@ reviewed alongside the mechanical checks.
 | Lean project directory | `.` |
 | Comparator configuration | `Palomar/QuantumQuery/comparator.json` |
 | Formalization metadata | `Palomar/QuantumQuery/formalization.yaml` |
-| Commit | `bd6b593be115d6162cef6b6539fc6fa34c340346` (`v0.1.0`) |
+| Commit | `08a5fe8e577e25f52ae75ee8bf9557ecdc5d689b` |
 
 This is one submission supported by five source papers. It does not select
 the library's amplitude, robust-search, walk, tree-search, relational, or
 application theorems. Those are documented in the correspondence inventory
 and can receive separate packages later.
 
-The commit above is the checked, publicly pushed standalone release. If the
-submission's statements, proofs, or metadata change, rerun the relevant
-checks and supply the new full commit SHA. Preparing or checking these files
-neither starts a Palomar review nor registers an entry. Recheck the
+The commit above is the snapshot submitted to Palomar. The `v0.1.0` commit
+in the historical verification record identifies the earlier release on
+which those checks ran. If the submission's statements, proofs, or metadata
+change, rerun the relevant checks and supply the new full commit SHA.
+Preparing or checking these files neither starts a Palomar review nor
+registers an entry. Recheck the
 [current submission guidance](https://palomar-registry.org/how-to-submit)
 at submission time.
