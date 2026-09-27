@@ -23,4 +23,4 @@ jobs:
       mode: full
       execution_profile: palomar-standard-v1
       options: >-
-        {"project_path":"","comparator_config_path":"Palomar/QuantumQuery/comparator.json","formalization_metadata_path":"Palomar/QuantumQuery/formalization.yaml","authorization_relationship":"maintainer"}
+        {"project_path":"","comparator_config_path":"Palomar/QuantumQuery/comparator.json","formalization_metadata_path":"Palomar/QuantumQuery/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}
