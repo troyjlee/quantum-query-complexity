@@ -35,8 +35,6 @@ service review or registration.
 
 The historical records below describe the source snapshot in
 [`tcs-formalizations`](https://github.com/troyjlee/tcs-formalizations/tree/6cb3955276c61ef96bd1011fd8321ce17db699a0).
-[Source provenance](../../PROVENANCE.md) describes the extraction into this
-standalone repository.
 
 Local verification completed on **27 September 2026** with Lean and Mathlib
 **4.35.0-rc2**. The Mathlib revision in `lake-manifest.json` is

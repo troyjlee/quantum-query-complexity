@@ -83,10 +83,8 @@ of the earlier TCS build recorded below.
 
 ## Source-snapshot verification — 27 September 2026
 
-The following checks were run before extraction, on the quantum sources in
+The following earlier checks were run on the quantum sources in
 [`tcs-formalizations` at `6cb3955`](https://github.com/troyjlee/tcs-formalizations/tree/6cb3955276c61ef96bd1011fd8321ce17db699a0).
-The standalone repository preserves the production Lean sources and both
-Palomar modules byte for byte; see [source provenance](../../PROVENANCE.md).
 
 | Check | Result |
 | --- | --- |

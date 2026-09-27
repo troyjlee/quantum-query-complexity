@@ -7,8 +7,8 @@ query algorithms, adversary duality and composition, conversion of dual
 certificates into algorithms, the polynomial method, amplitude amplification
 and estimation, robust search, and quantum walks.
 
-This is the canonical repository for `QuantumQueryComplexity`. Its Lean
-modules depend only on Lean, Mathlib, and Mathlib's pinned dependencies.
+The `QuantumQueryComplexity` modules depend only on Lean, Mathlib, and
+Mathlib's pinned dependencies.
 The [library guide](docs/quantum-query/README.md) gives exact statements and
 oracle conventions; the [source correspondence](docs/quantum-query/PAPER_CORRESPONDENCE.md)
 maps the results to their papers and records differences in scope and proof.
@@ -83,16 +83,11 @@ Comparator with Lean, NanoDa, and con-ron. The
 [verification record](docs/quantum-query/VERIFICATION.md) distinguishes local
 checks from any registry review.
 
-## Palomar and provenance
+## Palomar and attribution
 
 The [Palomar foundations package](Palomar/QuantumQuery/README.md) selects seven
 claims, with an independent Mathlib-only specification and per-theorem paper
 attribution. Preparation and local checking do not register a Palomar entry.
-
-The library was extracted from the checked quantum development in
-[`troyjlee/tcs-formalizations`](https://github.com/troyjlee/tcs-formalizations).
-[PROVENANCE.md](PROVENANCE.md) identifies the exact source snapshot and the
-scope of the extraction. Development of the quantum library takes place here.
 
 Apache License 2.0. Formalization by Troy Lee, with AI-assisted development
 using Claude and Codex. [CITATION.cff](CITATION.cff) provides citation metadata;
