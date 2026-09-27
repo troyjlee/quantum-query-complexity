@@ -118,14 +118,16 @@ reviewed alongside the mechanical checks.
 | Lean project directory | `.` |
 | Comparator configuration | `Palomar/QuantumQuery/comparator.json` |
 | Formalization metadata | `Palomar/QuantumQuery/formalization.yaml` |
-| Commit | `08a5fe8e577e25f52ae75ee8bf9557ecdc5d689b` |
+| Commit | Full 40-character SHA selected in the Palomar submission form and recorded in its submission receipt |
 
 This is one submission supported by five source papers. It does not select
 the library's amplitude, robust-search, walk, tree-search, relational, or
 application theorems. Those are documented in the correspondence inventory
 and can receive separate packages later.
 
-The commit above is the snapshot submitted to Palomar. The `v0.1.0` commit
+Use `git rev-parse HEAD` to identify the checked-out snapshot and ensure
+that commit is pushed before submitting. Palomar's submission receipt
+records the exact commit selected for that submission. The `v0.1.0` commit
 in the historical verification record identifies the earlier release on
 which those checks ran. If the submission's statements, proofs, or metadata
 change, rerun the relevant checks and supply the new full commit SHA.
