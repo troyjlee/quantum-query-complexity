@@ -107,6 +107,7 @@ import QuantumQueryComplexity.Quantum.JointState.Basic
 import QuantumQueryComplexity.Quantum.JointState.Conditioning
 import QuantumQueryComplexity.Quantum.JointState.Oracle
 import QuantumQueryComplexity.Quantum.JointState.Success
+import QuantumQueryComplexity.Quantum.JointState.Restrict
 import QuantumQueryComplexity.Quantum.Records.Resolvent
 import QuantumQueryComplexity.Quantum.Records.CondExp
 import QuantumQueryComplexity.Quantum.Records.Resampling
