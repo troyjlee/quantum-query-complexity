@@ -104,6 +104,9 @@ import QuantumQueryComplexity.Quantum.Walk.GlobalInv
 import QuantumQueryComplexity.Quantum.Walk.MNRS
 import QuantumQueryComplexity.Quantum.Walk.Chain
 import QuantumQueryComplexity.Quantum.JointState.Basic
+import QuantumQueryComplexity.Quantum.JointState.Conditioning
+import QuantumQueryComplexity.Quantum.JointState.Oracle
+import QuantumQueryComplexity.Quantum.JointState.Success
 import QuantumQueryComplexity.Quantum.Records.Resolvent
 import QuantumQueryComplexity.Quantum.Records.CondExp
 import QuantumQueryComplexity.Quantum.Records.Resampling
