@@ -227,7 +227,8 @@ private lemma commute_evProj_interactOp (G : (ι → Bool) → Prop) [DecidableP
   unfold evProj interactOp
   exact commute_diagonal _ _
 
-private lemma blockOp_nonneg (B : Finset ι) : 0 ≤ μ.blockOp B :=
+/-- The block operator `L_B = ∑_{i ∈ B} Dᵢ` is positive semidefinite. -/
+theorem blockOp_nonneg (B : Finset ι) : 0 ≤ μ.blockOp B :=
   Finset.sum_nonneg fun i _ => μ.dist.condDiff_nonneg i
 
 private lemma commute_evProj_blockOp {B : Finset ι} {G : (ι → Bool) → Prop} [DecidablePred G]
