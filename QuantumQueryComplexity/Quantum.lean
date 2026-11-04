@@ -107,6 +107,12 @@ import QuantumQueryComplexity.Quantum.JointState.Basic
 import QuantumQueryComplexity.Quantum.Records.Resolvent
 import QuantumQueryComplexity.Quantum.Records.CondExp
 import QuantumQueryComplexity.Quantum.Records.Resampling
+import QuantumQueryComplexity.Quantum.Records.CondBern
+import QuantumQueryComplexity.Quantum.Records.Interaction
+import QuantumQueryComplexity.Quantum.Records.PhaseCommutator
+import QuantumQueryComplexity.Quantum.Records.SumProjections
+import QuantumQueryComplexity.Quantum.Records.CommonBlock
+import QuantumQueryComplexity.Quantum.Records.MovingDifference
 set_option linter.style.header false
 
 /-!
