@@ -35,6 +35,10 @@ exact hypotheses and constants.
 | `AmpSetup.aeAlg` | Amplitude estimation with explicit error, probability and query bounds | [Estimation](../../QuantumQueryComplexity/Quantum/Amplitude/Estimation.lean) |
 | `robustSearch` | Search using supplied bounded-error tests, with cost proportional to `T·⌈√m⌉` and no logarithmic factor | [RobustSearch/Public](../../QuantumQueryComplexity/Quantum/RobustSearch/Public.lean) |
 | `WalkSetup.walkSearch` | Quantum-walk search with explicit setup, update, marking, stationary-mass and spectral-gap hypotheses | [Walk/MNRS](../../QuantumQueryComplexity/Quantum/Walk/MNRS.lean) |
+| `jNorm_jRun_sub_mul_le`, `theorem_4_1` | The transfer lemma for runs with arbitrary oracles and per-step errors; comparison of computations, `√σ ≤ (t + v)√(maxₑ αₑ + ∑ₑ βₑ)` for a `t`-query XOR algorithm with a `v`-query exact verifier | [Transfer/Lemma](../../QuantumQueryComplexity/Quantum/Transfer/Lemma.lean), [Transfer/Comparison](../../QuantumQueryComplexity/Quantum/Transfer/Comparison.lean) |
+| `FinDist.lemma_4_2`, `CondBern.lemma_4_5`, `CondBern.lemma_4_6` | Conditional resampling: resolvent averaging with Hilbert- and infinity-norm contraction, and the common-block and moving-difference estimates for Bernoulli bits conditioned to avoid all-ones patterns | [Records/](../../QuantumQueryComplexity/Quantum/Records/) |
+| `FinDist.probOf_condOn_bern_le` | Conditioning a product Bernoulli distribution on a downward-closed event does not increase the probability of any increasing event | [Records/Domination](../../QuantumQueryComplexity/Quantum/Records/Domination.lean) |
+| `xorSuccessProbOn_restrictIdx` | An XOR algorithm on one index set runs against an oracle on another, through a partial map with known-zero padding, at the same query count and with the same success | [JointState/Restrict](../../QuantumQueryComplexity/Quantum/JointState/Restrict.lean) |
 
 The finite-output theorems named
 `qQueryOn_characterized_by_advPMOn` and
@@ -86,6 +90,7 @@ infimum defining query complexity.
 | Lower bounds and oracle simulations | `Quantum/LowerBound/`, `Characterization`, `Simulation`, `OneHot*` |
 | Polynomial method | `Polynomial/`, `Quantum/PolynomialMethod`, `XorPolynomialMethod`, `PolynomialLowerBound` |
 | Amplification, estimation and search | `Quantum/Amplitude/`, `RobustSearch/`, `Walk/` |
+| Joint states, conditional resampling and comparison of computations | `Quantum/JointState/`, `Quantum/Records/`, `Quantum/Transfer/` |
 | Examples | `ED/`, `EDLower/`, `KD/`, `LDS/`, `Max/`, `ReadOnce`, `Quantum/*Applications` |
 
 The quantum aggregate reaches only five classical foundation modules; the
@@ -116,7 +121,7 @@ regressions. The repository's default `lake build` includes both targets.
 Run the axiom checks directly, as CI does:
 
 ```sh
-for audit in Adversary Polynomial Amplitude RobustSearch QuantumWalk TreeSearch; do
+for audit in Adversary Polynomial Amplitude RobustSearch QuantumWalk TreeSearch TransferRecords; do
   LEAN_NUM_THREADS=1 lake env lean --trust=0 "QuantumQueryComplexity/Test/${audit}Axioms.lean"
 done
 ```
