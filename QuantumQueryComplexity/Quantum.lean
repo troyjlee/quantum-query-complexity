@@ -116,6 +116,7 @@ import QuantumQueryComplexity.Quantum.Records.PhaseCommutator
 import QuantumQueryComplexity.Quantum.Records.SumProjections
 import QuantumQueryComplexity.Quantum.Records.CommonBlock
 import QuantumQueryComplexity.Quantum.Records.MovingDifference
+import QuantumQueryComplexity.Quantum.Records.Domination
 import QuantumQueryComplexity.Quantum.Transfer.Lemma
 import QuantumQueryComplexity.Quantum.Transfer.Sector
 import QuantumQueryComplexity.Quantum.Transfer.Endpoint
