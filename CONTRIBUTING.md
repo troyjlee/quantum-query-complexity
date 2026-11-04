@@ -36,9 +36,9 @@ For changes affecting a result family, run the relevant audit directly:
 LEAN_NUM_THREADS=1 lake env lean --trust=0 QuantumQueryComplexity/Test/AdversaryAxioms.lean
 ```
 
-The six drivers are `AdversaryAxioms`, `PolynomialAxioms`, `AmplitudeAxioms`,
-`RobustSearchAxioms`, `QuantumWalkAxioms`, and `TreeSearchAxioms`.
-CI runs all six. Changes to the selected Palomar claims also require:
+The seven drivers are `AdversaryAxioms`, `PolynomialAxioms`, `AmplitudeAxioms`,
+`RobustSearchAxioms`, `QuantumWalkAxioms`, `TreeSearchAxioms`, and
+`TransferRecordsAxioms`. CI runs all seven. Changes to the selected Palomar claims also require:
 
 ```sh
 LEAN_NUM_THREADS=1 python3 scripts/check-palomar.py --no-sandbox

@@ -1,5 +1,32 @@
 # Changelog
 
+## Unreleased
+
+- Adds probability-weighted joint states and oracle adapters (`Quantum/JointState/`):
+  - finite distributions with hidden labels, conditioning, mixtures and uniform distributions;
+  - joint vectors with Hilbert and workspace infinity norms;
+  - joint oracles and joint-state recursions in the value and XOR models;
+  - the controlled phase oracle and the Hadamard bridge to the XOR oracle, and query sectors;
+  - relational and average success, transported through both oracle simulations;
+  - index restriction with known-zero padding (`QAlg.restrictIdx`).
+- Adds conditional resampling (`Quantum/Records/`):
+  - conditional expectations and differences over finite alphabets, with query locality;
+  - resolvent averaging, `FinDist.lemma_4_2`;
+  - Bernoulli bits conditioned to avoid all-ones patterns (`CondBern`);
+  - the interaction, projection-sum, common-block and moving-difference estimates,
+    `CondBern.lemma_4_3`, `lemma_4_4`, `CondBern.lemma_4_5` and `CondBern.lemma_4_6`;
+  - domination of increasing events under downward conditioning, through Mathlib's FKG
+    inequality.
+- Adds the transfer lemma and comparison of computations (`Quantum/Transfer/`):
+  - per-query sector accounting;
+  - endpoint lemmas for exact verification and strong anti-concentration;
+  - an appended nonadaptive verifier whose queried answers stay in ancillary registers;
+  - `theorem_4_1` in the XOR and value-oracle models;
+  - a BBBV search lower bound as a validation.
+- Adds the `TransferRecordsAxioms` audit driver, run in CI.
+- No existing declaration changes. Lean and Mathlib remain at 4.35.0-rc2. The new modules
+  import Mathlib's `Analysis.Matrix.Order` and `Combinatorics.SetFamily.FourFunctions`.
+
 ## 0.1.0
 
 - First public release of the `QuantumQueryComplexity` library.
