@@ -103,6 +103,10 @@ import QuantumQueryComplexity.Quantum.Walk.Global
 import QuantumQueryComplexity.Quantum.Walk.GlobalInv
 import QuantumQueryComplexity.Quantum.Walk.MNRS
 import QuantumQueryComplexity.Quantum.Walk.Chain
+import QuantumQueryComplexity.Quantum.JointState.Basic
+import QuantumQueryComplexity.Quantum.Records.Resolvent
+import QuantumQueryComplexity.Quantum.Records.CondExp
+import QuantumQueryComplexity.Quantum.Records.Resampling
 set_option linter.style.header false
 
 /-!
