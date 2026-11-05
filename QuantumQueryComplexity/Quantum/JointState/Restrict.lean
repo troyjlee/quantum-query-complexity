@@ -263,4 +263,25 @@ theorem xorSuccessProbOn_postcomp (A : QAlg ι Bool O W) (g : O → O') (t : ℕ
   rw [xorSuccessProbOn, xorSuccessProbOn, xorState_postcomp]
   rfl
 
+/-! ## Restriction for complexities -/
+
+/-- **Restriction monotonicity of the XOR query complexity.** If every input `y` of `g` is
+mapped, by reading `read' y` through `φ` with known zeros, to an input `x` of `f` with the same
+answer, then `g` is no harder than `f`. The nonemptiness hypothesis excludes the junk value
+`sInf ∅ = 0`. -/
+theorem xorQQueryOn_le_of_padRead {Y : Type} [Fintype Y] [DecidableEq O] {read : X → ι → Bool}
+    {f : X → O} {read' : Y → κ → Bool} {g : Y → O} {ε : ℝ} (φ : ι → Option κ)
+    (hne : (XorQueryCounts read f ε).Nonempty)
+    (hmap : ∀ y, ∃ x, read x = padRead φ (read' y) ∧ f x = g y) :
+    xorQQueryOn read' g ε ≤ xorQQueryOn read f ε := by
+  classical
+  obtain ⟨V, _, _, A, hA⟩ := Nat.sInf_mem hne
+  refine Nat.sInf_le (mem_xorQueryCounts (A := A.restrictIdx φ) fun y => ?_)
+  obtain ⟨x, hx, hfx⟩ := hmap y
+  have h := xorSuccessProbOn_restrictIdx A φ (xorQQueryOn read f ε) read'
+    (fun y o => o = g y) y
+  rw [xorSuccessProbOn, xorSuccessProbOn, goodProb_eq, goodProb_eq, ← hx] at h
+  rw [h, ← hfx]
+  exact hA x
+
 end QuantumQueryComplexity

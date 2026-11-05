@@ -39,6 +39,8 @@ exact hypotheses and constants.
 | `FinDist.lemma_4_2`, `CondBern.lemma_4_5`, `CondBern.lemma_4_6` | Conditional resampling: resolvent averaging with Hilbert- and infinity-norm contraction, and the common-block and moving-difference estimates for Bernoulli bits conditioned to avoid all-ones patterns | [Records/](../../QuantumQueryComplexity/Quantum/Records/) |
 | `FinDist.probOf_condOn_bern_le` | Conditioning a product Bernoulli distribution on a downward-closed event does not increase the probability of any increasing event | [Records/Domination](../../QuantumQueryComplexity/Quantum/Records/Domination.lean) |
 | `xorSuccessProbOn_restrictIdx` | An XOR algorithm on one index set runs against an oracle on another, through a partial map with known-zero padding, at the same query count and with the same success | [JointState/Restrict](../../QuantumQueryComplexity/Quantum/JointState/Restrict.lean) |
+| `xorQQueryOn_le_of_padRead` | Restricting a problem through a partial map with known-zero padding does not increase its XOR query complexity | [JointState/Restrict](../../QuantumQueryComplexity/Quantum/JointState/Restrict.lean) |
+| `Realizes.bind` | Adaptive composition: run an algorithm, then the algorithm its outcome selects, with the exact product outcome law and the query counts adding | [AdaptiveRun](../../QuantumQueryComplexity/Quantum/AdaptiveRun.lean) |
 
 The finite-output theorems named
 `qQueryOn_characterized_by_advPMOn` and

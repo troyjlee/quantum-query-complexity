@@ -72,6 +72,7 @@ import QuantumQueryComplexity.Quantum.Amplitude.Estimation
 import QuantumQueryComplexity.Quantum.Amplitude.Eigen
 import QuantumQueryComplexity.Quantum.Amplitude.Counting
 import QuantumQueryComplexity.Quantum.SelectRoutine
+import QuantumQueryComplexity.Quantum.AdaptiveRun
 import QuantumQueryComplexity.Quantum.CoherentMajority
 import QuantumQueryComplexity.Quantum.FirstOf
 import QuantumQueryComplexity.Quantum.RobustSearch.Defs
@@ -217,6 +218,7 @@ Layers, in dependency order:
 | `Amplitude/Eigen` | the eigenvectors `sin θ·b ± i cos θ·g` of the Grover iterate, eigenphases `∓θ/π`, orthogonality, decomposition of the prepared state |
 | `Amplitude/Counting` | endpoints `p = 0`, `p = 1` (even clock); approximate counting with `2(M−1)` native queries |
 | `SelectRoutine` | coherent selection of an indexed family of routines at the common length (`QRoutine.sig`), the padded adapter for algorithms with different workspaces/budgets (`selectPadded`), selection controlled by a spectator bank (`bankCtrl`), `swapRefl` |
+| `AdaptiveRun` | **adaptive composition** (`Realizes.bind`): run the algorithm selected by an earlier outcome, exact outcome law, costs add |
 | `CoherentMajority` | named `k`-fold repetition (`powRoutine`), exact product law, majority readout; from error `1/3`, `12n` copies give `2^{-n}` |
 | `FirstOf` | bundled optional-output trials, first success of a list, union bound |
 | `RobustSearch/Defs`, `Recursion` | levels and test banks; one step = amplify the recorded flag once, initialize a fresh bank by the index, test; `q' = 3q + q_filter`, `u' = (3−4p)²·u·τ` exactly |
