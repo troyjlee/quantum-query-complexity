@@ -8,11 +8,13 @@ Run on every CI run, directly:
 
     lake env lean --trust=0 QuantumQueryComplexity/Test/TransferRecordsAxioms.lean
 
-Every declaration of the joint-state, record, and transfer modules may depend only on
+Every declaration of the joint-state, record, and transfer modules, and of the adaptive
+composition module, may depend only on
 `propext`, `Classical.choice`, `Quot.sound`, transitively.  The pins are the headline results:
 the joint-state and oracle adapters, Lemmas 4.2–4.6 of Cornelissen–Gilani–Zhou on conditional
 resampling, domination of increasing events, the transfer lemma and comparison theorem
-(Theorem 4.1), Belovs's anti-concentration endpoint, the BBBV validation, and index restriction.
+(Theorem 4.1), Belovs's anti-concentration endpoint, the BBBV validation, index restriction and
+its monotonicity for the XOR query complexity, and adaptive composition (`Realizes.bind`).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -38,7 +40,8 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.Transfer.Endpoint,
     QuantumQueryComplexity.Quantum.Transfer.Verifier,
     QuantumQueryComplexity.Quantum.Transfer.Comparison,
-    QuantumQueryComplexity.Quantum.Transfer.BBBV]
+    QuantumQueryComplexity.Quantum.Transfer.BBBV,
+    QuantumQueryComplexity.Quantum.AdaptiveRun]
   pins [
     QuantumQueryComplexity.FinDist.lemma_4_2,
     QuantumQueryComplexity.jInner_le_of_le,
@@ -114,7 +117,9 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.CondBern.dist_eq_condOn,
     QuantumQueryComplexity.CondBern.probOf_le_prior,
     QuantumQueryComplexity.xorSuccessProbOn_restrictIdx,
-    QuantumQueryComplexity.xorSuccessProbOn_postcomp]
+    QuantumQueryComplexity.xorSuccessProbOn_postcomp,
+    QuantumQueryComplexity.xorQQueryOn_le_of_padRead,
+    QuantumQueryComplexity.Realizes.bind]
 
 /-- error: axiom audit: `sorryAx` depends on the forbidden axiom(s) [sorryAx]. -/
 #guard_msgs in

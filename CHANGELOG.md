@@ -8,7 +8,10 @@
   - joint oracles and joint-state recursions in the value and XOR models;
   - the controlled phase oracle and the Hadamard bridge to the XOR oracle, and query sectors;
   - relational and average success, transported through both oracle simulations;
-  - index restriction with known-zero padding (`QAlg.restrictIdx`).
+  - index restriction with known-zero padding (`QAlg.restrictIdx`), and the resulting
+    monotonicity of the XOR query complexity under restriction (`xorQQueryOn_le_of_padRead`).
+- Adds adaptive composition (`Quantum/AdaptiveRun.lean`): `Realizes.bind` runs the algorithm
+  that an earlier outcome selects, with the exact product law and the query counts adding.
 - Adds conditional resampling (`Quantum/Records/`):
   - conditional expectations and differences over finite alphabets, with query locality;
   - resolvent averaging, `FinDist.lemma_4_2`;
