@@ -41,6 +41,10 @@ exact hypotheses and constants.
 | `xorSuccessProbOn_restrictIdx` | An XOR algorithm on one index set runs against an oracle on another, through a partial map with known-zero padding, at the same query count and with the same success | [JointState/Restrict](../../QuantumQueryComplexity/Quantum/JointState/Restrict.lean) |
 | `xorQQueryOn_le_of_padRead` | Restricting a problem through a partial map with known-zero padding does not increase its XOR query complexity | [JointState/Restrict](../../QuantumQueryComplexity/Quantum/JointState/Restrict.lean) |
 | `Realizes.bind` | Adaptive composition: run an algorithm, then the algorithm its outcome selects, with the exact product outcome law and the query counts adding | [AdaptiveRun](../../QuantumQueryComplexity/Quantum/AdaptiveRun.lean) |
+| `FinDist.recProj`, `FinDist.sum_recProj` | Records of a product distribution with full-support marginals: `P_S = ∏_{i∈S} Dᵢ ∏_{i∉S} Eᵢ` (in any order) are orthogonal projections summing to the identity | [Records/Product](../../QuantumQueryComplexity/Quantum/Records/Product.lean) |
+| `FinDist.recLe_mul_jointState`, `FinDist.recLe_mul_jointXorState` | Query locality and the record-count bound: after `t` queries the joint state has at most `t` records (Belovs, Proposition 3.2), value and XOR models | [Records/RecordCount](../../QuantumQueryComplexity/Quantum/Records/RecordCount.lean) |
+| `QAlg.hasAmpPoly_state_of_records` | The amplitude half of the polynomial method, derived from records of the uniform distribution on the cube | [Records/BooleanDegree](../../QuantumQueryComplexity/Quantum/Records/BooleanDegree.lean) |
+| `FinDist.recCount_jointXorState_le` | Record budget of Bernoulli(p) bits: after `t` phase or XOR queries the expected number of records is at most `2t√(p(1−p))` | [Records/BiasedBudget](../../QuantumQueryComplexity/Quantum/Records/BiasedBudget.lean) |
 
 The finite-output theorems named
 `qQueryOn_characterized_by_advPMOn` and

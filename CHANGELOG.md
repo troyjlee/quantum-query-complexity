@@ -10,6 +10,17 @@
   - relational and average success, transported through both oracle simulations;
   - index restriction with known-zero padding (`QAlg.restrictIdx`), and the resulting
     monotonicity of the XOR query complexity under restriction (`xorQQueryOn_le_of_padRead`).
+- Adds the records of product distributions (Layer D, `Quantum/Records/`):
+  - for a product distribution with full-support marginals the conditional averages commute;
+    the record projections `P_S = ∏_{i∈S} Dᵢ ∏_{i∉S} Eᵢ` (`FinDist.recProj`) are orthogonal
+    projections summing to the identity;
+  - query locality, and the record-count bound: after `t` queries the joint state has at most
+    `t` records, in the value and XOR models (`FinDist.recLe_mul_jointState`,
+    `FinDist.recLe_mul_jointXorState`);
+  - a consistency check with the polynomial method: the amplitude bound
+    `QAlg.hasAmpPoly_state` re-derived from records (`QAlg.hasAmpPoly_state_of_records`);
+  - the record basis of Bernoulli bits and the record budget: one phase or XOR query raises the
+    expected number of records by at most `2√(p(1−p))`.
 - Adds adaptive composition (`Quantum/AdaptiveRun.lean`): `Realizes.bind` runs the algorithm
   that an earlier outcome selects, with the exact product law and the query counts adding.
 - Adds conditional resampling (`Quantum/Records/`):

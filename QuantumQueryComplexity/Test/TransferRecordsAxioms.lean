@@ -1,5 +1,6 @@
 import QuantumQueryComplexity.Test.AxiomSupport
 import QuantumQueryComplexity.Quantum
+import QuantumQueryComplexity.Quantum.Records.BooleanDegree
 
 /-!
 # Axiom audit: joint states, conditional resampling, and comparison of computations
@@ -14,7 +15,9 @@ composition module, may depend only on
 the joint-state and oracle adapters, Lemmas 4.2–4.6 of Cornelissen–Gilani–Zhou on conditional
 resampling, domination of increasing events, the transfer lemma and comparison theorem
 (Theorem 4.1), Belovs's anti-concentration endpoint, the BBBV validation, index restriction and
-its monotonicity for the XOR query complexity, and adaptive composition (`Realizes.bind`).
+its monotonicity for the XOR query complexity, adaptive composition (`Realizes.bind`), and the
+records of product distributions (Layer D: record projections, the record-count bound, the
+polynomial-method consistency check, and the record budget of biased bits).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -35,6 +38,10 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.Records.CommonBlock,
     QuantumQueryComplexity.Quantum.Records.MovingDifference,
     QuantumQueryComplexity.Quantum.Records.Domination,
+    QuantumQueryComplexity.Quantum.Records.Product,
+    QuantumQueryComplexity.Quantum.Records.RecordCount,
+    QuantumQueryComplexity.Quantum.Records.BooleanDegree,
+    QuantumQueryComplexity.Quantum.Records.BiasedBudget,
     QuantumQueryComplexity.Quantum.Transfer.Lemma,
     QuantumQueryComplexity.Quantum.Transfer.Sector,
     QuantumQueryComplexity.Quantum.Transfer.Endpoint,
@@ -119,7 +126,19 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.xorSuccessProbOn_restrictIdx,
     QuantumQueryComplexity.xorSuccessProbOn_postcomp,
     QuantumQueryComplexity.xorQQueryOn_le_of_padRead,
-    QuantumQueryComplexity.Realizes.bind]
+    QuantumQueryComplexity.Realizes.bind,
+    QuantumQueryComplexity.FinDist.condExp_commute,
+    QuantumQueryComplexity.FinDist.recProj_eq_prod,
+    QuantumQueryComplexity.FinDist.recProj_mul_self,
+    QuantumQueryComplexity.FinDist.recProj_mul_recProj,
+    QuantumQueryComplexity.FinDist.sum_recProj,
+    QuantumQueryComplexity.FinDist.recProj_mul_jOracle_mul_recProj,
+    QuantumQueryComplexity.FinDist.recLe_mul_jointState,
+    QuantumQueryComplexity.FinDist.recLe_mul_jointXorState,
+    QuantumQueryComplexity.QAlg.hasAmpPoly_state_of_records,
+    QuantumQueryComplexity.FinDist.recProj_bern_mulVec,
+    QuantumQueryComplexity.FinDist.recCount_jOracle_xor_le,
+    QuantumQueryComplexity.FinDist.recCount_jointXorState_le]
 
 /-- error: axiom audit: `sorryAx` depends on the forbidden axiom(s) [sorryAx]. -/
 #guard_msgs in
