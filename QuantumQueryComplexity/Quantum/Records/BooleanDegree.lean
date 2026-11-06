@@ -30,13 +30,6 @@ variable {ι σ : Type} [Fintype ι] [DecidableEq ι] [Fintype σ] [DecidableEq 
 
 namespace FinDist
 
-/-- The uniform distribution on strings is a full product distribution. -/
-theorem isFullProduct_uniform [Nonempty σ] : (uniform (ι → σ)).IsFullProduct := by
-  refine ⟨fun _ _ => 1 / (Fintype.card σ : ℝ),
-    fun _ _ => one_div_pos.mpr (Nat.cast_pos.mpr Fintype.card_pos), fun x => ?_⟩
-  rw [uniform_mass, Finset.prod_const, Finset.card_univ, Fintype.card_fun, Nat.cast_pow,
-    _root_.one_div_pow]
-
 /-- The marginals of the uniform distribution on the cube are `1/2`. -/
 private lemma marg_uniform_cube (i : ι) (a : Bool) : (uniform (ι → Bool)).marg i a = 1 / 2 := by
   have hflip : (uniform (ι → Bool)).marg i true = (uniform (ι → Bool)).marg i false := by

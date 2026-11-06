@@ -93,16 +93,6 @@ section PhaseModel
 
 variable (ρ : FinDist Ω)
 
-/-- The state of the phase-oracle model is a unit vector. -/
-private lemma zqState_isQState (A : QAlg ι (ZMod q) O W) (a : ι → ZMod q) (t : ℕ) :
-    IsQState (zqState A a t) := by
-  induction t with
-  | zero => exact IsQState.mulVec (A.step_unitary 0) A.init_isQState
-  | succ t ih =>
-    rw [zqState_succ]
-    exact IsQState.mulVec (A.step_unitary (t + 1))
-      (IsQState.mulVec (phaseZqOracleMat_mem_unitaryGroup a) ih)
-
 /-- The workspace vectors of the phase-model joint state are the phase-model states. -/
 private lemma wvec_jointZqState (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) (t : ℕ)
     (x : ρ.Supp) : ρ.wvec (ρ.jointZqState read A t) x = zqState A (read x) t := by
@@ -122,7 +112,7 @@ private lemma jointZqState_succ (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod
   simp only [jointZqState, ofWvec, wsOp, jOracle, zqState_succ, Matrix.mulVec_smul]
 
 /-- An actual phase-model joint state is a unit vector. -/
-private lemma jNormSq_jointZqState (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) (t : ℕ) :
+theorem jNormSq_jointZqState (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) (t : ℕ) :
     jNormSq (ρ.jointZqState read A t) = 1 := by
   rw [jNormSq_eq_sum_wvec, ← ρ.sum_mass_supp]
   refine Finset.sum_congr rfl fun x _ => ?_
@@ -275,7 +265,7 @@ private lemma sum_recFactor_uniform_mul_zqChar (S : Finset ι) (i : ι) (c a : Z
     by_cases hc : c = 0 <;> simp [hc, hq]
 
 /-- A sum over the support of the uniform distribution is a sum over all strings. -/
-private lemma sum_supp_uniform_zq {N : Type*} [AddCommMonoid N] (g : (ι → ZMod q) → N) :
+theorem sum_supp_uniform_zq {N : Type*} [AddCommMonoid N] (g : (ι → ZMod q) → N) :
     ∑ z : (uniform (ι → ZMod q)).Supp, g z.1 = ∑ z, g z :=
   (Finset.sum_subtype Finset.univ (fun z => by
     simp only [Finset.mem_univ, true_iff, uniform_mass]

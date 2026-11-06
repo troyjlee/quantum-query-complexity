@@ -224,6 +224,21 @@ lemma recLe_mul_eq_self_of (h : ρ.IsFullProduct) {s : ℕ} {g : JVec ρ.Supp A}
   by_contra hc
   exact hS (hg S (not_le.mp hc))
 
+/-- The projection onto at most `t` records is Hermitian. -/
+theorem recLe_isHermitian (t : ℕ) : (ρ.recLe t).IsHermitian := by
+  change (ρ.recLe t)ᴴ = ρ.recLe t
+  rw [recLe, Matrix.conjTranspose_sum]
+  exact Finset.sum_congr rfl fun S _ => (recProj_isHermitian S).eq
+
+/-- For a full product distribution, the projection onto at most `t` records is idempotent. -/
+theorem recLe_mul_recLe (h : ρ.IsFullProduct) (t : ℕ) : ρ.recLe t * ρ.recLe t = ρ.recLe t := by
+  refine recLe_mul_eq_self_of h fun S hS => ?_
+  rw [recLe, Matrix.mul_sum]
+  refine Finset.sum_eq_zero fun S' hS' => recProj_mul_recProj h ?_
+  rintro rfl
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hS'
+  omega
+
 /-- The initial joint state `|ρ⟩ ⊗ v` has no records. -/
 lemma recLe_mul_ket_smul (h : ρ.IsFullProduct) (s : ℕ) (v : A → ℂ) (g : JVec ρ.Supp A)
     (hg : ∀ x, g x = ρ.ket x • v) : ρ.recLe s * g = g := by

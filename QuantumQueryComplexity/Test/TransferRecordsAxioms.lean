@@ -19,7 +19,7 @@ its monotonicity for the XOR query complexity, adaptive composition (`Realizes.b
 records of product distributions and Belovs's knowledge framework (Layer D: record projections,
 the record-count bound, the polynomial-method consistency check, the record budget of biased
 bits, hidden-problem transfer, knowledge and query gain, the lower-bound framework, and the
-oracles over `Z_q` with the phase-oracle model).
+oracles over `Z_q` with the phase-oracle model and Fourier analysis on `Z_qⁿ`).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -50,6 +50,7 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.ZqOracle,
     QuantumQueryComplexity.Quantum.ZqSimulation,
     QuantumQueryComplexity.Quantum.Records.ZqRecords,
+    QuantumQueryComplexity.Quantum.Records.ZqFourier,
     QuantumQueryComplexity.Quantum.Transfer.Lemma,
     QuantumQueryComplexity.Quantum.Transfer.Sector,
     QuantumQueryComplexity.Quantum.Transfer.Endpoint,
@@ -162,7 +163,18 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.FinDist.xferOp_mul_jointZqState,
     QuantumQueryComplexity.FinDist.jNorm_knowOp_jointZqState_le,
     QuantumQueryComplexity.FinDist.sqrt_avgZqSuccessProb_le_of_knowledge,
-    QuantumQueryComplexity.FinDist.recProj_uniform_mulVec_fourier]
+    QuantumQueryComplexity.FinDist.recProj_uniform_mulVec_fourier,
+    QuantumQueryComplexity.zqState_isQState,
+    QuantumQueryComplexity.FinDist.jNormSq_jointZqState,
+    QuantumQueryComplexity.FinDist.recLe_mul_recLe,
+    QuantumQueryComplexity.FinDist.knowOp_univ,
+    QuantumQueryComplexity.sum_prod_zqChar_mul_star,
+    QuantumQueryComplexity.sum_normSq_sum_mul_prod_zqChar,
+    QuantumQueryComplexity.FinDist.eq_sum_fourierCoeff_smul,
+    QuantumQueryComplexity.FinDist.qNormSq_eq_sum_fourierCoeff,
+    QuantumQueryComplexity.FinDist.fourierCoeff_eq_zero_of_recLe,
+    QuantumQueryComplexity.FinDist.recIn_mulVec_fourierVec,
+    QuantumQueryComplexity.FinDist.knowOp_mulVec_apply]
 
 /-- error: axiom audit: `sorryAx` depends on the forbidden axiom(s) [sorryAx]. -/
 #guard_msgs in

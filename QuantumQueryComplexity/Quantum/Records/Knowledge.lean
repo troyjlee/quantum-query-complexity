@@ -93,10 +93,16 @@ private lemma recIn_add_recIn {F G E : Set (Finset ι)} (hE : ∀ S, S ∈ E ↔
   · by_cases hG : S ∈ G <;> simp [hF, hG, hE S]
 
 /-- The projection onto all records is the identity. -/
-private lemma recIn_univ (h : ρ.IsFullProduct) : ρ.recIn (Set.univ : Set (Finset ι)) = 1 := by
+theorem recIn_univ (h : ρ.IsFullProduct) : ρ.recIn (Set.univ : Set (Finset ι)) = 1 := by
   classical
   simp only [recIn, Set.mem_univ, Finset.filter_true_of_mem (fun _ _ => trivial)]
   exact sum_recProj h
+
+/-- The knowledge operator of the family of all record sets is the transfer operator. -/
+theorem knowOp_univ (h : ρ.IsFullProduct) :
+    knowOp ρ ν read type (fun _ => Set.univ) = xferOp ρ ν read := by
+  ext ω x
+  simp only [knowOp, recIn_univ h, Matrix.mul_one]
 
 /-- A row of `Υ⁺ g` is the same row of `Υ (Π_{L μ} g)`, `μ` the type of the row. -/
 private lemma knowOp_mul_row {A : Type} [Fintype A] (g : JVec ρ.Supp A) (ω : ν.Supp) :
