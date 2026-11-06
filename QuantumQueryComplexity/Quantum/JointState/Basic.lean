@@ -121,6 +121,12 @@ lemma jNormSq_nonneg (f : JVec X A) : 0 ≤ jNormSq f := by
   classical
   exact Finset.sum_nonneg fun x _ => qNormSq_nonneg (f x)
 
+/-- The squared norm of a joint vector is the sum of the squared norms of its columns. -/
+theorem jNormSq_eq_sum_qNormSq_col (f : JVec X A) :
+    jNormSq f = ∑ a, qNormSq (fun x => f x a) := by
+  simp only [jNormSq, qNormSq]
+  exact Finset.sum_comm
+
 lemma jInner_self (f : JVec X A) : jInner f f = (jNormSq f : ℂ) := by
   classical
   simp only [jInner, jNormSq, qInner_self]

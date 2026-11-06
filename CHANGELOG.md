@@ -37,6 +37,25 @@
   - in the phase model: the record-count bound, the transferred joint state, the knowledge bound
     and the lower-bound framework; the records of the uniform distribution are the Fourier
     supports.
+- Adds Fourier analysis on `Z_qⁿ` (`Quantum/Records/ZqFourier.lean`):
+  - orthogonality of the characters of `Z_q^κ` and Parseval's identity for character sums;
+  - the Fourier coefficients of a vector of the input register (`FinDist.fourierCoeff`), Fourier
+    inversion and Parseval's identity;
+  - the record projections and knowledge operators of the uniform distribution in the Fourier
+    basis: `Π_G` keeps the characters whose support (`zsupp`) lies in `G`, and a vector with at
+    most `t` records has no Fourier weight on larger supports.
+- Makes public, or adds, small facts used by applications of the knowledge framework:
+  - the phase-model state and joint state are unit vectors (`zqState_isQState`,
+    `FinDist.jNormSq_jointZqState`); a sum over the support of the uniform distribution on `Z_qⁿ`
+    (`FinDist.sum_supp_uniform_zq`);
+  - `recLe t` is Hermitian, and idempotent for full product distributions
+    (`FinDist.recLe_isHermitian`, `FinDist.recLe_mul_recLe`); the projection onto all records is
+    the identity, so the knowledge operator of all record sets is the transfer operator
+    (`FinDist.recIn_univ`, `FinDist.knowOp_univ`);
+  - the squared norm of a joint vector is the sum over its columns
+    (`jNormSq_eq_sum_qNormSq_col`);
+  - `FinDist.isFullProduct_uniform` moves from `Records/BooleanDegree.lean` to
+    `Records/Product.lean`.
 - Adds adaptive composition (`Quantum/AdaptiveRun.lean`): `Realizes.bind` runs the algorithm
   that an earlier outcome selects, with the exact product law and the query counts adding.
 - Adds conditional resampling (`Quantum/Records/`):

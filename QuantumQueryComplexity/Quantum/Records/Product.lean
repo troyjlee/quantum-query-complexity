@@ -1,4 +1,5 @@
 import QuantumQueryComplexity.Quantum.Records.CondExp
+import QuantumQueryComplexity.Quantum.JointState.Conditioning
 
 set_option linter.style.header false
 set_option linter.unusedSectionVars false
@@ -50,6 +51,13 @@ variable (ρ : FinDist (ι → σ))
 weights `μᵢ(a) > 0`. -/
 def IsFullProduct : Prop :=
   ∃ μ : ι → σ → ℝ, (∀ i a, 0 < μ i a) ∧ ∀ x, ρ.mass x = ∏ i, μ i (x i)
+
+/-- The uniform distribution on strings is a full product distribution. -/
+theorem isFullProduct_uniform [Nonempty σ] : (uniform (ι → σ)).IsFullProduct := by
+  refine ⟨fun _ _ => 1 / (Fintype.card σ : ℝ),
+    fun _ _ => one_div_pos.mpr (Nat.cast_pos.mpr Fintype.card_pos), fun x => ?_⟩
+  rw [uniform_mass, Finset.prod_const, Finset.card_univ, Fintype.card_fun, Nat.cast_pow,
+    _root_.one_div_pow]
 
 /-- **The marginal** of coordinate `i`: the probability that `xᵢ = a`. -/
 noncomputable def marg (i : ι) (a : σ) : ℝ := ∑ x, if x i = a then ρ.mass x else 0

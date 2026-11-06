@@ -267,6 +267,16 @@ noncomputable def zqState (A : QAlg ι (ZMod q) O W) (a : ι → ZMod q) :
 @[simp] lemma zqState_succ (A : QAlg ι (ZMod q) O W) (a : ι → ZMod q) (t : ℕ) :
     zqState A a (t + 1) = A.step (t + 1) *ᵥ (phaseZqOracleMat a *ᵥ zqState A a t) := rfl
 
+/-- The state of the phase-oracle model is a unit vector. -/
+theorem zqState_isQState (A : QAlg ι (ZMod q) O W) (a : ι → ZMod q) (t : ℕ) :
+    IsQState (zqState A a t) := by
+  induction t with
+  | zero => exact IsQState.mulVec (A.step_unitary 0) A.init_isQState
+  | succ t ih =>
+    rw [zqState_succ]
+    exact IsQState.mulVec (A.step_unitary (t + 1))
+      (IsQState.mulVec (phaseZqOracleMat_mem_unitaryGroup a) ih)
+
 variable {X : Type} [Fintype X]
 
 /-- **Relational success in the phase-oracle model**: the probability that `A`, after `t` phase
