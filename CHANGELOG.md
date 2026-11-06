@@ -21,6 +21,13 @@
     `QAlg.hasAmpPoly_state` re-derived from records (`QAlg.hasAmpPoly_state_of_records`);
   - the record basis of Bernoulli bits and the record budget: one phase or XOR query raises the
     expected number of records by at most `2√(p(1−p))`.
+- Adds Belovs's knowledge framework over product records (Layer D, `Quantum/Records/`):
+  - the exact transfer operator from a product reference distribution to a hidden problem with
+    types, which commutes with queries and carries joint states to joint states;
+  - knowledge systems and operators, the query-gain operator, the query identity, the knowledge
+    bound, and the refined query-gain bound;
+  - the lower-bound framework `√σ ≤ γ + δ` from anti-concentration and small knowledge
+    (`FinDist.sqrt_avgXorSuccessProb_le_of_knowledge`).
 - Adds adaptive composition (`Quantum/AdaptiveRun.lean`): `Realizes.bind` runs the algorithm
   that an earlier outcome selects, with the exact product law and the query counts adding.
 - Adds conditional resampling (`Quantum/Records/`):
