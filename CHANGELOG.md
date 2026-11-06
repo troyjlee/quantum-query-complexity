@@ -10,6 +10,33 @@
   - relational and average success, transported through both oracle simulations;
   - index restriction with known-zero padding (`QAlg.restrictIdx`), and the resulting
     monotonicity of the XOR query complexity under restriction (`xorQQueryOn_le_of_padRead`).
+- Adds the records of product distributions (Layer D, `Quantum/Records/`):
+  - for a product distribution with full-support marginals the conditional averages commute;
+    the record projections `P_S = ∏_{i∈S} Dᵢ ∏_{i∉S} Eᵢ` (`FinDist.recProj`) are orthogonal
+    projections summing to the identity;
+  - query locality, and the record-count bound: after `t` queries the joint state has at most
+    `t` records, in the value and XOR models (`FinDist.recLe_mul_jointState`,
+    `FinDist.recLe_mul_jointXorState`);
+  - a consistency check with the polynomial method: the amplitude bound
+    `QAlg.hasAmpPoly_state` re-derived from records (`QAlg.hasAmpPoly_state_of_records`);
+  - the record basis of Bernoulli bits and the record budget: one phase or XOR query raises the
+    expected number of records by at most `2√(p(1−p))`.
+- Adds Belovs's knowledge framework over product records (Layer D, `Quantum/Records/`):
+  - the exact transfer operator from a product reference distribution to a hidden problem with
+    types, which commutes with queries and carries joint states to joint states;
+  - knowledge systems and operators, the query-gain operator, the query identity, the knowledge
+    bound, and the refined query-gain bound;
+  - the lower-bound framework `√σ ≤ γ + δ` from anti-concentration and small knowledge
+    (`FinDist.sqrt_avgXorSuccessProb_le_of_knowledge`).
+- Adds oracles over `Z_q` (`Quantum/ZqOracle.lean`, `Quantum/ZqSimulation.lean`,
+  `Quantum/Records/ZqRecords.lean`):
+  - the additive and phase oracles over `Z_q`, conjugate by the Fourier transform on the answer
+    register, and the phase-oracle query model;
+  - the value oracle simulated in the phase model at two phase queries per query, with exact
+    success;
+  - in the phase model: the record-count bound, the transferred joint state, the knowledge bound
+    and the lower-bound framework; the records of the uniform distribution are the Fourier
+    supports.
 - Adds adaptive composition (`Quantum/AdaptiveRun.lean`): `Realizes.bind` runs the algorithm
   that an earlier outcome selects, with the exact product law and the query counts adding.
 - Adds conditional resampling (`Quantum/Records/`):

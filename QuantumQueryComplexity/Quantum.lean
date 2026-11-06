@@ -119,6 +119,15 @@ import QuantumQueryComplexity.Quantum.Records.SumProjections
 import QuantumQueryComplexity.Quantum.Records.CommonBlock
 import QuantumQueryComplexity.Quantum.Records.MovingDifference
 import QuantumQueryComplexity.Quantum.Records.Domination
+import QuantumQueryComplexity.Quantum.Records.Product
+import QuantumQueryComplexity.Quantum.Records.RecordCount
+import QuantumQueryComplexity.Quantum.Records.BiasedBudget
+import QuantumQueryComplexity.Quantum.Records.HiddenTransfer
+import QuantumQueryComplexity.Quantum.Records.Knowledge
+import QuantumQueryComplexity.Quantum.Records.Framework
+import QuantumQueryComplexity.Quantum.ZqOracle
+import QuantumQueryComplexity.Quantum.ZqSimulation
+import QuantumQueryComplexity.Quantum.Records.ZqRecords
 import QuantumQueryComplexity.Quantum.Transfer.Lemma
 import QuantumQueryComplexity.Quantum.Transfer.Sector
 import QuantumQueryComplexity.Quantum.Transfer.Endpoint

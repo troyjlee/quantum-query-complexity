@@ -143,6 +143,7 @@ import QuantumQueryComplexity.Polynomial.Boolean
 import QuantumQueryComplexity.Quantum.PolynomialMethod
 import QuantumQueryComplexity.Quantum.XorPolynomialMethod
 import QuantumQueryComplexity.Quantum.PolynomialLowerBound
+import QuantumQueryComplexity.Quantum.Records.BooleanDegree
 
 /-!
 # QuantumQueryComplexity
@@ -156,7 +157,8 @@ characterization, and the classic examples (element distinctness,
 with their operational endpoints and statement pins, and the polynomial method
 (`Quantum/PolynomialMethod.lean`: for Boolean inputs, acceptance probabilities
 are polynomials of degree at most `2T`, for the native and the XOR oracle,
-with the lower-bound transfer).
+with the lower-bound transfer; `Quantum/Records/BooleanDegree.lean` re-derives the amplitude
+bound from the record decomposition of the uniform distribution).
 
 `Test/LibraryBoundary.lean` checks that this library's imports stay within
 Lean, Mathlib, and `QuantumQueryComplexity`.

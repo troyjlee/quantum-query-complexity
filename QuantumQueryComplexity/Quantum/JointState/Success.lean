@@ -64,7 +64,7 @@ namespace FinDist
 variable (ρ : FinDist Ω)
 
 /-- A mass-weighted sum over `Ω` is the same sum over the support. -/
-private lemma sum_mass_mul_eq_sum_supp (g : Ω → ℝ) :
+lemma sum_mass_mul_eq_sum_supp (g : Ω → ℝ) :
     ∑ ω, ρ.mass ω * g ω = ∑ x : ρ.Supp, ρ.mass x * g x := by
   classical
   rw [← Finset.sum_subtype (Finset.univ.filter fun ω => 0 < ρ.mass ω)
@@ -122,7 +122,7 @@ def goodMask {B : Type} (rd : B → O) (Good : Ω → O → Prop) [∀ ω, Decid
   fun x b => if Good x (rd b) then f x b else 0
 
 /-- The squared norm of a masked workspace vector is the valid mass of the unmasked one. -/
-private lemma qNormSq_wvec_goodMask {B : Type} [Fintype B] [DecidableEq B] (rd : B → O)
+lemma qNormSq_wvec_goodMask {B : Type} [Fintype B] [DecidableEq B] (rd : B → O)
     (Good : Ω → O → Prop) [∀ ω, DecidablePred (Good ω)] (f : JVec ρ.Supp B) (x : ρ.Supp) :
     qNormSq (ρ.wvec (ρ.goodMask rd Good f) x) = goodProb rd (Good x) (ρ.wvec f x) := by
   rw [qNormSq_def, goodProb_eq_sum_ite]
