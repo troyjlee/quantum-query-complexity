@@ -35,7 +35,7 @@ namespace FinDist
 
 /-- Some multiple of `g` is no longer than `Φ` and at least as close to `Φ` as `g` is: the
 orthogonal projection of `Φ` onto the line through `g`. -/
-private lemma exists_smul_norm_le {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
+lemma exists_smul_norm_le {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
     [FiniteDimensional ℂ E] (Φ g : E) :
     ∃ c : ℂ, ‖c • g‖ ≤ ‖Φ‖ ∧ ‖Φ - c • g‖ ≤ ‖Φ - g‖ := by
   obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp ((ℂ ∙ g).starProjection_apply_mem Φ)
@@ -45,14 +45,14 @@ private lemma exists_smul_norm_le {E : Type*} [NormedAddCommGroup E] [InnerProdu
   exact ⟨0, Set.forall_mem_range.mpr fun _ => norm_nonneg _⟩
 
 /-- The norm of a joint vector is the Euclidean norm of its flattening. -/
-private lemma jNorm_eq_norm {X B : Type} [Fintype X] [Fintype B] (f : JVec X B) :
+lemma jNorm_eq_norm {X B : Type} [Fintype X] [Fintype B] (f : JVec X B) :
     jNorm f = ‖(WithLp.toLp 2 (fun p : X × B => f p.1 p.2) : EuclideanSpace ℂ (X × B))‖ := by
   classical
   rw [jNorm, ← Real.sqrt_sq (norm_nonneg _), ← qNormSq_eq_euclidean]
   simp only [jNormSq, qNormSq_def, Fintype.sum_prod_type]
 
 /-- Some multiple of `g` is no longer than `Φ` and at least as close to `Φ` as `g` is. -/
-private lemma exists_smul_jNorm_le {X B : Type} [Fintype X] [Fintype B] (Φ g : JVec X B) :
+lemma exists_smul_jNorm_le {X B : Type} [Fintype X] [Fintype B] (Φ g : JVec X B) :
     ∃ c : ℂ, jNorm (c • g) ≤ jNorm Φ ∧ jNorm (Φ - c • g) ≤ jNorm (Φ - g) := by
   obtain ⟨c, h1, h2⟩ := exists_smul_norm_le
     (WithLp.toLp 2 (fun p : X × B => Φ p.1 p.2) : EuclideanSpace ℂ (X × B))

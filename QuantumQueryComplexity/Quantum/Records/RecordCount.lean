@@ -216,7 +216,7 @@ theorem recProj_mul_jOracle_mul_recProj (h : ρ.IsFullProduct) {i : ι} (M : σ 
     rw [h1, Matrix.mul_assoc, ← condDiff_mul_jOracle hji, ← Matrix.mul_assoc, h2, Matrix.zero_mul]
 
 /-- A joint vector with no component on records larger than `s` is fixed by `recLe s`. -/
-private lemma recLe_mul_eq_self_of (h : ρ.IsFullProduct) {s : ℕ} {g : JVec ρ.Supp A}
+lemma recLe_mul_eq_self_of (h : ρ.IsFullProduct) {s : ℕ} {g : JVec ρ.Supp A}
     (hg : ∀ S : Finset ι, s < S.card → ρ.recProj S * g = 0) : ρ.recLe s * g = g := by
   rw [recLe, Matrix.sum_mul]
   conv_rhs => rw [← Matrix.one_mul g, ← sum_recProj h, Matrix.sum_mul]
@@ -225,7 +225,7 @@ private lemma recLe_mul_eq_self_of (h : ρ.IsFullProduct) {s : ℕ} {g : JVec ρ
   exact hS (hg S (not_le.mp hc))
 
 /-- The initial joint state `|ρ⟩ ⊗ v` has no records. -/
-private lemma recLe_mul_ket_smul (h : ρ.IsFullProduct) (s : ℕ) (v : A → ℂ) (g : JVec ρ.Supp A)
+lemma recLe_mul_ket_smul (h : ρ.IsFullProduct) (s : ℕ) (v : A → ℂ) (g : JVec ρ.Supp A)
     (hg : ∀ x, g x = ρ.ket x • v) : ρ.recLe s * g = g := by
   refine recLe_mul_eq_self_of h fun S hS => ?_
   have hk := recProj_mulVec_ket h S

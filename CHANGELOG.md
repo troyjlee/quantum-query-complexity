@@ -28,6 +28,15 @@
     bound, and the refined query-gain bound;
   - the lower-bound framework `√σ ≤ γ + δ` from anti-concentration and small knowledge
     (`FinDist.sqrt_avgXorSuccessProb_le_of_knowledge`).
+- Adds oracles over `Z_q` (`Quantum/ZqOracle.lean`, `Quantum/ZqSimulation.lean`,
+  `Quantum/Records/ZqRecords.lean`):
+  - the additive and phase oracles over `Z_q`, conjugate by the Fourier transform on the answer
+    register, and the phase-oracle query model;
+  - the value oracle simulated in the phase model at two phase queries per query, with exact
+    success;
+  - in the phase model: the record-count bound, the transferred joint state, the knowledge bound
+    and the lower-bound framework; the records of the uniform distribution are the Fourier
+    supports.
 - Adds adaptive composition (`Quantum/AdaptiveRun.lean`): `Realizes.bind` runs the algorithm
   that an earlier outcome selects, with the exact product law and the query counts adding.
 - Adds conditional resampling (`Quantum/Records/`):

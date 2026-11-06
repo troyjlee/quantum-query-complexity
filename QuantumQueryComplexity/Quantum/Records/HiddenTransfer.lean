@@ -23,8 +23,10 @@ The transfer operator (`xferOp`) is, in the square-root weighted coordinates,
 It maps `|ρ⟩` to `|ν⟩` (`xferOp_mulVec_ket`), commutes with every query (`xferOp_mul_jOracle`,
 [Bel26, Fact 3.5]), and therefore carries the joint state of any algorithm under `ρ` to its joint
 state under `ν` (`xferOp_mul_jointState`, `xferOp_mul_jointXorState`, [Bel26, Proposition 3.6]).
-The type-restricted operators `Υ_μ` of [Bel26, (3.26)] are rows of `Υ` and need no separate
-definition.
+The rows of `Υ` with labels of type `μ` form `√p_μ · Υ_μ`, where `Υ_μ` is the type-restricted
+operator of [Bel26, (3.26)] for the conditional distribution within type `μ` and `p_μ` is the
+probability of type `μ` [Bel26, (3.27)]; `Υ_μ` itself is recovered by dividing by `√p_μ` when
+`p_μ > 0`, and needs no separate definition.
 -/
 
 namespace QuantumQueryComplexity
@@ -47,12 +49,12 @@ noncomputable def xferOp (ρ : FinDist (ι → σ)) (ν : FinDist Ω) (read : Ω
 variable {ρ : FinDist (ι → σ)} {ν : FinDist Ω} {read : Ω → ι → σ}
 
 /-- `√(ν(ω)/ρ(x)) · √ρ(x) = √ν(ω)` when `ρ(x) > 0`. -/
-private lemma sqrt_div_mul_sqrt {a b : ℝ} (hb : 0 < b) :
+lemma sqrt_div_mul_sqrt {a b : ℝ} (hb : 0 < b) :
     ((Real.sqrt (a / b) : ℝ) : ℂ) * ((Real.sqrt b : ℝ) : ℂ) = ((Real.sqrt a : ℝ) : ℂ) := by
   rw [← Complex.ofReal_mul, ← Real.sqrt_mul' _ hb.le, div_mul_cancel₀ _ hb.ne']
 
 /-- Under full support, row `ω` of `Υ` has the single nonzero entry at `read ω`. -/
-private lemma xferOp_sum_mul (h : ρ.IsFullProduct) (ω : ν.Supp) (g : ρ.Supp → ℂ) :
+lemma xferOp_sum_mul (h : ρ.IsFullProduct) (ω : ν.Supp) (g : ρ.Supp → ℂ) :
     ∑ x, xferOp ρ ν read ω x * g x
       = ((Real.sqrt (ν.mass ω / ρ.mass (read ω)) : ℝ) : ℂ)
           * g ⟨read ω, mass_pos_of_isFullProduct h _⟩ := by
@@ -65,7 +67,7 @@ private lemma xferOp_sum_mul (h : ρ.IsFullProduct) (ω : ν.Supp) (g : ρ.Supp 
 
 /-- `Υ` carries the joint vector with workspace vectors `g ∘ val` under `ρ` to the one with
 workspace vectors `g ∘ read` under `ν`. -/
-private lemma xferOp_mul_ofWvec (h : ρ.IsFullProduct) {A : Type} [Fintype A]
+lemma xferOp_mul_ofWvec (h : ρ.IsFullProduct) {A : Type} [Fintype A]
     (g : (ι → σ) → A → ℂ) :
     xferOp ρ ν read * ρ.ofWvec (fun x => g x.1) = ν.ofWvec (fun ω => g (read ω)) := by
   ext ω b

@@ -18,7 +18,8 @@ resampling, domination of increasing events, the transfer lemma and comparison t
 its monotonicity for the XOR query complexity, adaptive composition (`Realizes.bind`), and the
 records of product distributions and Belovs's knowledge framework (Layer D: record projections,
 the record-count bound, the polynomial-method consistency check, the record budget of biased
-bits, hidden-problem transfer, knowledge and query gain, and the lower-bound framework).
+bits, hidden-problem transfer, knowledge and query gain, the lower-bound framework, and the
+oracles over `Z_q` with the phase-oracle model).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -46,6 +47,9 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.Records.HiddenTransfer,
     QuantumQueryComplexity.Quantum.Records.Knowledge,
     QuantumQueryComplexity.Quantum.Records.Framework,
+    QuantumQueryComplexity.Quantum.ZqOracle,
+    QuantumQueryComplexity.Quantum.ZqSimulation,
+    QuantumQueryComplexity.Quantum.Records.ZqRecords,
     QuantumQueryComplexity.Quantum.Transfer.Lemma,
     QuantumQueryComplexity.Quantum.Transfer.Sector,
     QuantumQueryComplexity.Quantum.Transfer.Endpoint,
@@ -151,7 +155,14 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.FinDist.jNorm_knowOp_jointState_le,
     QuantumQueryComplexity.FinDist.jNorm_knowOp_jointXorState_le,
     QuantumQueryComplexity.FinDist.jNormSq_knowOp_jOracle_sub_le,
-    QuantumQueryComplexity.FinDist.sqrt_avgXorSuccessProb_le_of_knowledge]
+    QuantumQueryComplexity.FinDist.sqrt_avgXorSuccessProb_le_of_knowledge,
+    QuantumQueryComplexity.addOracleMat_eq_fourier_phase,
+    QuantumQueryComplexity.zqSuccessProbOn_simStdToZq,
+    QuantumQueryComplexity.FinDist.recLe_mul_jointZqState,
+    QuantumQueryComplexity.FinDist.xferOp_mul_jointZqState,
+    QuantumQueryComplexity.FinDist.jNorm_knowOp_jointZqState_le,
+    QuantumQueryComplexity.FinDist.sqrt_avgZqSuccessProb_le_of_knowledge,
+    QuantumQueryComplexity.FinDist.recProj_uniform_mulVec_fourier]
 
 /-- error: axiom audit: `sorryAx` depends on the forbidden axiom(s) [sorryAx]. -/
 #guard_msgs in
