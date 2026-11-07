@@ -129,6 +129,9 @@ import QuantumQueryComplexity.Quantum.ZqOracle
 import QuantumQueryComplexity.Quantum.ZqSimulation
 import QuantumQueryComplexity.Quantum.Records.ZqRecords
 import QuantumQueryComplexity.Quantum.Records.ZqFourier
+import QuantumQueryComplexity.Quantum.Records.Compressed
+import QuantumQueryComplexity.Quantum.Records.CompressedKnowledge
+import QuantumQueryComplexity.Quantum.Records.CompressedSearch
 import QuantumQueryComplexity.Quantum.Transfer.Lemma
 import QuantumQueryComplexity.Quantum.Transfer.Sector
 import QuantumQueryComplexity.Quantum.Transfer.Endpoint

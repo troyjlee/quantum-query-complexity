@@ -71,7 +71,7 @@ theorem sum_marg (i : ι) : ∑ a, ρ.marg i a = 1 := by
   simpa using ρ.sum_mass
 
 /-- The marginals are nonnegative. -/
-private lemma marg_nonneg (i : ι) (a : σ) : 0 ≤ ρ.marg i a :=
+theorem marg_nonneg (i : ι) (a : σ) : 0 ≤ ρ.marg i a :=
   Finset.sum_nonneg fun x _ => by
     split_ifs
     · exact ρ.mass_nonneg x
@@ -254,7 +254,7 @@ private noncomputable def tens (F : ι → Matrix σ σ ℂ) : Matrix ρ.Supp ρ
   fun x y => ∏ k, F k (x.1 k) (y.1 k)
 
 /-- Under full support, a sum over `ρ.Supp` is a sum over all strings. -/
-private lemma sum_supp_eq_univ (hfull : ∀ x, 0 < ρ.mass x) {M : Type*} [AddCommMonoid M]
+theorem sum_supp_eq_univ (hfull : ∀ x, 0 < ρ.mass x) {M : Type*} [AddCommMonoid M]
     (g : (ι → σ) → M) : ∑ z : ρ.Supp, g z.1 = ∑ z, g z :=
   (Finset.sum_subtype Finset.univ (fun z => by simp [hfull z]) g).symm
 

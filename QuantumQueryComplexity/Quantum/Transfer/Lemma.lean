@@ -57,6 +57,11 @@ private lemma jNormSq_eq_qNormSq (f : JVec X A) :
     jNormSq f = qNormSq (fun p : X × A => f p.1 p.2) := by
   simp only [jNormSq, qNormSq_def, Fintype.sum_prod_type]
 
+/-- An isometry `Mᴴ M = I` between input registers preserves the norm of joint vectors. -/
+theorem jNorm_mul_of_isometry {M : Matrix Y X ℂ} (hM : Mᴴ * M = 1) (f : JVec X A) :
+    jNorm (M * f) = jNorm f := by
+  rw [jNorm, jNorm, jNormSq_mul_of_isometry hM]
+
 @[simp] lemma jNorm_zero : jNorm (0 : JVec X A) = 0 := by
   rw [jNorm, jNormSq_eq_qNormSq]
   simp [qNormSq_def]
@@ -164,7 +169,7 @@ theorem jNorm_jRun_sub_mul_le (K : Matrix Y X ℂ) (OX : JVec X A → JVec X A)
 /-! ## Joint states of algorithms are runs -/
 
 /-- Row `x` of the product vector `k ⊗ ψ` is `k x • ψ`. -/
-private lemma vecMulVec_row (k : X → ℂ) (ψ : A → ℂ) (x : X) : vecMulVec k ψ x = k x • ψ := by
+theorem vecMulVec_row (k : X → ℂ) (ψ : A → ℂ) (x : X) : vecMulVec k ψ x = k x • ψ := by
   funext a
   rw [vecMulVec_apply, Pi.smul_apply, smul_eq_mul]
 

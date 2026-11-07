@@ -94,17 +94,17 @@ section PhaseModel
 variable (ρ : FinDist Ω)
 
 /-- The workspace vectors of the phase-model joint state are the phase-model states. -/
-private lemma wvec_jointZqState (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) (t : ℕ)
+theorem wvec_jointZqState (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) (t : ℕ)
     (x : ρ.Supp) : ρ.wvec (ρ.jointZqState read A t) x = zqState A (read x) t := by
   rw [jointZqState, wvec_ofWvec]
 
 /-- The initial phase-model joint state is `|ρ⟩ ⊗ U₀|init⟩`. -/
-private lemma jointZqState_zero (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) :
+theorem jointZqState_zero (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) :
     ρ.jointZqState read A 0 = fun x => ρ.ket x • (A.step 0 *ᵥ A.init) := by
   rfl
 
 /-- **The joint state recursion** (phase oracle): `Ψ_{t+1} = U_{t+1} O Ψₜ`. -/
-private lemma jointZqState_succ (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) (t : ℕ) :
+theorem jointZqState_succ (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q) O W) (t : ℕ) :
     ρ.jointZqState read A (t + 1)
       = wsOp (A.step (t + 1)) (jOracle phaseZqOracleMat (fun x : ρ.Supp => read x)
           (ρ.jointZqState read A t)) := by
@@ -121,7 +121,7 @@ theorem jNormSq_jointZqState (read : Ω → ι → ZMod q) (A : QAlg ι (ZMod q)
 
 
 /-- **Average success is the squared norm of the masked joint state** (phase model). -/
-private lemma avgZqSuccessProb_eq_jNormSq_goodMask (A : QAlg ι (ZMod q) O W) (t : ℕ)
+theorem avgZqSuccessProb_eq_jNormSq_goodMask (A : QAlg ι (ZMod q) O W) (t : ℕ)
     (read : Ω → ι → ZMod q) (Good : Ω → O → Prop) [∀ ω, DecidablePred (Good ω)] :
     ρ.avgZqSuccessProb A t read Good
       = jNormSq (ρ.goodMask A.readout Good (ρ.jointZqState read A t)) := by
@@ -228,7 +228,7 @@ noncomputable def fourierVec (τ : ι → ZMod q) : (ι → ZMod q) → ℂ := f
   ∏ i, zqChar (τ i) (x i) / ((Real.sqrt q : ℝ) : ℂ)
 
 /-- The marginals of the uniform distribution on `Z_qⁿ` are `1/q`. -/
-private lemma marg_uniform_zq (i : ι) (a : ZMod q) :
+theorem marg_uniform_zq (i : ι) (a : ZMod q) :
     (uniform (ι → ZMod q)).marg i a = 1 / q := by
   have hshift : ∀ a, (uniform (ι → ZMod q)).marg i a = (uniform (ι → ZMod q)).marg i 0 := by
     intro a
