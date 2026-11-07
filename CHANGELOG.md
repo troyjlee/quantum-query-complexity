@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Adds the general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect.lean`),
+  as used by Cornelissen, Gilani, Kintali, Le Gall, Patro and Zhou (Lemma 2.10):
+  - rows are positive inputs and columns negative inputs; the mask `rectDOn` keeps the entries
+    whose inputs disagree at a query;
+  - the adversary form `‖Γ‖ / c ≤ advPMOn` through the block matrix `[[0, Γ], [Γᵀ, 0]]`
+    (`norm_div_le_advPMOn_rect`);
+  - the algorithm forms `(1/36)(‖Γ‖ / c) ≤ q` and `(1/36)(‖Γ‖ / c) ≤ Q_{1/3}(f)`
+    (`le_of_computes_rect`, `le_boundedErrorQQuery_rect`);
+  - the module is imported by the library root, since it uses `Promise.Basic`.
 - Adds probability-weighted joint states and oracle adapters (`Quantum/JointState/`):
   - finite distributions with hidden labels, conditioning, mixtures and uniform distributions;
   - joint vectors with Hilbert and workspace infinity norms;
