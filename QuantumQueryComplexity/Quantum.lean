@@ -54,6 +54,7 @@ import QuantumQueryComplexity.Quantum.LowerBound.Output
 import QuantumQueryComplexity.Quantum.LowerBound.OutputBool
 import QuantumQueryComplexity.Quantum.LowerBound.Main
 import QuantumQueryComplexity.Quantum.LowerBound.MainBool
+import QuantumQueryComplexity.Quantum.LowerBound.WeightedCounting
 import QuantumQueryComplexity.Quantum.AcceptanceA
 import QuantumQueryComplexity.Quantum.Relation
 import QuantumQueryComplexity.Quantum.Amplitude.Geometry
@@ -213,6 +214,7 @@ Layers, in dependency order:
 | `LowerBound/OutputBool` | the **sharp** output condition `2√(ε(1−ε))`, for Boolean outputs |
 | `LowerBound/Main` | **Milestone A**: `mul_advPMOn_le_qQueryOn` |
 | `LowerBound/MainBool` | the sharp Boolean bound: `(1/36)·advPMOn ≤ Q_{1/3}`, no amplification |
+| `LowerBound/WeightedCounting` | **weighted counting**: local maps with orthogonal targets and supported sources, `‖∑_j D_j f‖² ≤ ∑_i (∑_{j : i ∈ I_j} w_j²) ‖f_i‖²` |
 | `LowerBound/Rect` | the general adversary bound for rectangular matrices (rows positive, columns negative); imported by the library root, since it uses `Promise.Basic` |
 | `AcceptanceA` | the Milestone A statements, pinned (a test, not a dependency) |
 | `Relation` | relation-valued correctness: `successProbOn`, `SolvesWithErrorOn` |

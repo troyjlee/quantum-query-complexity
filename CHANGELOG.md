@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Adds weighted counting (`Quantum/LowerBound/WeightedCounting.lean`), a bound on sums of local
+  maps used by Cornelissen, Gilani, Kintali, Le Gall, Patro and Zhou (Lemma 6.7) to estimate
+  adversary denominators:
+  - if the maps `D_j` have pairwise orthogonal ranges (`D_jᴴ D_{j'} = 0`), `D_j` reads only the
+    coordinates in `I_j`, and `‖D_j‖ ≤ w_j`, then
+    `‖∑_j D_j f‖² ≤ ∑_i (∑_{j : i ∈ I_j} w_j²) ‖f_i‖²` for every vector `f`
+    (`weighted_counting`), over any `RCLike` field; the read sets may overlap;
+  - the operator form `‖∑_j D_j‖ ≤ c` when every coordinate's total charge is at most `c²`
+    (`l2_opNorm_sum_le_weighted_counting`);
+  - maps with no common nonzero row have orthogonal ranges
+    (`conjTranspose_mul_eq_zero_of_rows`);
+  - the module imports only Mathlib and is part of the quantum aggregate.
 - Adds the general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect.lean`),
   as used by Cornelissen, Gilani, Kintali, Le Gall, Patro and Zhou (Lemma 2.10):
   - rows are positive inputs and columns negative inputs; the mask `rectDOn` keeps the entries
