@@ -19,7 +19,9 @@ its monotonicity for the XOR query complexity, adaptive composition (`Realizes.b
 records of product distributions and Belovs's knowledge framework (Layer D: record projections,
 the record-count bound, the polynomial-method consistency check, the record budget of biased
 bits, hidden-problem transfer, knowledge and query gain, the lower-bound framework, and the
-oracles over `Z_q` with the phase-oracle model and Fourier analysis on `Z_qⁿ`).
+oracles over `Z_q` with the phase-oracle model and Fourier analysis on `Z_qⁿ`), and Zhandry's
+compressed oracle (Layer E: compression as a relabelling of the records, progress measures, the
+comparison with knowledge, and Search under the uniform distribution).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -51,6 +53,9 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.ZqSimulation,
     QuantumQueryComplexity.Quantum.Records.ZqRecords,
     QuantumQueryComplexity.Quantum.Records.ZqFourier,
+    QuantumQueryComplexity.Quantum.Records.Compressed,
+    QuantumQueryComplexity.Quantum.Records.CompressedKnowledge,
+    QuantumQueryComplexity.Quantum.Records.CompressedSearch,
     QuantumQueryComplexity.Quantum.Transfer.Lemma,
     QuantumQueryComplexity.Quantum.Transfer.Sector,
     QuantumQueryComplexity.Quantum.Transfer.Endpoint,
@@ -174,7 +179,27 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.FinDist.qNormSq_eq_sum_fourierCoeff,
     QuantumQueryComplexity.FinDist.fourierCoeff_eq_zero_of_recLe,
     QuantumQueryComplexity.FinDist.recIn_mulVec_fourierVec,
-    QuantumQueryComplexity.FinDist.knowOp_mulVec_apply]
+    QuantumQueryComplexity.FinDist.knowOp_mulVec_apply,
+    QuantumQueryComplexity.FinDist.recOpAll_mem_unitaryGroup,
+    QuantumQueryComplexity.FinDist.conjTranspose_compress_mul_compress,
+    QuantumQueryComplexity.FinDist.dbProj_dbSupp_eq_mul_compress,
+    QuantumQueryComplexity.FinDist.jNormSq_dbProj_compress_mul,
+    QuantumQueryComplexity.FinDist.compress_mul_vecMulVec_ket,
+    QuantumQueryComplexity.FinDist.dbProj_card_gt_mul_compress_jointZqState,
+    QuantumQueryComplexity.FinDist.compress_mul_jRun,
+    QuantumQueryComplexity.FinDist.jNorm_dbProj_compress_jRun_le,
+    QuantumQueryComplexity.FinDist.compress_mul_jointZqState,
+    QuantumQueryComplexity.FinDist.jNorm_dbProj_compress_jointZqState_le,
+    QuantumQueryComplexity.FinDist.dbProj_mul_compress_of_recProj,
+    QuantumQueryComplexity.FinDist.jNorm_dbProj_compress_of_recProj,
+    QuantumQueryComplexity.FinDist.dbProj_searchDb_compress_fourierVec,
+    QuantumQueryComplexity.knowledge_ne_progress_example,
+    QuantumQueryComplexity.jNorm_recOracle_comm_searchDb_le,
+    QuantumQueryComplexity.sqrt_avgZqSuccessProb_search_le,
+    QuantumQueryComplexity.avgZqSuccessProb_search_le,
+    QuantumQueryComplexity.avgSuccessProb_search_le,
+    QuantumQueryComplexity.le_of_avgZqSuccessProb_search,
+    QuantumQueryComplexity.le_of_avgSuccessProb_search]
 
 /-- error: axiom audit: `sorryAx` depends on the forbidden axiom(s) [sorryAx]. -/
 #guard_msgs in

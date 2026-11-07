@@ -185,6 +185,14 @@ theorem jNormSq_mul_le_smul {B : Matrix Y X ℂ} {c : ℝ} (h : Bᴴ * B ≤ (c 
   rw [Matrix.smul_mul, Matrix.one_mul, jInner_eq_trace, Matrix.mul_smul, Matrix.trace_smul,
     ← jInner_eq_trace, jInner_self, smul_eq_mul, ← Complex.ofReal_mul, Complex.ofReal_re]
 
+/-- An isometry `Mᴴ M = I` between input registers preserves the squared norm of joint vectors,
+on every finite workspace. -/
+theorem jNormSq_mul_of_isometry {M : Matrix Y X ℂ} (hM : Mᴴ * M = 1) (f : JVec X A) :
+    jNormSq (M * f) = jNormSq f := by
+  have h := jInner_mul_right M (M * f) f
+  rw [← Matrix.mul_assoc, hM, Matrix.one_mul, jInner_self, jInner_self] at h
+  exact_mod_cast h
+
 /-! ## Workspace vectors under a distribution -/
 
 namespace FinDist

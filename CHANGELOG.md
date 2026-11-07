@@ -44,6 +44,27 @@
   - the record projections and knowledge operators of the uniform distribution in the Fourier
     basis: `Π_G` keeps the characters whose support (`zsupp`) lies in `G`, and a vector with at
     most `t` records has no Fourier weight on larger supports.
+- Adds Zhandry's compressed oracle (Layer E, `Quantum/Records/Compressed*.lean`):
+  - the recording operators `Rᵢ`, which exchange the empty symbol `⊥` with the conditional-mean
+    vector of the coordinate and fix the complement, and the compression `C = R ι` into the
+    database register `ι → Option σ`;
+  - for product distributions with full-support marginals, compression is an isometry that
+    relabels the records: the record set of a database string is its set of non-`⊥` positions
+    (`FinDist.dbProj_dbSupp_eq_mul_compress`); the initial record is empty and has at most `t`
+    entries after `t` queries;
+  - the recording oracle `R O R`, indistinguishability of the compressed run, and the growth of
+    progress measures `‖Π C Ψₜ‖` from the transfer lemma
+    (`FinDist.jNorm_dbProj_compress_jRun_le`);
+  - Belovs's comparison of progress and knowledge: agreement on single record states, and the
+    `n = q = 2` example where they differ (`knowledge_ne_progress_example`);
+  - Search under the uniform distribution (Hamoudi, Proposition 42): average success at most
+    `(√10 t + √2)²/q` after `t` phase queries (`avgZqSuccessProb_search_le`), `(2√10 t + √2)²/q`
+    after `t` value queries.
+  - public helpers used along the way: isometries preserve joint-vector norms
+    (`jNormSq_mul_of_isometry`, `jNorm_mul_of_isometry`); `FinDist.marg_nonneg`,
+    `FinDist.sum_supp_eq_univ`, `vecMulVec_row`; the phase-model lemmas
+    `FinDist.jointZqState_zero`, `FinDist.jointZqState_succ`, `FinDist.wvec_jointZqState`,
+    `FinDist.avgZqSuccessProb_eq_jNormSq_goodMask` and `FinDist.marg_uniform_zq`.
 - Makes public, or adds, small facts used by applications of the knowledge framework:
   - the phase-model state and joint state are unit vectors (`zqState_isQState`,
     `FinDist.jNormSq_jointZqState`); a sum over the support of the uniform distribution on `Z_qⁿ`
