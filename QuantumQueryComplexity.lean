@@ -131,6 +131,7 @@ import QuantumQueryComplexity.Quantum.AcceptanceN
 import QuantumQueryComplexity.Quantum.AcceptanceO
 import QuantumQueryComplexity.Quantum.AcceptanceQ
 import QuantumQueryComplexity.Quantum.Characterization
+import QuantumQueryComplexity.Quantum.LowerBound.Rect
 import QuantumQueryComplexity.Quantum.EDApplications
 import QuantumQueryComplexity.Quantum.KDApplications
 import QuantumQueryComplexity.Quantum.LDSApplications

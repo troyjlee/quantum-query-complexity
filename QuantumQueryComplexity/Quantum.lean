@@ -149,9 +149,9 @@ nothing of the classical development beyond the five shared foundation
 modules (`Test/StreamBoundary.lean` enforces it), so
 `lake build QuantumQueryComplexity.Quantum` builds the quantum layer alone.
 The files that need both hierarchies live beside it: the library's own
-(`Characterization`, `UniformHasDual`, the classic-example `*Applications`
-and their `Acceptance*` pins) are imported by the library root
-`QuantumQueryComplexity.lean`.
+(`Characterization`, `UniformHasDual`, the rectangular adversary bound
+`LowerBound/Rect`, the classic-example `*Applications` and their `Acceptance*`
+pins) are imported by the library root `QuantumQueryComplexity.lean`.
 `Characterization.lean` has both the `1/16` and the conventional `1/3`
 form; see `docs/quantum-query/README.md`.
 
@@ -213,6 +213,7 @@ Layers, in dependency order:
 | `LowerBound/OutputBool` | the **sharp** output condition `2√(ε(1−ε))`, for Boolean outputs |
 | `LowerBound/Main` | **Milestone A**: `mul_advPMOn_le_qQueryOn` |
 | `LowerBound/MainBool` | the sharp Boolean bound: `(1/36)·advPMOn ≤ Q_{1/3}`, no amplification |
+| `LowerBound/Rect` | the general adversary bound for rectangular matrices (rows positive, columns negative); imported by the library root, since it uses `Promise.Basic` |
 | `AcceptanceA` | the Milestone A statements, pinned (a test, not a dependency) |
 | `Relation` | relation-valued correctness: `successProbOn`, `SolvesWithErrorOn` |
 | `Amplitude/Geometry` | the division-free two-reflection rotation; `sin²((2j+1)θ)` for all `0 ≤ p ≤ 1` |
