@@ -12,7 +12,8 @@ Run directly on every CI run:
 
 The audit checks the theorem dependencies transitively, including the
 operational oracle model and the dual-to-algorithm construction, and the
-general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect`).
+general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect`), and weighted
+counting (`Quantum/LowerBound/WeightedCounting`).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -26,7 +27,8 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.UniformExtraction,
     QuantumQueryComplexity.Quantum.UniformHasDual,
     QuantumQueryComplexity.Quantum.Simulation,
-    QuantumQueryComplexity.Quantum.LowerBound.Rect]
+    QuantumQueryComplexity.Quantum.LowerBound.Rect,
+    QuantumQueryComplexity.Quantum.LowerBound.WeightedCounting]
   pins [
     QuantumQueryComplexity.advDual_eq_advPM,
     QuantumQueryComplexity.advPM_composeFun_eq,
@@ -37,4 +39,7 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.qQueryOn_third_le_of_hasDualOn_uniform,
     QuantumQueryComplexity.norm_div_le_advPMOn_rect,
     QuantumQueryComplexity.le_of_computes_rect,
-    QuantumQueryComplexity.le_boundedErrorQQuery_rect]
+    QuantumQueryComplexity.le_boundedErrorQQuery_rect,
+    QuantumQueryComplexity.weighted_counting,
+    QuantumQueryComplexity.l2_opNorm_sum_le_weighted_counting,
+    QuantumQueryComplexity.conjTranspose_mul_eq_zero_of_rows]
