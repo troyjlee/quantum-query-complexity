@@ -2,6 +2,58 @@
 
 ## Unreleased
 
+- Adds subroutines for the graph collision algorithm of Cornelissen, Gilani, Kintali, Le Gall,
+  Patro and Zhou, all general and part of the quantum aggregate:
+  - adaptive programs with fixed budgets (`Quantum/Program.lean`): finite trees of realizable
+    calls, each chosen from the earlier outcomes; given the transcript, a continuation has its own
+    law (`Prog.law_call`); the budget is the largest path cost, and one algorithm realizes the law
+    with exactly that many queries (`Prog.realizes`); a global cutoff with a timeout value loses
+    at most the probability of overrunning (`Prog.law_cutoff_ge`); the errors of a call and of its
+    continuations add (`Prog.bad_call_le`);
+  - the median trick for order-convex targets (`Quantum/Amplitude/Median.lean`): `2j + 1` runs
+    miss with probability at most `(2/3)^j/3`, and an outcome returned surely stays sure
+    (`Realizes.median_pointMass`, of which `Realizes.median` is a corollary);
+  - counting and sampling the marked labels of a known set of `a` labels
+    (`Quantum/Amplitude/LabelSearch.lean`, Lemma 2.4): an estimate `r̂` with `r̂ = 0 ↔ r = 0`,
+    `r/2 ≤ r̂ ≤ 2r` and `|r̂ − r| ≤ √r/2` except with probability `ε`, and `r̂ = 0` surely when
+    `r = 0`, in at most `3000(√a + 1)(1 + ln(1/ε))` queries (`exists_count`,
+    `labelCountBudget_le`); batches of `s` labels with a fixed budget, independent and uniform
+    over the marked labels given success whatever `r̂`, failing with probability at most `ε` when
+    `0 < r̂ ≤ 2r`, in at most `80(s + 1 + ln(1/ε))√(a/r̂)` queries when `0 < r̂ ≤ a`
+    (`exists_sample`, `sampleBudget_le`);
+  - copied input bits cost one query each in the value-oracle model (`Quantum/IndexCopy.lean`,
+    `Realizes.reindex`, for any `φ : κ → ι`);
+  - combining one-sided promise tests with unequal costs (`Quantum/PromiseOr.lean`, Lemma 2.5):
+    the OR of `m` promise tests with error `1/3` and budgets `q_i`, each promising nothing outside
+    its own promise, is a promise test with error `ε` (`exists_promiseOr`) using at most
+    `10⁵ √(∑_i (q_i + 1)²) (1 + log₂ m) (3 + log₂(1 + ∑_i q_i))² (1 + log₂(1/ε))` queries
+    (`promiseOrBudget_le`);
+  - approximate preparations inside larger routines (`Quantum/RoutineClose.lean`): errors add and
+    phases multiply under composition, and lifting along an oracle-compatible split and
+    query-free unitaries keep the error and the phase;
+  - clean coherent preparation of the uniform marked state (`Quantum/Amplitude/CoherentPrep.lean`,
+    Lemma 2.4, last clause): from an estimate `r̂ > 0` within a factor `2` of `r`, a routine with
+    no other workspace prepares the state to within `η` up to an input-dependent phase
+    (`exists_coherentPrep`) in at most `200√(a/r̂)(1 + ln(1/η))` queries (`prepBudget_le`), and
+    on every input it commutes with the projection onto blank query registers
+    (`exists_coherentPrep_blank`); the construction uses Grover iterations and Grover's π/3
+    recursion in place of the fixed-point search cited by the paper;
+  - walk search with input-dependent chains and approximate routines (`Quantum/Walk/Approx.lean`,
+    Lemma 2.6), **conditional on the contract `ApproxWalkOK`**: update rows within `ε` of one
+    common phase times the rows of an ideal chain on all configurations, setup within `ε` of a
+    phase times `√π`, check within `ε` on every vector with blank query registers, and gap `δ`
+    with `4 ≤ T²δ`. Under it, with `walkErr T K ε = 4ε · walkUses T K`, a marked configuration is
+    returned with probability at least `2/3 − walkErr` when the marked mass is at least `η` and
+    `⌈1/η⌉ ≤ 9^K` (`ApproxWalkOK.two_thirds_sub_le`), an unmarked one with probability at most
+    `walkErr` (`ApproxWalkOK.bad_le`), and `none` with probability at least `1 − walkErr` when
+    nothing is marked (`ApproxWalkOK.one_sub_le_none`). The compiled walk depends only on its
+    routines, `T` and `K`, not on the analytical fields (`WalkSetup.walkSearch_congr`), and every
+    reversible chain is an ideal walk chain (`RevChain.exists_walkChain`). No graph collision
+    update or check is yet shown to satisfy `ApproxWalkOK`;
+  - no existing declaration changes.
+- Adds the `GraphCollisionAxioms` audit driver, run in CI: every declaration of the eight modules,
+  private helpers included, with all 31 public results pinned.
+
 - Adds weighted counting (`Quantum/LowerBound/WeightedCounting.lean`), a bound on sums of local
   maps used by Cornelissen, Gilani, Kintali, Le Gall, Patro and Zhou (Lemma 6.7) to estimate
   adversary denominators:

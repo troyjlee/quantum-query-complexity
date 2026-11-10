@@ -136,7 +136,7 @@ regressions. The repository's default `lake build` includes both targets.
 Run the axiom checks directly, as CI does:
 
 ```sh
-for audit in Adversary Polynomial Amplitude RobustSearch QuantumWalk TreeSearch TransferRecords; do
+for audit in Adversary Polynomial Amplitude RobustSearch QuantumWalk TreeSearch TransferRecords GraphCollision; do
   LEAN_NUM_THREADS=1 lake env lean --trust=0 "QuantumQueryComplexity/Test/${audit}Axioms.lean"
 done
 ```

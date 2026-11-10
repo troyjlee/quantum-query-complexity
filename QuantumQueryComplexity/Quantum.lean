@@ -105,6 +105,14 @@ import QuantumQueryComplexity.Quantum.Walk.Global
 import QuantumQueryComplexity.Quantum.Walk.GlobalInv
 import QuantumQueryComplexity.Quantum.Walk.MNRS
 import QuantumQueryComplexity.Quantum.Walk.Chain
+import QuantumQueryComplexity.Quantum.Walk.Approx
+import QuantumQueryComplexity.Quantum.Program
+import QuantumQueryComplexity.Quantum.Amplitude.Median
+import QuantumQueryComplexity.Quantum.Amplitude.LabelSearch
+import QuantumQueryComplexity.Quantum.Amplitude.CoherentPrep
+import QuantumQueryComplexity.Quantum.RoutineClose
+import QuantumQueryComplexity.Quantum.PromiseOr
+import QuantumQueryComplexity.Quantum.IndexCopy
 import QuantumQueryComplexity.Quantum.JointState.Basic
 import QuantumQueryComplexity.Quantum.JointState.Conditioning
 import QuantumQueryComplexity.Quantum.JointState.Oracle
@@ -261,6 +269,14 @@ Layers, in dependency order:
 | `Walk/KronSupport` | supports, flags and the reflection contract transported along a `kronLift`; `QRoutine.kronLift_run` |
 | `Walk/Global`, `Walk/GlobalInv` | the global workspace with one ancilla block per level (`blkEquiv`), and **the walk data satisfies `SearchInvUpTo`** |
 | `Walk/MNRS` | **quantum-walk search**: `WalkSetup` (routines and chain data), `WalkOK` (their semantics on an input), the input-independent `walkSearch`, never an unmarked vertex, `≥ 2/3` under the stationary-mass promise, `none` surely on the empty set, budget `≤ 110·S + 4490640·⌈1/√ε⌉(⌈1/√δ⌉U + C)` |
+| `Walk/Approx` | **walk search with input-dependent chains and approximate routines**: `walkSearch_congr` (the compiled walk ignores the analytical fields), `WalkChain` (an ideal chain on all of `V`, `π` possibly vanishing), `ApproxWalkOK` (rows within `ε` of a common phase times the ideal rows, setup within `ε` of a phase times `√π`, check within `ε` on every query-blank vector), success `≥ 2/3 − walkErr`, unmarked output `≤ walkErr`, `none` with probability `≥ 1 − walkErr` when nothing is marked |
+| `Program` | **adaptive programs with fixed budgets**: trees of realizable calls, law with continuations conditional on the transcript, budget the largest path cost, compilation to one algorithm, global cutoffs with a timeout value, error composition |
+| `Amplitude/Median` | **the median trick** for order-convex targets: `2j + 1` runs, failure `≤ (2/3)^j/3` |
+| `Amplitude/LabelSearch` | **counting and samples on a known label set**: estimate within factor `2` and `√r/2`, zero iff `r = 0`, error `ε`, `O(√a log(1/ε))` queries; batches of `s` samples, exactly uniform given success, fixed budget `O((s + 1 + log(1/ε))√(a/r̂))` |
+| `Amplitude/CoherentPrep` | **clean coherent preparation of the uniform marked state** on a bare label register, to precision `η` up to an input-dependent phase, from an estimate within factor `2`: deterministic Grover iterations and Grover's π/3 recursion, `≤ 200√(a/r̂)(1 + ln(1/η))` queries |
+| `RoutineClose` | **approximate preparations inside larger routines**: errors add and phases multiply under composition; lifting along an oracle-compatible split and query-free unitaries keeps the error and the phase |
+| `PromiseOr` | **combining one-sided promise tests with unequal costs** (variable-time search by dyadic classes): `Õ(√(∑ q_i²))` with explicit constant and logarithms |
+| `IndexCopy` | **copied input bits cost one query each** in the value-oracle model (`Realizes.reindex`, any `φ : κ → ι`) |
 | `Walk/Chain` | reversible chains and the discriminant (`disc_herm`, `disc_r`, `r_unit`); complete resampling (gap `1`) and the lazy two-state chain (gap `2p`) |
 
 Two different notions of amplification live here: `Amplify` is classical *majority*
