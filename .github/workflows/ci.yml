@@ -26,7 +26,7 @@ jobs:
         run: python3 scripts/check-downstream.py
       - name: Audit axiom dependencies
         run: |
-          for audit in Adversary Polynomial Amplitude RobustSearch QuantumWalk TreeSearch TransferRecords; do
+          for audit in Adversary Polynomial Amplitude RobustSearch QuantumWalk TreeSearch TransferRecords GraphCollision; do
             lake env lean --trust=0 "QuantumQueryComplexity/Test/${audit}Axioms.lean"
           done
       - name: Compare Palomar statements and replay proofs
