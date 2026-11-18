@@ -12,8 +12,9 @@ Run directly on every CI run:
 
 The audit checks the theorem dependencies transitively, including the
 operational oracle model and the dual-to-algorithm construction, and the
-general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect`), and weighted
-counting (`Quantum/LowerBound/WeightedCounting`).
+general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect`), weighted
+counting (`Quantum/LowerBound/WeightedCounting`), and additive oracles over a finite abelian
+group with their two-query simulations (`Quantum/AddOracle`, `Quantum/AddSimulation`).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -28,7 +29,9 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.UniformHasDual,
     QuantumQueryComplexity.Quantum.Simulation,
     QuantumQueryComplexity.Quantum.LowerBound.Rect,
-    QuantumQueryComplexity.Quantum.LowerBound.WeightedCounting]
+    QuantumQueryComplexity.Quantum.LowerBound.WeightedCounting,
+    QuantumQueryComplexity.Quantum.AddOracle,
+    QuantumQueryComplexity.Quantum.AddSimulation]
   pins [
     QuantumQueryComplexity.advDual_eq_advPM,
     QuantumQueryComplexity.advPM_composeFun_eq,
@@ -42,4 +45,16 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.le_boundedErrorQQuery_rect,
     QuantumQueryComplexity.weighted_counting,
     QuantumQueryComplexity.l2_opNorm_sum_le_weighted_counting,
-    QuantumQueryComplexity.conjTranspose_mul_eq_zero_of_rows]
+    QuantumQueryComplexity.conjTranspose_mul_eq_zero_of_rows,
+    QuantumQueryComplexity.addSolvesWithErrorOn_eq_iff,
+    QuantumQueryComplexity.simAddAlg_state,
+    QuantumQueryComplexity.addState_simTransAddAlg,
+    QuantumQueryComplexity.successProbOn_simAddAlg,
+    QuantumQueryComplexity.addSuccessProbOn_simTransAddAlg,
+    QuantumQueryComplexity.AddComputesWithErrorOn.simAddAlg,
+    QuantumQueryComplexity.AddSolvesWithErrorOn.simAddAlg,
+    QuantumQueryComplexity.ComputesWithErrorOn.simTransAddAlg,
+    QuantumQueryComplexity.SolvesWithErrorOn.simTransAddAlg,
+    QuantumQueryComplexity.addQueryCounts_nonempty,
+    QuantumQueryComplexity.qQueryOn_le_two_mul_addQQueryOn,
+    QuantumQueryComplexity.addQQueryOn_le_two_mul_qQueryOn]

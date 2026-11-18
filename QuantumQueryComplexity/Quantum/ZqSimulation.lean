@@ -144,12 +144,6 @@ lemma zqNegMat_mulVec_apply (ψ : QBasis ι (ZMod q) (Option (ZMod q) × W) → 
   rw [zqNegMat, qPerm_mulVec_apply]
   rfl
 
-lemma addOracleMat_mulVec_apply (a : ι → ZMod q) (ψ : QBasis ι (ZMod q) W → ℂ)
-    (p : QBasis ι (ZMod q) W) :
-    (addOracleMat a *ᵥ ψ) p = ψ (addOracleMap (-a) p) := by
-  rw [addOracleMat, qPerm_mulVec_apply]
-  rfl
-
 /-! ## The gadget -/
 
 /-- **The phase model simulates one value query**: two phase queries. Before the first, swap

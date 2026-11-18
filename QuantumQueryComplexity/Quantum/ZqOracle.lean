@@ -1,4 +1,5 @@
 import QuantumQueryComplexity.Quantum.Simulation
+import QuantumQueryComplexity.Quantum.AddOracle
 import QuantumQueryComplexity.Quantum.Relation
 import Mathlib.LinearAlgebra.Matrix.Kronecker
 import Mathlib.RingTheory.RootsOfUnity.Complex
@@ -15,7 +16,8 @@ For inputs `a : ι → ZMod q`, two oracles act on the library's basis `QBasis �
 register `Option ι`, answer register `Option (ZMod q)`, workspace `W`); both fix the idle index
 and the blank answer:
 
-* the **additive oracle** `|i, c⟩ ↦ |i, c + aᵢ⟩` (`addOracleMat`), a basis permutation;
+* the **additive oracle** `|i, c⟩ ↦ |i, c + aᵢ⟩` (`addOracleMat`, defined over any finite abelian
+  group in `AddOracle.lean`), a basis permutation;
 * the **phase oracle** `|i, c⟩ ↦ ω_q^{c·aᵢ}|i, c⟩` with `ω_q = e^{2πi/q}` (`phaseZqOracleMat`),
   the oracle of [Bel26, (3.3)].
 
@@ -38,30 +40,10 @@ open Matrix
 variable {ι O W : Type} [Fintype ι] [DecidableEq ι] [Fintype W] [DecidableEq W]
 variable {q : ℕ} [NeZero q]
 
-/-! ## The additive oracle -/
+/-! ## The additive oracle
 
-/-- The additive oracle on a basis state: add `aᵢ` to the `some`-part of the answer register of a
-query to `i`. -/
-def addOracleMap (a : ι → ZMod q) : QBasis ι (ZMod q) W → QBasis ι (ZMod q) W
-  | (some i, t, w) => (some i, t.map (· + a i), w)
-  | p => p
-
-/-- The additive oracle as a permutation (its inverse adds `−aᵢ`). -/
-def addOraclePerm (a : ι → ZMod q) : Equiv.Perm (QBasis ι (ZMod q) W) where
-  toFun := addOracleMap a
-  invFun := addOracleMap (-a)
-  left_inv := by
-    rintro ⟨_ | i, _ | c, w⟩ <;> simp [addOracleMap]
-  right_inv := by
-    rintro ⟨_ | i, _ | c, w⟩ <;> simp [addOracleMap]
-
-/-- **The additive oracle over `Z_q`.** -/
-def addOracleMat (a : ι → ZMod q) : Matrix (QBasis ι (ZMod q) W) (QBasis ι (ZMod q) W) ℂ :=
-  qPerm (addOraclePerm a)
-
-theorem addOracleMat_mem_unitaryGroup (a : ι → ZMod q) :
-    addOracleMat (W := W) a ∈ Matrix.unitaryGroup (QBasis ι (ZMod q) W) ℂ := by
-  exact qPerm_mem_unitaryGroup _
+The additive oracle `addOracleMat` over `Z_q` is the instance `G = ZMod q` of the additive oracle
+over a finite abelian group (`AddOracle.lean`). -/
 
 /-! ## The phase oracle -/
 

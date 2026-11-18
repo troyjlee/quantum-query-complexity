@@ -134,6 +134,8 @@ import QuantumQueryComplexity.Quantum.Records.BiasedBudget
 import QuantumQueryComplexity.Quantum.Records.HiddenTransfer
 import QuantumQueryComplexity.Quantum.Records.Knowledge
 import QuantumQueryComplexity.Quantum.Records.Framework
+import QuantumQueryComplexity.Quantum.AddOracle
+import QuantumQueryComplexity.Quantum.AddSimulation
 import QuantumQueryComplexity.Quantum.ZqOracle
 import QuantumQueryComplexity.Quantum.ZqSimulation
 import QuantumQueryComplexity.Quantum.Records.ZqRecords
@@ -203,6 +205,8 @@ Layers, in dependency order:
 | `OneHotSimulation` | **Milestone G**: transposition ↔ one-hot XOR, direct, two queries per query |
 | `OneHotReadAll` | **Milestone G**: exact `|ι|`-query one-hot read-all, `oneHotQQueryOn ≤ |ι|` |
 | `OneHotTransport` | native ↔ one-hot transport of bounds; the exact read-all cap |
+| `AddOracle` | the additive oracle `|i, c⟩ ↦ |i, c + aᵢ⟩` over a finite abelian group, and its query model (`addQQueryOn`) |
+| `AddSimulation` | transposition ↔ additive oracle, two queries per query, for every relation |
 | `Tail` | the union-bound and majority-tail counts of the independent-run analysis |
 | `KronLift` | lifting an operator along a factorizing equivalence; split states |
 | `Postcomp` | classical postprocessing of the readout is free (`qQueryOn_postcomp_le`) |

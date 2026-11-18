@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+- Adds additive oracles over a finite abelian group and their query model
+  (`Quantum/AddOracle.lean`, `Quantum/AddSimulation.lean`):
+  - for `[AddCommGroup G] [Fintype G]` and `a : ι → G`, the oracle `|i, c⟩ ↦ |i, c + aᵢ⟩`
+    (`addOracleMat`); `addOracleMap`, `addOraclePerm`, `addOracleMat` and
+    `addOracleMat_mem_unitaryGroup` are generalized from `ZMod q` (existing in-tree uses still
+    compile) and move from `ZqOracle.lean`, and `addOracleMat_mulVec_apply` moves from
+    `ZqSimulation.lean`; a caller that names the modulus explicitly replaces `(q := q)` with
+    `(G := ZMod q)`;
+  - the additive query model: `addState`, `AddComputesWithErrorOn`, `addSuccessProbOn`,
+    `AddSolvesWithErrorOn`, `AddQueryCounts`, `addQQueryOn`;
+  - the two models simulate each other at two queries per query with the same output
+    distribution, for every function and relation: `simAddAlg` (native simulates additive,
+    `prob_simAddAlg`, `AddComputesWithErrorOn.simAddAlg`, `AddSolvesWithErrorOn.simAddAlg`) and
+    `simTransAddAlg` (additive simulates native); `qQueryOn ≤ 2·addQQueryOn` and
+    `addQQueryOn ≤ 2·qQueryOn` (`qQueryOn_le_two_mul_addQQueryOn`,
+    `addQQueryOn_le_two_mul_qQueryOn`);
+  - instances include XOR of `m`-bit strings (`G = Fin m → ZMod 2`) and the adjacency-array oracle
+    of Apers and Lee, *Quantum complexity of minimum cut* (`G = ZMod n × (Fin m → ZMod 2)`).
+
 - Adds subroutines for the graph collision algorithm of Cornelissen, Gilani, Kintali, Le Gall,
   Patro and Zhou, all general and part of the quantum aggregate:
   - adaptive programs with fixed budgets (`Quantum/Program.lean`): finite trees of realizable
