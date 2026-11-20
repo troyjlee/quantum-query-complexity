@@ -160,7 +160,7 @@ nothing of the classical development beyond the five shared foundation
 modules (`Test/StreamBoundary.lean` enforces it), so
 `lake build QuantumQueryComplexity.Quantum` builds the quantum layer alone.
 The files that need both hierarchies live beside it: the library's own
-(`Characterization`, `UniformHasDual`, the rectangular adversary bound
+(`Characterization`, `UniformHasDual`, `DualAlgorithm`, the rectangular adversary bound
 `LowerBound/Rect`, the classic-example `*Applications` and their `Acceptance*`
 pins) are imported by the library root `QuantumQueryComplexity.lean`.
 `Characterization.lean` has both the `1/16` and the conventional `1/3`

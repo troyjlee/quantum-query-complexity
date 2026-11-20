@@ -13,8 +13,10 @@ Run directly on every CI run:
 The audit checks the theorem dependencies transitively, including the
 operational oracle model and the dual-to-algorithm construction, and the
 general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect`), weighted
-counting (`Quantum/LowerBound/WeightedCounting`), and additive oracles over a finite abelian
-group with their two-query simulations (`Quantum/AddOracle`, `Quantum/AddSimulation`).
+counting (`Quantum/LowerBound/WeightedCounting`), additive oracles over a finite abelian
+group with their two-query simulations (`Quantum/AddOracle`, `Quantum/AddSimulation`), arc-system
+duals (`LearningGraph/ArcSystem`), and algorithms at a fixed budget from promise duals with their
+amplification (`Quantum/DualAlgorithm`).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -31,7 +33,9 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.LowerBound.Rect,
     QuantumQueryComplexity.Quantum.LowerBound.WeightedCounting,
     QuantumQueryComplexity.Quantum.AddOracle,
-    QuantumQueryComplexity.Quantum.AddSimulation]
+    QuantumQueryComplexity.Quantum.AddSimulation,
+    QuantumQueryComplexity.LearningGraph.ArcSystem,
+    QuantumQueryComplexity.Quantum.DualAlgorithm]
   pins [
     QuantumQueryComplexity.advDual_eq_advPM,
     QuantumQueryComplexity.advPM_composeFun_eq,
@@ -57,4 +61,10 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.SolvesWithErrorOn.simTransAddAlg,
     QuantumQueryComplexity.addQueryCounts_nonempty,
     QuantumQueryComplexity.qQueryOn_le_two_mul_addQQueryOn,
-    QuantumQueryComplexity.addQQueryOn_le_two_mul_qQueryOn]
+    QuantumQueryComplexity.addQQueryOn_le_two_mul_qQueryOn,
+    QuantumQueryComplexity.ArcSystem.hasDualOn,
+    QuantumQueryComplexity.ArcSystem.cost_le_sum_stages,
+    QuantumQueryComplexity.LGFlow.toArcSystem_feasible,
+    QuantumQueryComplexity.LGFlow.hasDual_of_arcSystem,
+    QuantumQueryComplexity.exists_alg_of_hasDualOn,
+    QuantumQueryComplexity.exists_alg_amplify]

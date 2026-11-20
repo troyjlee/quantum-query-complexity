@@ -30,6 +30,7 @@ exact hypotheses and constants.
 | `boundedErrorQQuery_characterized_by_advPM` | For total Boolean functions, `ADV±/36 ≤ Q ≤ 2^14 · ADV±` | [Characterization](../../QuantumQueryComplexity/Quantum/Characterization.lean) |
 | `xorQQuery_characterized_by_advPM` | For total Boolean functions, `ADV±/72 ≤ Qˣ ≤ 2^15 · ADV±` | [Characterization](../../QuantumQueryComplexity/Quantum/Characterization.lean) |
 | `qQueryOn_third_le_of_hasDualOn_uniform` | A promise dual of cost `c ≥ 0` gives `Q ≤ 8192(1+c)`, independently of alphabet and output size | [UniformHasDual](../../QuantumQueryComplexity/Quantum/UniformHasDual.lean) |
+| `exists_alg_of_hasDualOn`, `exists_alg_amplify` | One algorithm with error `1/16` and exactly `⌊8192(1+c)⌋` queries from a promise dual of cost `c ≥ 0`; error `2^{-s}` at `4s` times the queries | [DualAlgorithm](../../QuantumQueryComplexity/Quantum/DualAlgorithm.lean) |
 | `QAlg.exists_probability_polynomial` | For Boolean inputs, a `T`-query acceptance probability is represented by a real polynomial of total degree at most `2T`; a direct XOR version is also proved | [PolynomialMethod](../../QuantumQueryComplexity/Quantum/PolynomialMethod.lean), [XorPolynomialMethod](../../QuantumQueryComplexity/Quantum/XorPolynomialMethod.lean) |
 | `AmpSetup.amplified` | Amplitude amplification with a query budget, success guarantee and preserved conditional output law | [Amplification](../../QuantumQueryComplexity/Quantum/Amplitude/Amplification.lean) |
 | `AmpSetup.aeAlg` | Amplitude estimation with explicit error, probability and query bounds | [Estimation](../../QuantumQueryComplexity/Quantum/Amplitude/Estimation.lean) |
@@ -101,7 +102,7 @@ infimum defining query complexity.
 | Adversary definitions and spectral estimates | `Defs`, `Spectral`, `Basic`, `Dual`, `Promise/Defs` |
 | Strong duality and composition | `Duality/`, `Composition/`, `Relational/`, `DualCompose` |
 | Reusable dual constructions | `HasDual`, `Weighted*`, `Promise/`, `Scan/`, `Adaptive`, `DecisionTree`, `PredictionTree*`, `TreeSearch/` |
-| Quantum states, algorithms and extraction | `Quantum/FiniteHilbert`, `Oracle`, `Algorithm`, `Complexity`, `UniformExtraction`, `UniformHasDual` |
+| Quantum states, algorithms and extraction | `Quantum/FiniteHilbert`, `Oracle`, `Algorithm`, `Complexity`, `UniformExtraction`, `UniformHasDual`, `DualAlgorithm` |
 | Lower bounds and oracle simulations | `Quantum/LowerBound/`, `Characterization`, `Simulation`, `OneHot*` |
 | Polynomial method | `Polynomial/`, `Quantum/PolynomialMethod`, `XorPolynomialMethod`, `PolynomialLowerBound` |
 | Amplification, estimation and search | `Quantum/Amplitude/`, `RobustSearch/`, `Walk/` |

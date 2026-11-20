@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- Adds arc-system duals (`LearningGraph/ArcSystem.lean`): a dual adversary solution for a Boolean
+  function on a promise built from arcs, each with a queried index, input-dependent states in a
+  finite type and amplitude vectors with finitely many components (`ArcSystem`). A feasible arc
+  system (`ArcSystem.Feasible`: the cross sum of every positive and every negative input is `1`)
+  whose inputs all have cost `∑_e ∑_c amp² ≤ b` gives `HasDualOn read f b`
+  (`ArcSystem.hasDualOn`); `ArcSystem.cost_le_sum_stages` bounds the cost stage by stage. The
+  learning-graph theorem is re-derived as a special case (`LGFlow.toArcSystem`,
+  `LGFlow.hasDual_of_arcSystem`, same statement as `LGFlow.hasDual`). Intended for the
+  k-distinctness dual of Belovs (FOCS 2012, Section 6), whose states hide values and whose
+  negative-input amplitudes depend on the input, which a learning-graph flow does not allow.
+- Adds `Quantum/DualAlgorithm.lean`: `exists_alg_of_hasDualOn` (an algorithm with error `1/16` and
+  exactly `⌊8192 (1 + c)⌋` queries from a promise dual of cost `c ≥ 0`) and `exists_alg_amplify`
+  (error `2^{-s}` with `4 s q` queries, any nonempty output type), moved unchanged in statement from
+  the minimum-cut upper bound of the problems repository. A downstream file that keeps its own
+  copies under `open QuantumQueryComplexity` should delete them to avoid ambiguous names.
+
 - Adds additive oracles over a finite abelian group and their query model
   (`Quantum/AddOracle.lean`, `Quantum/AddSimulation.lean`):
   - for `[AddCommGroup G] [Fintype G]` and `a : ι → G`, the oracle `|i, c⟩ ↦ |i, c + aᵢ⟩`
