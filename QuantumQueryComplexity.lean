@@ -78,6 +78,7 @@ import QuantumQueryComplexity.Chain
 import QuantumQueryComplexity.LearningGraph.Defs
 import QuantumQueryComplexity.LearningGraph.Cut
 import QuantumQueryComplexity.LearningGraph.Dual
+import QuantumQueryComplexity.LearningGraph.ArcSystem
 import QuantumQueryComplexity.ED.Defs
 import QuantumQueryComplexity.ED.Flow
 import QuantumQueryComplexity.ED.Count
@@ -138,6 +139,7 @@ import QuantumQueryComplexity.Quantum.LDSApplications
 import QuantumQueryComplexity.Quantum.MaxApplications
 import QuantumQueryComplexity.Quantum.ReadOnceApplications
 import QuantumQueryComplexity.Quantum.UniformHasDual
+import QuantumQueryComplexity.Quantum.DualAlgorithm
 import QuantumQueryComplexity.Quantum.PredictionTreeCompose
 import QuantumQueryComplexity.Quantum.TreeSearch
 import QuantumQueryComplexity.Polynomial.Boolean
