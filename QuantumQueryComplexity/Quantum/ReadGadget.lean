@@ -11,13 +11,14 @@ set_option linter.unusedFintypeInType false
 
 A workspace holds a **control register** `C` and a **target register** `D`. For every control
 value `c` fix `k` addresses `addr c j : Option ι` (`j < k`; `none` means "do not read"), and for
-every control value and every content of `k` answer slots a unitary `M c s` on `D`. The
-**reads-controlled operator** (`readCtrlMat addr M x`) is
+every control value and every content `s : Fin k → Option σ` of `k` answer slots a unitary
+`M c s` on `D`. The **reads-controlled operator** (`readCtrlMat addr M x`) is
 
-  `|c⟩|d⟩ ↦ |c⟩ ⊗ M c (x (addr c 0), …, x (addr c (k − 1))) |d⟩`,
+  `|c⟩|d⟩ ↦ |c⟩ ⊗ M c (readAnswers addr x c) |d⟩`,
 
-where an idle address contributes a blank slot (`readAnswers`). It depends on the input `x`
-only through the `k` letters read, and the reads may differ from one control value to another.
+where slot `j` of `readAnswers addr x c` is `some (x i)` when `addr c j = some i` and blank
+(`none`) when the address is idle. It depends on the input `x` only through the letters read,
+and the reads may differ from one control value to another.
 
 `exists_readGadget` realizes it with **one routine, fixed before the input, of exactly `2k`
 queries** to the library's swap oracle (`oracleMat`, `Oracle.lean`): read the `k` addresses into
@@ -26,9 +27,11 @@ fixed unitary `M c s` controlled by `c` and the scratch content `s`, and read th
 again (the second swap query on a slot holding `x i` blanks it). The statement is about the
 **parked sector** (`readPark`): the gadget's own query index idle, its answer register blank and
 every scratch slot blank. There the routine acts as `readCtrlMat addr M x`, for every input `x`;
-off that sector nothing is claimed. The unitaries `M c s` must be unitary for *every* scratch
-content `s`, not only for the answers that occur, because the middle step of the routine is one
-fixed unitary for all inputs.
+off that sector nothing is claimed. The hypothesis asks every block `M c s` to be unitary, for
+*every* scratch content `s` and not only for the answers that occur: it makes the prescribed
+middle gate, one fixed gate for all inputs acting on every scratch content, unitary on its whole
+basis. (Blocks at scratch contents that never occur do not affect the action on the parked
+sector; the hypothesis is a convenient sufficient condition, not a necessary one.)
 
 This generalizes `WordSim.block` of the companion repository `quantum-query-problems` (gather,
 act, ungather) from a swap of a decoded value to an arbitrary controlled unitary, with the swap
@@ -141,9 +144,10 @@ control value `c` (`none` = no read), and let every `M c s` be unitary on the ta
 **every** input `x : ι → σ` and every vector `Φ` on the control and target registers, maps the
 parked vector of `Φ` to the parked vector of `readCtrlMat addr M x *ᵥ Φ`:
 
-  `|c⟩|d⟩ ↦ |c⟩ ⊗ M c (x (addr c 0), …, x (addr c (k − 1))) |d⟩`
+  `|c⟩|d⟩ ↦ |c⟩ ⊗ M c (readAnswers addr x c) |d⟩`
 
-with the query index left idle, the answer register blank and the scratch slots blank. -/
+(slot `j` of the answers is `some (x i)` for `addr c j = some i`, blank for an idle address) with
+the query index left idle, the answer register blank and the scratch slots blank. -/
 theorem exists_readGadget (addr : C → Fin k → Option ι)
     (M : C → ReadScratch σ k → Matrix D D ℂ) (hM : ∀ c s, M c s ∈ Matrix.unitaryGroup D ℂ) :
     ∃ R : QRoutine ι σ (ReadWork σ C D k), R.len = 2 * k ∧

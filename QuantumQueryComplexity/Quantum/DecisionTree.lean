@@ -12,15 +12,22 @@ set_option linter.unusedFintypeInType false
 
 A **decision tree** `ReadTree ι σ O` reads letters of an input `x : ι → σ` adaptively: a node
 names an index `i`, and the subtree to continue with is chosen by the letter `x i`; a leaf
-outputs a value in `O`. `eval` runs it on an input and `depth` is the number of reads on its
-longest root-to-leaf path. (`QueryTree` in `QuantumQueryComplexity/DecisionTree.lean` is a
-different object: a tree over Boolean labels used to build adversary duals.)
+outputs a value in `O`. `eval` runs it on an input, and `depth` bounds the number of reads: a
+leaf has depth `0` and a node has depth one more than the largest depth of its subtrees (the
+maximum over all letters, including letters no input produces; `0` if there are none).
+(`QueryTree` in `QuantumQueryComplexity/DecisionTree.lean` is a different object: a tree over
+Boolean labels used to build adversary duals.)
 
-**Classical procedures cost what they read** (`ReadTree.realizes`). A tree of depth at most `T`
-is run by one algorithm, fixed before the input, with exactly `T` swap queries, and its output
-is the tree's value with probability one, in the sense of `Realizes` (`ProductRun.lean`). So a
-deterministic classical procedure enters `Realizes.pair`, `Realizes.bind` and `Realizes.map`
-like any other stage.
+**Classical procedures cost what they read** (`ReadTree.realizes`). A tree can be run with
+exactly `T` swap queries for any `T` at least its depth, by an algorithm fixed before the input,
+and its output is the tree's value with probability one, in the sense of `Realizes`
+(`ProductRun.lean`). The output type may be infinite but must be nonempty (an algorithm's readout
+is a total function on a nonempty basis). So a deterministic classical procedure enters
+`Realizes.pair`, `Realizes.bind` and `Realizes.map` like any other stage, under their own
+hypotheses: `Realizes.bind` needs a finite type for the outcome that selects the next stage, and
+`Realizes.map` a finite source type (and both `[Fintype X]` on the promise type); a stored list
+that selects a later stage should therefore be encoded in a finite type (fixed-length tuples, a
+finite subtype), while a final stage may output an ordinary list.
 
 **Derived oracles** (`exists_treeSim`). Suppose every letter `y j` of a derived input
 `y : ι' → σ'` is computed by a decision tree of depth at most `T` over `x`:
@@ -41,10 +48,12 @@ every `x`, so the statements hold for every input, valid or not.
 
 ## Main statements
 
-* `ReadTree.realizes` — a tree of depth `≤ T`: exactly `T` queries, output a point mass.
-* `exists_treeSim` — derived oracles by decision trees: `2Tq` queries simulate `q`.
+* `ReadTree.realizes` — a tree of depth `≤ T`, nonempty output type: exactly `T` queries, output a
+  point mass.
+* `exists_treeSim` — derived oracles by decision trees of depth `≤ T`, `0 < T`: `2Tq` queries
+  simulate `q`, for every `q` by one algorithm.
 * `Realizes.treeSim` — the same, for realizable outcome laws on a promise.
-* `exists_readsSim` — non-adaptive reads: `2kq` queries simulate `q`.
+* `exists_readsSim` — non-adaptive reads, `0 < k`: `2kq` queries simulate `q`.
 -/
 
 namespace QuantumQueryComplexity
@@ -76,8 +85,9 @@ def eval : ReadTree ι σ O → (ι → σ) → O
 @[simp] theorem eval_node (i : ι) (k : σ → ReadTree ι σ O) (x : ι → σ) :
     (node i k).eval x = (k (x i)).eval x := rfl
 
-/-- **The depth**: the number of reads on the longest root-to-leaf path, over all branches
-(including branches no input follows). A leaf has depth `0`. -/
+/-- **The depth**, by the recurrence: a leaf has depth `0`, and a node has depth one more than
+the largest depth of its subtrees, the maximum taken over all letters `s : σ` (including letters
+no input produces, and `0` when `σ` is empty). It bounds the number of reads on every run. -/
 def depth [Fintype σ] : ReadTree ι σ O → ℕ
   | leaf _ => 0
   | node _ k => (Finset.univ.sup fun s => (k s).depth) + 1
@@ -131,12 +141,15 @@ variable {ι σ : Type} [Fintype ι] [DecidableEq ι] [Fintype σ] [DecidableEq 
 variable {ι' σ' O W : Type} [Fintype ι'] [DecidableEq ι'] [Fintype σ'] [DecidableEq σ']
   [Fintype W] [DecidableEq W]
 
-/-- **A classical decision tree costs exactly its depth** (G1). Let `t` be a decision tree of
-depth at most `T` over inputs `ι → σ`. Then one algorithm, built from `t` and `T` alone (before
-the input), makes exactly `T` swap queries and outputs `t.eval (read x)` with probability `1` on
-every promise input `x`, for every promise `read : X → ι → σ`: the outcome law is the point
-mass at the tree's value. The output type `O` may be infinite. -/
-theorem ReadTree.realizes {O : Type} [DecidableEq O] {X : Type} (read : X → ι → σ)
+/-- **A classical decision tree can be run with exactly `T` queries, for any `T` at least its
+depth** (G1). Let `t` be a decision tree over inputs `ι → σ` with `t.depth ≤ T`, and output type
+`O` nonempty (possibly infinite). For every promise `read : X → ι → σ`, some algorithm makes
+exactly `T` swap queries and outputs `t.eval (read x)` with probability `1` on every promise
+input `x`: the outcome law is the point mass at the tree's value. (Taking `read = id` gives one
+algorithm for all inputs, which then serves every promise.) `[Nonempty O]` is needed: with
+`σ` and `O` empty, the tree `node i Empty.elim` has depth `1`, but no algorithm has a readout
+into an empty type. -/
+theorem ReadTree.realizes {O : Type} [DecidableEq O] [Nonempty O] {X : Type} (read : X → ι → σ)
     (t : ReadTree ι σ O) {T : ℕ} (hT : t.depth ≤ T) :
     Realizes read T fun x o => if o = t.eval (read x) then (1 : ℝ) else 0 := by
   sorry
@@ -145,12 +158,14 @@ theorem ReadTree.realizes {O : Type} [DecidableEq O] {X : Type} (read : X → ι
 def treeInput (t : ι' → ReadTree ι σ σ') (x : ι → σ) : ι' → σ' := fun j => (t j).eval x
 
 /-- **Derived oracles** (G2). Let every letter of a derived input be computed by a decision tree
-`t j` over `x` of depth at most `T`, with `0 < T`. Every algorithm `A` making swap queries to
-inputs `ι' → σ'` has a simulation `B` making swap queries to inputs `ι → σ`, on a larger finite
-workspace and built from `A`, `t` and `T` alone (before the input and the query count), such
-that for **every** query count `q`, every input `x : ι → σ` and every relation `G` on outputs,
-`B` after `2Tq` queries to `x` succeeds with exactly the probability that `A` succeeds after `q`
-queries to the derived input `treeInput t x`. -/
+`t j` over `x` of depth at most `T`, with `0 < T` (needed for one `B` to serve every `q`: with
+`T = 0` the derived input is constant and `B` would be observed at time `0` for every `q`).
+Every algorithm `A` making swap queries to inputs `ι' → σ'` has a simulation `B` making swap
+queries to inputs `ι → σ`, on a larger finite workspace and built from `A`, `t` and `T` alone
+(before the input and the query count), such that for **every** query count `q`, every input
+`x : ι → σ` and every relation `G` on outputs, `B` after `2Tq` queries to `x` succeeds with
+exactly the probability that `A` succeeds after `q` queries to the derived input
+`treeInput t x`. -/
 theorem exists_treeSim {T : ℕ} (hT : 0 < T) (t : ι' → ReadTree ι σ σ')
     (ht : ∀ j, (t j).depth ≤ T) (A : QAlg ι' σ' O W) :
     ∃ (W' : Type) (_ : Fintype W') (_ : DecidableEq W') (B : QAlg ι σ O W'),
