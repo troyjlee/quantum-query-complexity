@@ -306,4 +306,120 @@ end Algorithm
 
 end FinDist
 
+/-! ## Algebra of joint and workspace vectors
+
+Elementary facts used by the problem-specific comparison maps of the downstream problems
+repository (moved there from the triangle and four-cycle lower bounds). -/
+
+section Algebra
+
+variable {Ω : Type} [Fintype Ω] [DecidableEq Ω]
+
+/-- `‖c • f‖² = |c|² ‖f‖²`. -/
+theorem jNormSq_smul {X : Type} [Fintype X] (c : ℂ) (f : JVec X A) :
+    jNormSq (c • f) = Complex.normSq c * jNormSq f := by
+  classical
+  unfold jNormSq
+  rw [Finset.mul_sum]
+  exact Finset.sum_congr rfl fun x _ => qNormSq_smul c (f x)
+
+/-- Cauchy–Schwarz for complex numbers: `|∑_{k∈s} z_k|² ≤ |s| ∑_{k∈s} |z_k|²`. -/
+theorem normSq_finsetSum_le {ι : Type*} (s : Finset ι) (z : ι → ℂ) :
+    Complex.normSq (∑ k ∈ s, z k) ≤ s.card * ∑ k ∈ s, Complex.normSq (z k) := by
+  rw [Complex.normSq_eq_norm_sq]
+  calc ‖∑ k ∈ s, z k‖ ^ 2 ≤ (∑ k ∈ s, ‖z k‖) ^ 2 :=
+        pow_le_pow_left₀ (norm_nonneg _) (norm_sum_le _ _) 2
+    _ ≤ s.card * ∑ k ∈ s, ‖z k‖ ^ 2 := by
+        simpa using Finset.sum_mul_sq_le_sq_mul_sq s (fun _ => (1 : ℝ)) (fun k => ‖z k‖)
+    _ = _ := by simp [Complex.normSq_eq_norm_sq]
+
+/-- Cauchy–Schwarz for joint vectors: `‖∑_{k∈s} g_k‖² ≤ |s| ∑_{k∈s} ‖g_k‖²`. -/
+theorem jNormSq_finsetSum_le {X : Type} [Fintype X] {ι : Type*} (s : Finset ι)
+    (g : ι → JVec X A) : jNormSq (∑ k ∈ s, g k) ≤ s.card * ∑ k ∈ s, jNormSq (g k) := by
+  simp only [jNormSq, qNormSq_def, Matrix.sum_apply]
+  calc ∑ x, ∑ a, Complex.normSq (∑ k ∈ s, g k x a)
+      ≤ ∑ x, ∑ a, s.card * ∑ k ∈ s, Complex.normSq (g k x a) :=
+        Finset.sum_le_sum fun x _ => Finset.sum_le_sum fun a _ => normSq_finsetSum_le s _
+    _ = s.card * ∑ k ∈ s, ∑ x, ∑ a, Complex.normSq (g k x a) := by
+        simp only [← Finset.mul_sum]
+        congr 1
+        calc ∑ x, ∑ a, ∑ k ∈ s, Complex.normSq (g k x a)
+            = ∑ x, ∑ k ∈ s, ∑ a, Complex.normSq (g k x a) :=
+              Finset.sum_congr rfl fun x _ => Finset.sum_comm
+          _ = _ := Finset.sum_comm
+
+/-- `‖a + ∑_{i∈s} h_i‖² ≤ (|s| + 1)(‖a‖² + ∑_{i∈s} ‖h_i‖²)`. -/
+theorem jNormSq_add_finsetSum_le {X : Type} [Fintype X] {ι : Type*} (a : JVec X A)
+    (s : Finset ι) (h : ι → JVec X A) :
+    jNormSq (a + ∑ i ∈ s, h i) ≤ (s.card + 1) * (jNormSq a + ∑ i ∈ s, jNormSq (h i)) := by
+  have e1 : a + ∑ i ∈ s, h i = ∑ k : Option s, Option.elim k a (fun i => h i) := by
+    rw [Fintype.sum_option]
+    simp only [Option.elim_none, Option.elim_some, Finset.sum_coe_sort s h]
+  have e2 : jNormSq a + ∑ i ∈ s, jNormSq (h i)
+      = ∑ k : Option s, jNormSq (Option.elim k a (fun i => h i)) := by
+    rw [Fintype.sum_option]
+    simp only [Option.elim_none, Option.elim_some]
+    rw [Finset.sum_coe_sort s (fun i => jNormSq (h i))]
+  rw [e1, e2]
+  have := jNormSq_finsetSum_le (Finset.univ : Finset (Option s))
+    fun k => Option.elim k a (fun i => h i)
+  simpa [Finset.card_univ, Fintype.card_option] using this
+
+/-- A sum of nonnegative terms along an injective map is at most the full sum. -/
+theorem sum_comp_le_sum_of_injective {α β : Type*} [Fintype α] [Fintype β] {φ : α → β}
+    (hφ : Function.Injective φ) (g : β → ℝ) (hg : ∀ b, 0 ≤ g b) :
+    ∑ a, g (φ a) ≤ ∑ b, g b := by
+  classical
+  rw [← Finset.sum_image (fun a _ b _ h => hφ h)]
+  exact Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _) fun b _ _ => hg b
+
+/-- `wvec` is additive. -/
+theorem FinDist.wvec_add (ρ : FinDist Ω) (f g : JVec ρ.Supp A) (x : ρ.Supp) :
+    ρ.wvec (f + g) x = ρ.wvec f x + ρ.wvec g x := by
+  funext a
+  simp [FinDist.wvec, mul_add]
+
+/-- `wvec` commutes with subtraction. -/
+theorem FinDist.wvec_sub (ρ : FinDist Ω) (f g : JVec ρ.Supp A) (x : ρ.Supp) :
+    ρ.wvec (f - g) x = ρ.wvec f x - ρ.wvec g x := by
+  funext a
+  simp [FinDist.wvec, mul_sub]
+
+/-- `wvec` commutes with scalar multiplication. -/
+theorem FinDist.wvec_smul (ρ : FinDist Ω) (c : ℂ) (f : JVec ρ.Supp A) (x : ρ.Supp) :
+    ρ.wvec (c • f) x = c • ρ.wvec f x := by
+  funext a
+  simp only [FinDist.wvec, Pi.smul_apply, Matrix.smul_apply, smul_eq_mul]
+  ring
+
+/-- `wvec` commutes with finite sums. -/
+theorem FinDist.wvec_sum (ρ : FinDist Ω) {β : Type*} (s : Finset β) (f : β → JVec ρ.Supp A)
+    (x : ρ.Supp) : ρ.wvec (∑ i ∈ s, f i) x = ∑ i ∈ s, ρ.wvec (f i) x := by
+  funext a
+  simp [FinDist.wvec, Finset.mul_sum, Matrix.sum_apply]
+
+/-- A diagonal matrix on the support multiplies `wvec` pointwise. -/
+theorem FinDist.wvec_diagonal_mul (ρ : FinDist Ω) (d : ρ.Supp → ℂ) (f : JVec ρ.Supp A)
+    (x : ρ.Supp) : ρ.wvec (Matrix.diagonal d * f) x = d x • ρ.wvec f x := by
+  funext a
+  simp only [FinDist.wvec, Pi.smul_apply, Matrix.diagonal_mul, smul_eq_mul]
+  ring
+
+/-- Two vectors with the same `wvec` at every point of the support are equal. -/
+theorem FinDist.eq_of_wvec (ρ : FinDist Ω) {f g : JVec ρ.Supp A}
+    (h : ∀ x, ρ.wvec f x = ρ.wvec g x) : f = g := by
+  rw [← ρ.ofWvec_wvec f, ← ρ.ofWvec_wvec g]
+  congr 1
+  funext x
+  exact h x
+
+/-- A point of positive mass occurs exactly once in the support. -/
+theorem FinDist.sum_ite_eq_one (ρ : FinDist Ω) {z : Ω} (hz : 0 < ρ.mass z) :
+    ∑ x : ρ.Supp, (if x.1 = z then (1 : ℂ) else 0) = 1 := by
+  rw [Finset.sum_eq_single ⟨z, hz⟩ (fun x _ hx => ite_eq_right fun h => hx (Subtype.ext h))
+    (by simp)]
+  exact ite_eq_left rfl
+
+end Algebra
+
 end QuantumQueryComplexity

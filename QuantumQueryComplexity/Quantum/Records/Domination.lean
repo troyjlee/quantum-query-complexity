@@ -174,4 +174,79 @@ theorem probOf_le_prior (u : (ι → Bool) → Prop) [DecidablePred u]
 
 end CondBern
 
+/-! ## Independence and full products under the product measure -/
+
+/-- **Independence** under the product measure: an event depending only on the coordinates in
+`S` and an event depending only on the coordinates outside `S` are independent. The proof
+reindexes pairs of strings by swapping their coordinates outside `S`. -/
+theorem sum_bernMass_and_eq_mul (p : ℝ) (S : Finset ι) (a b : (ι → Bool) → Prop)
+    [DecidablePred a] [DecidablePred b]
+    (ha : ∀ x y, (∀ i ∈ S, x i = y i) → (a x ↔ a y))
+    (hb : ∀ x y, (∀ i ∉ S, x i = y i) → (b x ↔ b y)) :
+    (∑ x, if a x ∧ b x then bernMass p x else 0)
+      = (∑ x, if a x then bernMass p x else 0) * ∑ x, if b x then bernMass p x else 0 := by
+  let σ : (ι → Bool) × (ι → Bool) → (ι → Bool) × (ι → Bool) := fun z =>
+    (fun i => if i ∈ S then z.1 i else z.2 i, fun i => if i ∈ S then z.2 i else z.1 i)
+  have hσ : Function.Involutive σ := fun z => by
+    refine Prod.ext (funext fun i => ?_) (funext fun i => ?_) <;>
+      by_cases hi : i ∈ S <;> simp [σ, hi]
+  have hm : ∀ z, bernMass p (σ z).1 * bernMass p (σ z).2 = bernMass p z.1 * bernMass p z.2 := by
+    intro z
+    simp only [bernMass, ← Finset.prod_mul_distrib]
+    refine Finset.prod_congr rfl fun i _ => ?_
+    by_cases hi : i ∈ S
+    · simp [σ, hi]
+    · simp [σ, hi, mul_comm]
+  have key : ∀ z, ((if a (σ z).1 then bernMass p (σ z).1 else 0) *
+      if b (σ z).2 then bernMass p (σ z).2 else 0)
+      = (if a z.1 ∧ b z.1 then bernMass p z.1 else 0) * bernMass p z.2 := by
+    intro z
+    have h1 : a (σ z).1 ↔ a z.1 := ha _ _ fun i hi => by simp [σ, hi]
+    have h2 : b (σ z).2 ↔ b z.1 := hb _ _ fun i hi => by simp [σ, hi]
+    by_cases ha' : a z.1 <;> by_cases hb' : b z.1 <;> simp [h1, h2, ha', hb', hm z]
+  calc (∑ x, if a x ∧ b x then bernMass p x else 0)
+      = ∑ x, ∑ y, (if a x ∧ b x then bernMass p x else 0) * bernMass p y := by
+        simp [← Finset.mul_sum, sum_bernMass]
+    _ = ∑ z : (ι → Bool) × (ι → Bool),
+          (if a z.1 ∧ b z.1 then bernMass p z.1 else 0) * bernMass p z.2 :=
+        (Fintype.sum_prod_type' (fun x y =>
+          (if a x ∧ b x then bernMass p x else 0) * bernMass p y)).symm
+    _ = ∑ z : (ι → Bool) × (ι → Bool), ((if a (σ z).1 then bernMass p (σ z).1 else 0) *
+          if b (σ z).2 then bernMass p (σ z).2 else 0) :=
+        Finset.sum_congr rfl fun z _ => (key z).symm
+    _ = ∑ z : (ι → Bool) × (ι → Bool), ((if a z.1 then bernMass p z.1 else 0) *
+          if b z.2 then bernMass p z.2 else 0) :=
+        Equiv.sum_comp hσ.toPerm (fun z => (if a z.1 then bernMass p z.1 else 0) *
+          if b z.2 then bernMass p z.2 else 0)
+    _ = _ := by
+        rw [Finset.sum_mul_sum, ← Fintype.sum_prod_type' (fun x y =>
+          (if a x then bernMass p x else 0) * if b y then bernMass p y else 0)]
+
+/-- Under the product measure, all coordinates of `S` are present with probability `p^|S|`. -/
+theorem sum_bernMass_eq_pow_card (p : ℝ) (S : Finset ι) (s : (ι → Bool) → Prop)
+    [DecidablePred s] (hs : ∀ x, s x ↔ ∀ i ∈ S, x i = true) :
+    (∑ x, if s x then bernMass p x else 0) = p ^ S.card := by
+  have h : ∀ x : ι → Bool, (if s x then bernMass p x else 0)
+      = ∏ i, if i ∈ S then (if x i then p else 0) else (if x i then p else 1 - p) := by
+    intro x
+    by_cases hx : s x
+    · rw [ite_eq_left hx, bernMass]
+      refine Finset.prod_congr rfl fun i _ => ?_
+      by_cases hi : i ∈ S
+      · simp [hi, (hs x).mp hx i hi]
+      · simp [hi]
+    · rw [ite_eq_right hx]
+      obtain ⟨i, hi, hxi⟩ : ∃ i ∈ S, x i = false := by
+        by_contra! hcon
+        exact hx ((hs x).mpr fun i hi => by simpa using hcon i hi)
+      exact (Finset.prod_eq_zero (Finset.mem_univ i) (by simp [hi, hxi])).symm
+  have h2 : ∀ i, (∑ b : Bool, if i ∈ S then (if b then p else 0) else (if b then p else 1 - p))
+      = if i ∈ S then p else 1 := by
+    intro i
+    by_cases hi : i ∈ S <;> simp [hi]
+  rw [Finset.sum_congr rfl fun x _ => h x, ← Fintype.prod_sum
+    (fun i (b : Bool) => if i ∈ S then (if b then p else 0) else (if b then p else 1 - p)),
+    Finset.prod_congr rfl fun i _ => h2 i, Finset.prod_ite_mem, Finset.univ_inter,
+    Finset.prod_const]
+
 end QuantumQueryComplexity
