@@ -112,10 +112,11 @@ theorem circuit53_one :
   sorry
 
 /-- `K = 2`, computed by hand. After the clock preparation the state is
-`(|0⟩ + |1⟩)|0⟩/√2`. Round `0` applies `S53` on branch `0` and moves its private part to
-branch `1`; round `1` applies `S53` to `(1, 2/3, 2/3)` on branch `1`, giving
-`(11/9, 4/9, 4/9)`, and moves its private part back to branch `0`. Undoing the preparation
-gives `(7/9, 2/9, 2/9)` on branch `0` and `(−4/9, 2/9, 2/9)` on branch `1`: the error is
+`(|0⟩ + |1⟩)|0⟩/√2`; the branch vectors below omit this common factor `1/√2` during the rounds.
+Round `0` applies `S53` on branch `0` and moves its private part to branch `1`; round `1`
+applies `S53` to `(1, 2/3, 2/3)` on branch `1`, giving `(11/9, 4/9, 4/9)`, and moves its private
+part back to branch `0`. Undoing the preparation (which supplies a second factor `1/√2`) gives
+`(7/9, 2/9, 2/9)` on branch `0` and `(−4/9, 2/9, 2/9)` on branch `1`: the error is
 `2/3 ≤ 1`. -/
 theorem circuit53_two :
     Transducer.circuit 2 S53 priv53 *ᵥ Transducer.clockVec 0 (qBasis 0)
