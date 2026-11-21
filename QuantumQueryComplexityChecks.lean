@@ -9,11 +9,12 @@ import QuantumQueryComplexity.Test.AmplitudeEstimation
 import QuantumQueryComplexity.Test.RobustSearch
 import QuantumQueryComplexity.Test.QuantumWalk
 import QuantumQueryComplexity.Test.TreeSearch
+import QuantumQueryComplexity.Test.Transducer
 
 /-!
 # Quantum query regression checks
 
 The default build checks the library's import boundaries and the existing
-polynomial-method, amplitude, robust-search, quantum-walk and tree-search
-statement tests. CI also runs the axiom audit drivers directly.
+polynomial-method, amplitude, robust-search, quantum-walk, tree-search and
+transducer statement tests. CI also runs the axiom audit drivers directly.
 -/
