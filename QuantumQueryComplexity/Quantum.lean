@@ -113,6 +113,8 @@ import QuantumQueryComplexity.Quantum.Amplitude.CoherentPrep
 import QuantumQueryComplexity.Quantum.RoutineClose
 import QuantumQueryComplexity.Quantum.PromiseOr
 import QuantumQueryComplexity.Quantum.IndexCopy
+import QuantumQueryComplexity.Quantum.ReadGadget
+import QuantumQueryComplexity.Quantum.DecisionTree
 import QuantumQueryComplexity.Quantum.JointState.Basic
 import QuantumQueryComplexity.Quantum.JointState.Conditioning
 import QuantumQueryComplexity.Quantum.JointState.Oracle
@@ -282,6 +284,8 @@ Layers, in dependency order:
 | `RoutineClose` | **approximate preparations inside larger routines**: errors add and phases multiply under composition; lifting along an oracle-compatible split and query-free unitaries keeps the error and the phase |
 | `PromiseOr` | **combining one-sided promise tests with unequal costs** (variable-time search by dyadic classes): `Õ(√(∑ q_i²))` with explicit constant and logarithms |
 | `IndexCopy` | **copied input bits cost one query each** in the value-oracle model (`Realizes.reindex`, any `φ : κ → ι`) |
+| `ReadGadget` | **reads-controlled unitaries**: `|c⟩|d⟩ ↦ |c⟩ M(c, x(addr c 0), …, x(addr c (k−1)))|d⟩` by one fixed routine of exactly `2k` swap queries on the parked sector (`exists_readGadget`); free lifts of fixed unitaries (`readLift`) |
+| `DecisionTree` | **decision trees over the swap oracle** (`ReadTree`): a tree of depth `≤ T` is realized with exactly `T` queries as a point mass (`ReadTree.realizes`); **derived oracles**: letters computed by trees of depth `≤ T` are simulated at `2T` queries per query, same success for every relation (`exists_treeSim`, `Realizes.treeSim`, non-adaptive `exists_readsSim`) |
 | `Walk/Chain` | reversible chains and the discriminant (`disc_herm`, `disc_r`, `r_unit`); complete resampling (gap `1`) and the lazy two-state chain (gap `2p`) |
 
 Two different notions of amplification live here: `Amplify` is classical *majority*
