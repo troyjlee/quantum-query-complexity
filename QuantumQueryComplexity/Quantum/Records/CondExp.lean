@@ -303,4 +303,16 @@ theorem commute_condDiff_coordDiag {i j : ι} (hij : j ≠ i) (φ : σ → ℂ) 
 
 end FinDist
 
+/-! ## The conditional difference is a contraction -/
+
+open scoped MatrixOrder in
+/-- The conditional difference `D_i` is a contraction: `‖D_i f‖² ≤ ‖f‖²`. -/
+theorem FinDist.jNormSq_condDiff_mul_le {ι σ : Type} [Fintype ι] [DecidableEq ι] [Fintype σ]
+    [DecidableEq σ] (ρ : FinDist (ι → σ)) (i : ι) (f : JVec ρ.Supp A) :
+    jNormSq (ρ.condDiff i * f) ≤ jNormSq f := by
+  have h : (ρ.condDiff i)ᴴ * ρ.condDiff i ≤ ((1 : ℝ) : ℂ) • (1 : Matrix ρ.Supp ρ.Supp ℂ) := by
+    rw [(ρ.condDiff_isHermitian i).eq, ρ.condDiff_mul_self, Complex.ofReal_one, one_smul]
+    exact ρ.condDiff_le_one i
+  simpa using jNormSq_mul_le_smul h f
+
 end QuantumQueryComplexity

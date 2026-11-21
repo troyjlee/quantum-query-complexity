@@ -21,7 +21,8 @@ the record-count bound, the polynomial-method consistency check, the record budg
 bits, hidden-problem transfer, knowledge and query gain, the lower-bound framework, and the
 oracles over `Z_q` with the phase-oracle model and Fourier analysis on `Z_qⁿ`), and Zhandry's
 compressed oracle (Layer E: compression as a relabelling of the records, progress measures, the
-comparison with knowledge, and Search under the uniform distribution).
+comparison with knowledge, and Search under the uniform distribution); and the elementary facts
+about events, the product measure and workspace vectors used by the problems repository.
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -36,6 +37,7 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.Records.CondExp,
     QuantumQueryComplexity.Quantum.Records.Resampling,
     QuantumQueryComplexity.Quantum.Records.CondBern,
+    QuantumQueryComplexity.Quantum.Records.ReadPhase,
     QuantumQueryComplexity.Quantum.Records.Interaction,
     QuantumQueryComplexity.Quantum.Records.PhaseCommutator,
     QuantumQueryComplexity.Quantum.Records.SumProjections,
@@ -199,7 +201,31 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.avgZqSuccessProb_search_le,
     QuantumQueryComplexity.avgSuccessProb_search_le,
     QuantumQueryComplexity.le_of_avgZqSuccessProb_search,
-    QuantumQueryComplexity.le_of_avgSuccessProb_search]
+    QuantumQueryComplexity.le_of_avgSuccessProb_search,
+    QuantumQueryComplexity.FinDist.probOf_congr,
+    QuantumQueryComplexity.FinDist.probOf_pos_of_mem,
+    QuantumQueryComplexity.FinDist.probOf_not,
+    QuantumQueryComplexity.FinDist.probOf_le_of_imp,
+    QuantumQueryComplexity.FinDist.probOf_le_sum,
+    QuantumQueryComplexity.sum_bernMass_and_eq_mul,
+    QuantumQueryComplexity.sum_bernMass_eq_pow_card,
+    QuantumQueryComplexity.CondBern.mass_of_avoids,
+    QuantumQueryComplexity.FinDist.wvec_add,
+    QuantumQueryComplexity.FinDist.wvec_sub,
+    QuantumQueryComplexity.FinDist.wvec_smul,
+    QuantumQueryComplexity.FinDist.wvec_sum,
+    QuantumQueryComplexity.FinDist.wvec_diagonal_mul,
+    QuantumQueryComplexity.FinDist.eq_of_wvec,
+    QuantumQueryComplexity.FinDist.sum_ite_eq_one,
+    QuantumQueryComplexity.FinDist.sum_ite_mul_wvec,
+    QuantumQueryComplexity.FinDist.wvec_readPhase_mul,
+    QuantumQueryComplexity.FinDist.wvecAt_readPhase_mul,
+    QuantumQueryComplexity.sum_comp_le_sum_of_injective,
+    QuantumQueryComplexity.normSq_finsetSum_le,
+    QuantumQueryComplexity.jNormSq_finsetSum_le,
+    QuantumQueryComplexity.jNormSq_add_finsetSum_le,
+    QuantumQueryComplexity.jNormSq_smul,
+    QuantumQueryComplexity.FinDist.jNormSq_condDiff_mul_le]
 
 /-- error: axiom audit: `sorryAx` depends on the forbidden axiom(s) [sorryAx]. -/
 #guard_msgs in

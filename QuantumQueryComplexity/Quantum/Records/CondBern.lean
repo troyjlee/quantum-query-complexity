@@ -703,4 +703,31 @@ theorem commute_interactOp_condDiff_right (i j : ι) :
 
 end CondBern
 
+/-! ## Selecting a support point, and allowed masses -/
+
+section Selection
+
+variable {Ω : Type} [Fintype Ω] [DecidableEq Ω]
+
+/-- Selecting the support point `z`: `∑_x [x = z] wvec f x a = wvecAt f z a`. -/
+theorem FinDist.sum_ite_mul_wvec (ρ : FinDist Ω) (f : JVec ρ.Supp A) (z : Ω) (a : A) :
+    ∑ x : ρ.Supp, (if x.1 = z then (1 : ℂ) else 0) * ρ.wvec f x a = ρ.wvecAt f z a := by
+  by_cases h : 0 < ρ.mass z
+  · rw [Finset.sum_eq_single ⟨z, h⟩, FinDist.wvecAt, dite_eq_left h, ite_eq_left rfl, one_mul]
+    · intro x _ hx
+      rw [ite_eq_right (fun h' => hx (Subtype.ext h')), zero_mul]
+    · simp
+  · rw [FinDist.wvecAt, dite_eq_right h]
+    refine Finset.sum_eq_zero fun x _ => ?_
+    rw [ite_eq_right (fun h' => h (by rw [← h']; exact x.2)), zero_mul]
+
+/-- The mass of an allowed string under a conditioned Bernoulli law: its product mass divided
+by the normalizing constant. -/
+theorem CondBern.mass_of_avoids (μ : CondBern ι) {x : ι → Bool}
+    (h : Avoids μ.forbidden x) : μ.dist.mass x = bernMass μ.p x / μ.normConst := by
+  change μ.rawMass x = _
+  rw [CondBern.rawMass, ite_eq_left h]
+
+end Selection
+
 end QuantumQueryComplexity

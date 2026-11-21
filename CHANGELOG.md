@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+- Adds elementary facts used by the triangle and four-cycle lower bounds of the problems
+  repository, moved there from their private helpers (statements unchanged up to names):
+  - events (`JointState/Conditioning.lean`): `FinDist.probOf_congr`, `FinDist.probOf_pos_of_mem`,
+    `FinDist.probOf_not` (`ρ(¬s) = 1 − ρ(s)`), `FinDist.probOf_le_of_imp` (monotonicity on the
+    support), `FinDist.probOf_le_sum` (the union bound);
+  - the product measure (`Records/Domination.lean`): `sum_bernMass_and_eq_mul` (events on
+    complementary coordinates are independent), `sum_bernMass_eq_pow_card` (all of `S` present
+    with probability `p^|S|`); and `CondBern.mass_of_avoids` (`Records/CondBern.lean`);
+  - workspace vectors (`JointState/Basic.lean`): `FinDist.wvec_add`, `FinDist.wvec_sub`,
+    `FinDist.wvec_smul`, `FinDist.wvec_sum`, `FinDist.wvec_diagonal_mul`, `FinDist.eq_of_wvec`,
+    `FinDist.sum_ite_eq_one`, `jNormSq_smul`, `normSq_finsetSum_le` and `jNormSq_finsetSum_le`
+    (Cauchy–Schwarz for finite sums), `jNormSq_add_finsetSum_le`, `sum_comp_le_sum_of_injective`;
+    `FinDist.sum_ite_mul_wvec` (`Records/CondBern.lean`); `FinDist.jNormSq_condDiff_mul_le` (the
+    conditional difference is a contraction, `Records/CondExp.lean`);
+  - the new module `Records/ReadPhase.lean`: `FinDist.wvec_readPhase_mul` and
+    `FinDist.wvecAt_readPhase_mul` (the input phase multiplies workspace vectors by `(−1)^{x_e}`).
+  The names differ from the downstream private ones, so files that still keep their copies under
+  `open QuantumQueryComplexity` remain unambiguous.
+
 - Adds arc-system duals (`LearningGraph/ArcSystem.lean`): a dual adversary solution for a Boolean
   function on a promise built from arcs, each with a queried index, input-dependent states in a
   finite type and amplitude vectors with finitely many components (`ArcSystem`). A feasible arc

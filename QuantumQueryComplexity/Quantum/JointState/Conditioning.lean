@@ -165,4 +165,67 @@ noncomputable def uniform (L : Type) [Fintype L] [Nonempty L] : FinDist L :=
 
 end FinDist
 
+/-! ## Elementary event probabilities -/
+
+section Events
+
+variable {Ω J : Type} [Fintype Ω] [DecidableEq Ω]
+
+/-- Events that hold at the same points have the same probability. -/
+theorem FinDist.probOf_congr (ρ : FinDist Ω) {s t : Ω → Prop} [DecidablePred s] [DecidablePred t]
+    (h : ∀ ω, s ω ↔ t ω) : ρ.probOf s = ρ.probOf t := by
+  unfold FinDist.probOf
+  refine Finset.sum_congr rfl fun ω _ => ?_
+  by_cases hs : s ω
+  · rw [ite_eq_left hs, ite_eq_left ((h ω).mp hs)]
+  · rw [ite_eq_right hs, ite_eq_right (mt (h ω).mpr hs)]
+
+/-- An event that holds at a point of positive mass has positive probability. -/
+theorem FinDist.probOf_pos_of_mem (ρ : FinDist Ω) {s : Ω → Prop} [DecidablePred s] {ω : Ω}
+    (hs : s ω) (hω : 0 < ρ.mass ω) : 0 < ρ.probOf s := by
+  refine Finset.sum_pos' (fun ω' _ => ?_) ⟨ω, Finset.mem_univ _, by rwa [ite_eq_left hs]⟩
+  split_ifs
+  exacts [ρ.mass_nonneg ω', le_rfl]
+
+/-- The probability of the complementary event: `ρ(¬s) = 1 − ρ(s)`. -/
+theorem FinDist.probOf_not (ρ : FinDist Ω) (s : Ω → Prop) [DecidablePred s] :
+    ρ.probOf (fun ω => ¬ s ω) = 1 - ρ.probOf s := by
+  rw [eq_sub_iff_add_eq, ← ρ.sum_mass]
+  unfold FinDist.probOf
+  rw [← Finset.sum_add_distrib]
+  refine Finset.sum_congr rfl fun ω _ => ?_
+  by_cases hs : s ω <;> simp [hs]
+
+/-- Monotonicity of probabilities, on the support. -/
+theorem FinDist.probOf_le_of_imp (ρ : FinDist Ω) {s t : Ω → Prop} [DecidablePred s]
+    [DecidablePred t] (h : ∀ ω, 0 < ρ.mass ω → s ω → t ω) : ρ.probOf s ≤ ρ.probOf t := by
+  unfold FinDist.probOf
+  refine Finset.sum_le_sum fun ω _ => ?_
+  by_cases hs : s ω
+  · rcases (ρ.mass_nonneg ω).eq_or_lt with h0 | h0
+    · rw [ite_eq_left hs, ← h0]
+      split_ifs <;> exact le_rfl
+    · rw [ite_eq_left hs, ite_eq_left (h ω h0 hs)]
+  · rw [ite_eq_right hs]
+    split_ifs
+    exacts [ρ.mass_nonneg ω, le_rfl]
+
+/-- The union bound. -/
+theorem FinDist.probOf_le_sum (ρ : FinDist Ω) (N : Finset J) (E : J → Ω → Prop)
+    [∀ j, DecidablePred (E j)] {s : Ω → Prop} [DecidablePred s]
+    (hs : ∀ ω, s ω → ∃ j ∈ N, E j ω) : ρ.probOf s ≤ ∑ j ∈ N, ρ.probOf (E j) := by
+  unfold FinDist.probOf
+  rw [Finset.sum_comm]
+  refine Finset.sum_le_sum fun ω _ => ?_
+  have hnn : ∀ j ∈ N, 0 ≤ if E j ω then ρ.mass ω else 0 := fun j _ => by
+    split_ifs
+    exacts [ρ.mass_nonneg ω, le_rfl]
+  split_ifs with h
+  · obtain ⟨j, hj, hE⟩ := hs ω h
+    calc ρ.mass ω = if E j ω then ρ.mass ω else 0 := (ite_eq_left hE).symm
+      _ ≤ _ := Finset.single_le_sum hnn hj
+  · exact Finset.sum_nonneg hnn
+
+end Events
+
 end QuantumQueryComplexity
