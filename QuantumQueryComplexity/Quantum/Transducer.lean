@@ -138,15 +138,17 @@ def tick (K : ℕ) (priv : H → Prop) [DecidablePred priv] : Equiv.Perm (Fin K 
     rintro ⟨c, h⟩
     by_cases hp : priv h <;> simp only [hp, ↓reduceIte, Equiv.apply_symm_apply]
 
-/-- **The clock preparation** `fourierMat K ⊗ 1` ([BJY23, Theorem 5.5], step 1). Its column `0`
-is the uniform superposition `K^{-1/2} ∑_t |t⟩`, and it is unitary for `0 < K`
-(`fourierMat_mem_unitaryGroup`). It is fixed: it depends on `K` only. -/
+/-- **The clock preparation** `fourierMat K ⊗ 1` ([BJY23, Theorem 5.5], step 1). For `0 < K`
+its column `(0, h)` is `K^{-1/2} ∑_t |t⟩ ⊗ |h⟩`: it maps `|0⟩ ⊗ ψ` to the uniform clock over
+`ψ`. It is unitary for `0 < K` (`fourierMat_mem_unitaryGroup`), and fixed: it depends on `K`
+only. -/
 noncomputable def prep (K : ℕ) : Matrix (Fin K × H) (Fin K × H) ℂ :=
   Matrix.kroneckerMap (· * ·) (fourierMat K) (1 : Matrix H H ℂ)
 
 /-- **The first `n` rounds of the loop** ([BJY23, Theorem 5.5], step 2). Round `t` (for
 `t = 0, …, n − 1`, in this order) applies `ctrlAt K t S` and then the permutation `tick K priv`.
-So `loop K S priv n` uses `S` exactly `n` times, each time controlled on one clock value. -/
+For `n ≤ K` (in `circuit`, `n = K`) each round applies `S` on exactly one clock branch, so `S`
+is used `n` times; a round with `t ≥ K` applies only `tick`, since `ctrlAt K t S = 1`. -/
 noncomputable def loop (K : ℕ) (S : Matrix H H ℂ) (priv : H → Prop) [DecidablePred priv] :
     ℕ → Matrix (Fin K × H) (Fin K × H) ℂ
   | 0 => 1
@@ -206,6 +208,42 @@ noncomputable def embedVia {V B : Type} [Fintype V] [DecidableEq B] (e : V → B
     B → ℂ :=
   ∑ x, ψ x • qBasis (e x)
 
+section EmbedVia
+
+variable {V B : Type} [Fintype V] [DecidableEq B]
+
+/-- A basis vector is carried to the basis vector of its image: `embedVia e |x⟩ = |e x⟩`. -/
+theorem embedVia_qBasis [DecidableEq V] (e : V → B) (x : V) :
+    embedVia e (qBasis x) = qBasis (e x) := by
+  sorry
+
+/-- `embedVia e` is linear: it commutes with scalar multiplication. -/
+theorem embedVia_smul (e : V → B) (z : ℂ) (ψ : V → ℂ) :
+    embedVia e (z • ψ) = z • embedVia e ψ := by
+  sorry
+
+/-- `embedVia e` is linear: it commutes with addition. -/
+theorem embedVia_add (e : V → B) (ψ φ : V → ℂ) :
+    embedVia e (ψ + φ) = embedVia e ψ + embedVia e φ := by
+  sorry
+
+/-- For injective `e`, `embedVia e ψ` has the amplitude `ψ x` at `e x`. -/
+theorem embedVia_apply_self {e : V → B} (he : Function.Injective e) (ψ : V → ℂ) (x : V) :
+    embedVia e ψ (e x) = ψ x := by
+  sorry
+
+/-- `embedVia e ψ` vanishes off the image of `e`. -/
+theorem embedVia_apply_of_forall_ne (e : V → B) (ψ : V → ℂ) {b : B} (hb : ∀ x, e x ≠ b) :
+    embedVia e ψ b = 0 := by
+  sorry
+
+/-- For injective `e`, `embedVia e` is an isometry: `‖embedVia e ψ‖ = ‖ψ‖`. -/
+theorem qNorm_embedVia [Fintype B] {e : V → B} (he : Function.Injective e) (ψ : V → ℂ) :
+    qNorm (embedVia e ψ) = qNorm ψ := by
+  sorry
+
+end EmbedVia
+
 end Transducer
 
 /-! ## The routine form -/
@@ -251,11 +289,12 @@ where `|0⟩ ⊗ ψ` is `embedClock ⟨0, hK⟩ false ψ`: clock `0`, control bi
 blank.
 
 The catalyst `v` may depend on the input and need not be minimal. `R.run a` is unitary on the
-whole basis, so no unitarity hypothesis is needed. Only the length of `T` and the bound are
-stated; `exists_transducerRoutine_encoded` describes the intended construction.
+whole basis, so no unitarity hypothesis is needed, and no decidability of `priv` is assumed (the
+proof may decide it classically). Only the length of `T` and the bound are stated;
+`exists_transducerRoutine_encoded` describes the intended construction.
 `sqrt_qProb_le_add` turns the bound into a lower bound on outcome probabilities. -/
 theorem exists_transducerRoutine (R : QRoutine ι σ W) (priv : QBasis ι σ W → Prop)
-    [DecidablePred priv] {K : ℕ} (hK : 0 < K) :
+    {K : ℕ} (hK : 0 < K) :
     ∃ T : QRoutine ι σ (ClockWork ι K W), T.len = K * R.len ∧
       ∀ (a : ι → σ) (ξ τ v : QBasis ι σ W → ℂ), Transduces priv (R.run a) ξ τ v →
         qNorm (T.run a *ᵥ embedClock ⟨0, hK⟩ false ξ - embedClock ⟨0, hK⟩ false τ)
@@ -275,11 +314,10 @@ for every input `a` and every matrix `S` on `V` that `R` realizes on that input 
 where `|0⟩ ⊗ e ψ` is `embedClock ⟨0, hK⟩ false (embedVia e ψ)`.
 
 `S` may depend on the input; it need not be assumed unitary, since `R.run a` is unitary and
-`e` is injective. `T` is chosen before the input and before `S`: it depends on `R`, `e`, `priv`
-and `K` only. -/
+`e` is injective. No decidability of `priv` is assumed. `T` is chosen before the input and
+before `S`: it depends on `R`, `e`, `priv` and `K` only. -/
 theorem exists_transducerRoutine_of_realizes (R : QRoutine ι σ W) {V : Type} [Fintype V]
-    [DecidableEq V] (e : V → QBasis ι σ W) (he : Function.Injective e) (priv : V → Prop)
-    [DecidablePred priv] {K : ℕ} (hK : 0 < K) :
+    (e : V → QBasis ι σ W) (he : Function.Injective e) (priv : V → Prop) {K : ℕ} (hK : 0 < K) :
     ∃ T : QRoutine ι σ (ClockWork ι K W), T.len = K * R.len ∧
       ∀ (a : ι → σ) (S : Matrix V V ℂ),
         (∀ ψ : V → ℂ, R.run a *ᵥ Transducer.embedVia e ψ = Transducer.embedVia e (S *ᵥ ψ)) →

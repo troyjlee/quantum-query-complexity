@@ -17,16 +17,26 @@ Checks of `Quantum/Transducer.lean` ([BJY23, Theorem 5.5]) on small explicit ins
    complement). `S` transduces `|0⟩` into itself with the catalyst `(|1⟩ + |2⟩)/2` of squared
    norm `1/2`, and also with the catalysts `|1⟩` and `|2⟩`. The algorithm `Transducer.circuit`
    then returns `|0⟩ ⊗ |0⟩` within `√2/√K`. For `K = 1` and `K = 2` the output is computed
-   exactly, which pins down the order of the operations and the clock advance: errors `2/√3`
-   and `2/3`, below the bounds `√2` and `1`.
-2. **A transducer with a query.** One swap query on `QBasis Unit Bool Unit` exchanges the blank
+   exactly: errors `2/√3` and `2/3`, below the bounds `√2` and `1`. These two sizes cannot see
+   the direction of the clock advance (`finRotate` is its own inverse on `Fin 1` and `Fin 2`).
+2. **The direction of the advance and the order of the operations**, at `K = 3`: `tick` moves a
+   private basis state from clock `0` to `1` and from `2` to `0`, and one round with the swap of
+   `|0⟩` and `|1⟩` sends `(clock 0, |0⟩)` to `(clock 1, |1⟩)`. A reversed advance would give
+   clock `2`; advancing before applying `S` would give clock `0`.
+3. **A transducer with a query.** One swap query on `QBasis Unit Bool Unit` exchanges the blank
    answer `|(), ⊥⟩` with `|(), a ()⟩`. With the non-blank answers private, it transduces
    `|(), ⊥⟩` into itself with the input-dependent catalyst `|(), a ()⟩`, so the routine form
    gives a fixed `K`-query routine that returns the clocked `|(), ⊥⟩` within `2/√K` on every
-   input.
-3. **A realized transducer.** The matrix of Example 5.3 acting on the workspace `Fin 3` of
+   input. (An idle routine also meets this conclusion; item 5 is the positive control.)
+4. **A realized transducer.** The matrix of Example 5.3 acting on the workspace `Fin 3` of
    `QBasis Unit Bool (Fin 3)`, as a zero-query routine, realizes `S` along the embedding
-   `x ↦ (none, none, x)`, and `exists_transducerRoutine_of_realizes` applies.
+   `x ↦ (none, none, x)`, and `exists_transducerRoutine_of_realizes` applies. (Here too the
+   identity routine meets the conclusion.)
+5. **The routine must read the oracle.** On the answer register of a live query, embedded by
+   `z ↦ (some (), z, ())`, one query realizes the swap of `⊥` and `a ()`. With every basis state
+   public and the catalyst `0` it transduces `|⊥⟩` into `|a ()⟩` exactly, so the realized form
+   gives one fixed `K`-query routine that maps the clocked `|(), ⊥⟩` to the clocked
+   `|(), a ()⟩` exactly: its output differs between the two oracle tables.
 -/
 
 namespace QuantumQueryComplexity
@@ -81,7 +91,9 @@ theorem transduces53_basis :
       Transduces priv53 S53 (qBasis 0) (qBasis 0) (qBasis 2) := by
   sorry
 
-/-- `‖v53‖² = 1/2`: the transduction complexity `W(S, |0⟩) = 1/2` of [BJY23, Example 5.3]. -/
+/-- `‖v53‖² = 1/2`, the value used in `circuit53_close`. (That `v53` is the minimal catalyst,
+so that `W(S, |0⟩) = 1/2`, is shown in [BJY23, Example 5.3] and not formalized here; the
+catalysts `|1⟩` and `|2⟩` have squared norm `1`.) -/
 theorem qNormSq_v53 : qNormSq v53 = 1 / 2 := by
   sorry
 
@@ -111,7 +123,24 @@ theorem circuit53_two :
         + Transducer.clockVec 1 ![-4 / 9, 2 / 9, 2 / 9] := by
   sorry
 
-/-! ## 2. A transducer with a query -/
+/-! ## 2. The direction of the advance and the order of the operations -/
+
+/-- At `K = 3`, `tick` advances a private basis state from clock `0` to `1` and from clock `2`
+to `0`, and leaves a public basis state alone. -/
+theorem tick_three :
+    Transducer.tick 3 priv53 (0, 1) = (1, 1) ∧ Transducer.tick 3 priv53 (2, 1) = (0, 1) ∧
+      Transducer.tick 3 priv53 (0, 0) = (0, 0) := by
+  sorry
+
+/-- **One round at `K = 3`**, with `S` the swap of `|0⟩` (public) and `|1⟩` (private): `S`
+moves `(clock 0, |0⟩)` to `(clock 0, |1⟩)`, and the advance then moves it to `(clock 1, |1⟩)`.
+A reversed advance would give clock `2`; advancing before applying `S` would give clock `0`. -/
+theorem first_round_three :
+    Transducer.loop 3 (qPerm (Equiv.swap (0 : Fin 3) 1)) priv53 1 *ᵥ qBasis (0, 0)
+      = qBasis (1, 1) := by
+  sorry
+
+/-! ## 3. A transducer with a query -/
 
 /-- The privacy predicate on `QBasis Unit Bool Unit`: a basis state is private exactly when its
 answer register is not blank. -/
@@ -130,7 +159,8 @@ theorem transduces_query (a : Unit → Bool) :
   sorry
 
 /-- **The routine form on the one-query transducer**: one fixed routine with `K` queries returns
-the clocked `|(), ⊥⟩` within `2/√K` on every input. -/
+the clocked `|(), ⊥⟩` within `2/√K` on every input. (A routine that parks every query also
+meets this conclusion; `query_reads_answer` is the positive control.) -/
 theorem query_transducer {K : ℕ} (hK : 0 < K) :
     ∃ T : QRoutine Unit Bool (ClockWork Unit K Unit), T.len = K ∧
       ∀ a : Unit → Bool,
@@ -138,7 +168,7 @@ theorem query_transducer {K : ℕ} (hK : 0 < K) :
           - embedClock ⟨0, hK⟩ false (qBasis blank1)) ≤ 2 / Real.sqrt K := by
   sorry
 
-/-! ## 3. A realized transducer -/
+/-! ## 4. A realized transducer -/
 
 /-- The basis of `QBasis Unit Bool (Fin 3)` split as (workspace, query registers). -/
 def split3 : QBasis Unit Bool (Fin 3) ≃ Fin 3 × (Option Unit × Option Bool) where
@@ -160,13 +190,35 @@ theorem realizes53 (a : Unit → Bool) (ψ : Fin 3 → ℂ) :
   sorry
 
 /-- **The realized form on Example 5.3**: one fixed zero-query routine returns the clocked
-embedding of `|0⟩` within `√2/√K`. -/
+embedding of `|0⟩` within `√2/√K`. (The identity routine also meets this conclusion.) -/
 theorem realized53_transducer {K : ℕ} (hK : 0 < K) :
     ∃ T : QRoutine Unit Bool (ClockWork Unit K (Fin 3)), T.len = 0 ∧
       ∀ a : Unit → Bool,
         qNorm (T.run a *ᵥ embedClock ⟨0, hK⟩ false (Transducer.embedVia emb3 (qBasis 0))
           - embedClock ⟨0, hK⟩ false (Transducer.embedVia emb3 (qBasis 0)))
           ≤ Real.sqrt 2 / Real.sqrt K := by
+  sorry
+
+/-! ## 5. The routine must read the oracle -/
+
+/-- The answer register of a live query to `()`, as a register of `QBasis Unit Bool Unit`. -/
+def liveAnswer (z : Option Bool) : QBasis Unit Bool Unit := (some (), z, ())
+
+/-- On the answer register of a live query, one query realizes the swap of `⊥` and `a ()`. -/
+theorem realizes_answer (a : Unit → Bool) (ψ : Option Bool → ℂ) :
+    (QRoutine.query : QRoutine Unit Bool Unit).run a *ᵥ Transducer.embedVia liveAnswer ψ
+      = Transducer.embedVia liveAnswer (qPerm (Equiv.swap none (some (a ()))) *ᵥ ψ) := by
+  sorry
+
+/-- **The positive control**: one fixed routine with `K` queries maps the clocked `|(), ⊥⟩` to
+the clocked `|(), a ()⟩` exactly, on every input `a`. It follows from
+`exists_transducerRoutine_of_realizes` with every basis state public and the catalyst `0`
+(error `0`). The two oracle tables give different outputs, so no idle routine satisfies it. -/
+theorem query_reads_answer {K : ℕ} (hK : 0 < K) :
+    ∃ T : QRoutine Unit Bool (ClockWork Unit K Unit), T.len = K ∧
+      ∀ a : Unit → Bool,
+        T.run a *ᵥ embedClock ⟨0, hK⟩ false (qBasis blank1)
+          = embedClock ⟨0, hK⟩ false (qBasis (some (), some (a ()), ())) := by
   sorry
 
 end TransducerAcceptance
