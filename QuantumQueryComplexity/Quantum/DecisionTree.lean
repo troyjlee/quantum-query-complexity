@@ -24,10 +24,11 @@ and its output is the tree's value with probability one, in the sense of `Realiz
 (`ProductRun.lean`). The output type may be infinite but must be nonempty (an algorithm's readout
 is a total function on a nonempty basis). So a deterministic classical procedure enters
 `Realizes.pair`, `Realizes.bind` and `Realizes.map` like any other stage, under their own
-hypotheses: `Realizes.bind` needs a finite type for the outcome that selects the next stage, and
-`Realizes.map` a finite source type (and both `[Fintype X]` on the promise type); a stored list
-that selects a later stage should therefore be encoded in a finite type (fixed-length tuples, a
-finite subtype), while a final stage may output an ordinary list.
+hypotheses: all three need `[Fintype X]` on the promise type, `Realizes.bind` also needs a finite
+type for the outcome that selects the next stage, and `Realizes.map` a finite source type. A
+stored list that selects a later stage should therefore be encoded in a finite type
+(fixed-length tuples, a finite subtype), while a final stage may output an ordinary list; on an
+infinite promise type, compose on the full input type `ι → σ` (`read = id`) and restrict.
 
 **Derived oracles** (`exists_treeSim`). Suppose every letter `y j` of a derived input
 `y : ι' → σ'` is computed by a decision tree of depth at most `T` over `x`:
