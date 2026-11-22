@@ -37,9 +37,11 @@ infinite promise type, compose on the full input type `ι → σ` (`read = id`) 
 `y = treeInput t x`, `y j = (t j).eval x`. Then every algorithm `A` making swap queries to `y`
 has a simulation `B` making swap queries to `x`, fixed before `x` (and before the query count),
 with `2T` queries to `x` per query to `y` and **the same success probability for every relation
-on outputs**. Each simulated query computes `y j` into scratch registers (at most `T` adaptive
-reads, padded with idle queries to exactly `T`), applies `A`'s swap oracle with the computed
-letter on `A`'s registers, and uncomputes the reads with `T` more queries. `0 < T` is needed
+on outputs**. Each simulated query reads the letters of `x` along the path of `t j` into scratch
+registers (at most `T` adaptive reads, padded with idle queries to exactly `T`); the scratch holds
+the letters returned by the physical queries, not `y j` itself. Following that transcript from the
+root of `t j` reaches the leaf `y j`, which is swapped into `A`'s answer register by `A`'s swap
+oracle; then the reads are uncomputed with `T` more queries. `0 < T` is needed
 because `B` is the same for every query count: with `T = 0` the left side would not depend on
 `q`. `Realizes.treeSim` is the same statement for outcome laws, and `exists_readsSim` is the
 non-adaptive case (`k` fixed reads per letter, `2k` queries per query), the swap-oracle analogue
@@ -266,14 +268,16 @@ One query to the derived input `y = treeInput t x` is simulated by a reversible 
 queries to `x` (`blockPerm`, `implements_blockPerm`), on `T` scratch slots next to `A`'s
 registers. A **gathering pass** (`gatherPerm`) fills the slots in order: before slot `j`, the
 tree `t u` of the simulated query index `u` is followed along the letters in the slots before `j`
-(`follow`), and the index of the node reached is read into slot `j`; nothing is read once a leaf
-is reached, or when the simulated index is idle. The routing of each read depends only on the
-earlier slots, so it is a fixed involution and the pass is reversible: this is the adaptive form
-of the read gadget (`ReadGadget.lean`). After `T` reads the walk sits at the leaf `y u`
-(`leafValue_followInput`, as the depth is at most `T`), and a fixed permutation (`answerMap`)
-applies `A`'s swap oracle with that letter to `A`'s answer register. Then the gathering pass is
-undone. On the parked sector (scratch blank, query registers of `x` idle and blank) the block acts
-as `A`'s oracle for `y` (`blockPerm_mulVec_parkVec`).
+(`follow`), and the letter of `x` at the index of the node reached is read into slot `j`; nothing
+is read once a leaf is reached, or when the simulated index is idle. So the slots hold the letters
+returned by the physical queries (the transcript), not the derived letter. The routing of each
+read depends only on the earlier slots, so it is a fixed involution and the pass is reversible:
+this is the adaptive form of the read gadget (`ReadGadget.lean`). After `T` reads, following the
+transcript from the root of `t u` reaches the leaf `y u` (`leafValue_followInput`, as the depth
+is at most `T`), and a fixed permutation (`answerMap`) swaps that leaf value into `A`'s answer
+register by `A`'s swap oracle. Then the gathering pass is undone. On the parked sector (scratch
+blank, query registers of `x` idle and blank) the block acts as `A`'s oracle for `y`
+(`blockPerm_mulVec_parkVec`).
 
 The simulation runs `A`'s unitaries on the parked sector between blocks and merges the boundary
 gates of the blocks into them (`clockStep`): a clock of period `2T`, so that one algorithm serves
