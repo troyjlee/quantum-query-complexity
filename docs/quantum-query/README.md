@@ -68,6 +68,21 @@ longest distinct substring, maximum finding, and read-once AND/OR formulas.
 Their `Quantum/*Applications.lean` files give the operational bounds;
 the corresponding `Acceptance*.lean` files pin the theorem statements.
 
+[Transducer.lean](../../QuantumQueryComplexity/Quantum/Transducer.lean) formalizes the
+transducer algorithm of Belovs, Jeffery and Yolcu, *Taming Quantum Time Complexity*,
+Theorem 5.5: if a routine `R` satisfies a catalyst identity `R(ξ + v) = τ + v` with `ξ`, `τ`
+public and `v` private (`Transduces`), one routine fixed before the input, with exactly
+`K · R.len` queries, maps `|0⟩ ⊗ ξ` to within `2‖v‖/√K` of `|0⟩ ⊗ τ` on every input
+(`exists_transducerRoutine`; `exists_transducerRoutine_of_realizes` for a unitary that `R`
+realizes on a register). [ReadGadget.lean](../../QuantumQueryComplexity/Quantum/ReadGadget.lean)
+gives unitaries controlled by `k` reads of the input, with exactly `2k` queries
+(`exists_readGadget`), and
+[Quantum/DecisionTree.lean](../../QuantumQueryComplexity/Quantum/DecisionTree.lean) runs a
+decision tree of depth at most `T` with exactly `T` queries (`ReadTree.realizes`) and simulates
+an input whose letters are computed by such trees with `2T` queries per query and the same
+success probability (`exists_treeSim`, `exists_readsSim`). These counts are queries only, not
+gates.
+
 ## Oracle and algorithm conventions
 
 An algorithm consists of an initial unit vector, input-independent unitary
@@ -109,6 +124,7 @@ infimum defining query complexity.
 | Lower bounds and oracle simulations | `Quantum/LowerBound/`, `Characterization`, `Simulation`, `OneHot*` |
 | Polynomial method | `Polynomial/`, `Quantum/PolynomialMethod`, `XorPolynomialMethod`, `PolynomialLowerBound` |
 | Amplification, estimation and search | `Quantum/Amplitude/`, `RobustSearch/`, `Walk/` |
+| Transducers, read gadgets and derived oracles | `Quantum/Transducer`, `Quantum/ReadGadget`, `Quantum/DecisionTree` |
 | Joint states, conditional resampling and comparison of computations | `Quantum/JointState/`, `Quantum/Records/`, `Quantum/Transfer/` |
 | Examples | `ED/`, `EDLower/`, `KD/`, `LDS/`, `Max/`, `ReadOnce`, `Quantum/*Applications` |
 
@@ -166,6 +182,8 @@ audit counts, and Lean 4.35 compatibility changes.
   [*Reflections for quantum query algorithms*](https://arxiv.org/abs/1005.1601).
 - Robert Beals, Harry Buhrman, Richard Cleve, Michele Mosca and Ronald de Wolf,
   [*Quantum Lower Bounds by Polynomials*](https://arxiv.org/abs/quant-ph/9802049).
+- Aleksandrs Belovs, Stacey Jeffery and Duyal Yolcu,
+  [*Taming Quantum Time Complexity*](https://arxiv.org/abs/2311.15873).
 
 Module documentation identifies further sources and constructions. The
 explicit numerical constants and oracle conventions above describe the Lean

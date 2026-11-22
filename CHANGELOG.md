@@ -18,6 +18,22 @@
     `Quantum/Characterization.lean`);
   - audited and pinned in `Test/AdversaryAxioms.lean`.
 
+- Adds transducers [BJY23, Theorem 5.5] (`Quantum/Transducer.lean`): a matrix `S` transduces a
+  public `ξ` into a public `τ` with a private catalyst `v` if `S (ξ + v) = τ + v` (`Transduces`;
+  privacy is a predicate on basis states). The algorithm as a matrix, `Transducer.circuit K S priv`
+  (Fourier-prepared clock of size `K`, `K` rounds of "`S` on clock branch `t`, then advance the
+  clock cyclically on private basis states", Fourier step undone), is unitary for unitary `S`
+  (`Transducer.circuit_mem_unitaryGroup`), runs the catalyst exactly (`Transducer.loop_catalyst`),
+  and maps `|0⟩ ⊗ ξ` to within `2‖v‖/√K` of `|0⟩ ⊗ τ` (`Transducer.circuit_close`). Routine form:
+  for a routine `R` and `0 < K`, one routine on `ClockWork ι K W`, fixed before the input, with
+  exactly `K · R.len` queries and the same error for every input and every catalyst
+  (`exists_transducerRoutine`; its action on the clocked sector, `exists_transducerRoutine_encoded`;
+  for a matrix `S`, possibly input-dependent, realized by `R` along an injective embedding,
+  `exists_transducerRoutine_of_realizes`, with `Transducer.embedVia`). Acceptance tests in
+  `Test/Transducer.lean`: [BJY23, Example 5.3] with exact outputs at `K = 1, 2`, the clock direction
+  at `K = 3`, a one-query and a realized transducer. Audited and pinned in
+  `Test/AdversaryAxioms.lean`.
+
 - Adds query gadgets, decision trees and derived oracles for the swap oracle:
   - `Quantum/ReadGadget.lean`: reads-controlled unitaries. For addresses `addr c j : Option ι`
     (`j < k`) chosen by a control value `c` and unitaries `M c s` on a target register, one
@@ -35,6 +51,7 @@
     input and the query count, with `2Tq` queries to `x` and the same success probability for
     every relation on outputs (`exists_treeSim`, `treeInput`; for outcome laws
     `Realizes.treeSim`; non-adaptive reads, `0 < k`, `2kq` queries, `exists_readsSim`).
+  - audited and pinned in `Test/AdversaryAxioms.lean`.
 
 - Adds elementary facts used by the triangle and four-cycle lower bounds of the problems
   repository, moved there from their private helpers (statements unchanged up to names):

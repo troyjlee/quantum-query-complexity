@@ -96,8 +96,10 @@ or a result is a repository-specific synthesis, that is stated explicitly.
 | Transfer and comparison of computations: `jNorm_jRun_sub_mul_le`, `jNorm_jointXorState_sub_le`, `jNormSq_xorQueryErr_le`, `sqrt_avgXorSuccessProb_le_of_reject`, `theorem_4_1`, `theorem_4_1_std`, `xorSuccessProbOn_appendVerifier` | [CGZ], Section 4.1, Theorem 4.1 and (4.1)–(4.3); [Bel26], Corollary 3.24; [Transfer/](../../QuantumQueryComplexity/Quantum/Transfer/) | The transfer lemma accepts arbitrary oracles, arbitrary per-step errors and an initial mismatch, including a target run started from 0. `theorem_4_1` assumes (4.1) only on the verified algorithm's workspace `VerWS ι W v`; a bound proved for every finite workspace, as in the paper, applies directly. Verifiers are nonadaptive and classical with exactly `v` queries, and their answers stay in ancillary registers. The appended algorithm is pinned by an exact acceptance identity. The value-oracle version costs `2q + v`. |
 | Anti-concentration endpoint: `FinDist.IsAntiConc`, `FinDist.StronglyAntiConc`, `FinDist.jNorm_goodMask_le_of_stronglyAntiConc`, `FinDist.sqrt_avgXorSuccessProb_le_of_stronglyAntiConc` | [Bel26], Definitions 3.8–3.9, Proposition 3.11 and Lemma 3.12; [Endpoint](../../QuantumQueryComplexity/Quantum/Transfer/Endpoint.lean) | The final measurement is a computational-basis readout; a measurement's change-of-basis unitary can be absorbed into the algorithm's final step. `γ` is not restricted to `(0, 1)`. Belovs's knowledge framework, product-distribution records and his k-distinctness lower bound are not formalized. |
 | Search lower bound as a validation: `sqrt_avgXorSuccessProb_search_le`, `sqrt_avgSuccessProb_search_le` | [BBBV], via `theorem_4_1`; [Transfer/BBBV](../../QuantumQueryComplexity/Quantum/Transfer/BBBV.lean) | Average-case search: `√σ ≤ (t + 1)·2/√m` with XOR queries and `(2q + 1)·2/√m` with value queries. The comparison map has `αₑ = 4/m` and `βₑ = 0`. It validates the comparison interface; it is not a new result. |
+| Transducers: `Transduces`, `Transducer.circuit`, `Transducer.loop_catalyst`, `Transducer.circuit_close`, `exists_transducerRoutine`, `exists_transducerRoutine_of_realizes` | [BJY23], Section 5, Theorem 5.5 with its proof, (5.6)–(5.8), and Example 5.3 (in `Test/Transducer.lean`); [Transducer](../../QuantumQueryComplexity/Quantum/Transducer.lean) | The error `2‖v‖/√K` holds for every catalyst `v`, not only the minimal one; [BJY23] states it with `W(S, ξ)`, which is at most `‖v‖²` for any catalyst (their Claim 5.2). The clock is prepared by the Fourier matrix and advanced by the same cyclic `+1` on every private basis state in every round. Only queries are counted (`K · R.len`); the paper's `O(K)` elementary operations and its time-complexity results are not formalized. |
+| Reads-controlled unitaries, decision trees and derived oracles: `exists_readGadget`, `ReadTree.realizes`, `exists_treeSim`, `Realizes.treeSim`, `exists_readsSim` | [ReadGadget](../../QuantumQueryComplexity/Quantum/ReadGadget.lean), [Quantum/DecisionTree](../../QuantumQueryComplexity/Quantum/DecisionTree.lean) | Standard reversible-computation constructions for this library's swap oracle (compute, use, uncompute), not attributed to one paper. The read gadget is stated only on its parked sector. |
 
-The last six rows were added on 4 November 2026. They were checked against the
+The last six rows of the first group were added on 4 November 2026. They were checked against the
 [CGZ] manuscript and [Bel26]; that review was AI-assisted, not independent
 human peer review.
 
@@ -142,6 +144,10 @@ human peer review.
   equation numbers refer to the version consulted on 4 November 2026.
 - **[Bel26]** Aleksandrs Belovs, *Tight Quantum Lower Bound for
   k-Distinctness*, [arXiv:2604.05133v2][Bel26] (2026).
+- **[BJY23]** Aleksandrs Belovs, Stacey Jeffery and Duyal Yolcu, *Taming Quantum Time
+  Complexity*, [arXiv:2311.15873v3][BJY23] (2024). Section, theorem and equation numbers refer
+  to this version; the transducer rows were added on 22 November 2026 and checked against it
+  (AI-assisted, not independent human peer review).
 - **[BBBV]** Charles H. Bennett, Ethan Bernstein, Gilles Brassard and Umesh
   Vazirani, *Strengths and Weaknesses of Quantum Computing*,
   [arXiv:quant-ph/9701001][BBBV] (1997).
@@ -161,4 +167,5 @@ human peer review.
 [ABBLS]: https://arxiv.org/abs/2311.16401v1
 [DH]: https://arxiv.org/abs/quant-ph/9607014v2
 [Bel26]: https://arxiv.org/abs/2604.05133v2
+[BJY23]: https://arxiv.org/abs/2311.15873v3
 [BBBV]: https://arxiv.org/abs/quant-ph/9701001
