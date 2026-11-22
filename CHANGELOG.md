@@ -2,6 +2,36 @@
 
 ## Unreleased
 
+- Adds the polynomial method over a finite alphabet and the approximation theory for
+  symmetrization arguments (groundwork for the collision lower bound of Kutin, Theory of
+  Computing 1 (2005), in the downstream problems repository):
+  - `Quantum/AlphabetPolynomialMethod.lean`: in the one-hot variables `δ_{i,j} = [a i = j]`
+    (`oneHot`), the amplitudes of a `t`-query native-oracle algorithm have degree `≤ t`
+    (`QAlg.hasOneHotAmpPoly_state`; representation required only at the one-hot points), output
+    probabilities are polynomials of total degree `≤ 2t` exactly at every input
+    (`QAlg.exists_probability_polynomial_oneHot`, `QAlg.exists_event_polynomial_oneHot`), and a
+    bounded-error algorithm gives an approximating polynomial with values in `[0, 1]` at every
+    input (`ComputesWithErrorOn.exists_approx_polynomial_oneHot`); the lower-bound interface
+    `OneHotPolyObstructionOn`, `lt_two_mul_of_computes_oneHot`, `lt_two_mul_qQueryOn_oneHot`,
+    `lt_two_mul_qQueryOn_oneHot_of_det`. The Boolean API is unchanged.
+  - `Polynomial/Markov.lean`: Markov's inequality at the endpoint (`|P'(1)| ≤ d²`, from Mathlib's
+    Chebyshev extremal theorem) and on an interval (`4 d² B / (β - α)`), and Bernstein's inequality
+    at the centre of an interval (`3 d B / r`).
+  - `Polynomial/IntegerGrid.lean`: two explicit cases of Paturi's theorem for polynomials bounded on
+    an integer grid: a jump between the first two points (`sq_natDegree_ge_of_endpoint_jump`) and a
+    bump of size `5` near the centre, which forces degree `≥ L / 2000`
+    (`natDegree_ge_of_center_bump`).
+  - Acceptance checks in `Test/AlphabetPolynomial.lean`; audited and pinned in
+    `Test/PolynomialAxioms.lean`.
+
+- Adds block arc systems for promise duals (`LearningGraph/BlockSys.lean`): blocks that load a set
+  of positions in a fixed order with one conductance read from the record on the block's incoming
+  set (`BlockSys`, `BlockSys.arcSys`), the in-block telescoping, cross sum and cost formulas, path
+  masses and budgets, and `hasDualOn_of_paths` (weighted block paths that telescope give a promise
+  dual of cost `√(N Q)`). Moved from the downstream triangle upper bound and generalized from total
+  functions read by `id` to an arbitrary observation map `read`. Audited and pinned in
+  `Test/AdversaryAxioms.lean`.
+
 - Adds the standard XOR oracle on the literal basis `ι × Bool × W`, with no idle query index or
   blank answer, and proves it equivalent to the library's XOR model:
   - the model (`Quantum/PlainOracle.lean`, namespace `QuantumQueryComplexity.Plain`): the oracle

@@ -21,9 +21,9 @@ Checks for `Quantum/AlphabetPolynomialMethod.lean`, `Polynomial/Markov.lean`,
    `[-1, 1]` and has `T_n'(1) = n²`, the bound of `abs_derivative_eval_one_le`; `T₂ = 2X² - 1`
    is checked by hand.
 4. **Instances of the derivative and grid lemmas**: Bernstein at the centre for the oscillatory
-   `T₅` (bound `15`, true value `5`; linear in the degree, where Markov would give `4 · 25`), and
-   a cubic that vanishes at the grid `0, 1, 2` and has a bump of size `6` at `3/2` (so the centre
-   lemma's hypotheses are met by a genuine bump, not vacuously).
+   `T₅` (bound `15`, true value `5`; linear in the degree, where Markov would give
+   `4 · 25 / 2 = 50`), and a cubic that vanishes at the grid `0, 1, 2` and has a bump of size `6`
+   at `3/2` (so the centre lemma's hypotheses are met by a genuine bump, not vacuously).
 
 Every check is a named theorem, so that the axiom drivers visit it (anonymous `example`s are
 discarded after elaboration).
