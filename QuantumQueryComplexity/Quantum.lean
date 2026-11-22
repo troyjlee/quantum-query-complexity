@@ -205,7 +205,7 @@ Layers, in dependency order:
 | `XorOracle` | the standard Boolean XOR oracle, and its query model (`xorQQueryOn`) |
 | `Simulation` | **oracle simulation**: transposition ↔ XOR at two queries per query |
 | `PlainOracle` | the standard XOR oracle on the literal basis `ι × Bool × W`, and its model |
-| `PlainSimulation` | **standard XOR ≡ library XOR**: equal query counts for nonempty `ι`, no overhead |
+| `PlainSimulation` | **standard XOR ≡ library XOR**: equal query counts for nonempty `ι` |
 | `OneHot` | **Milestone G**: the canonical one-hot XOR oracle model (`Hot σ`, `oneHotQQueryOn`) |
 | `OneHotSimulation` | **Milestone G**: transposition ↔ one-hot XOR, direct, two queries per query |
 | `OneHotReadAll` | **Milestone G**: exact `|ι|`-query one-hot read-all, `oneHotQQueryOn ≤ |ι|` |
