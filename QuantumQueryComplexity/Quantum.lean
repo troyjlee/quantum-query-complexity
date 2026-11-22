@@ -115,6 +115,8 @@ import QuantumQueryComplexity.Quantum.Amplitude.CoherentPrep
 import QuantumQueryComplexity.Quantum.RoutineClose
 import QuantumQueryComplexity.Quantum.PromiseOr
 import QuantumQueryComplexity.Quantum.IndexCopy
+import QuantumQueryComplexity.Quantum.ReadGadget
+import QuantumQueryComplexity.Quantum.DecisionTree
 import QuantumQueryComplexity.Quantum.JointState.Basic
 import QuantumQueryComplexity.Quantum.JointState.Conditioning
 import QuantumQueryComplexity.Quantum.JointState.Oracle
@@ -152,6 +154,7 @@ import QuantumQueryComplexity.Quantum.Transfer.Endpoint
 import QuantumQueryComplexity.Quantum.Transfer.Verifier
 import QuantumQueryComplexity.Quantum.Transfer.Comparison
 import QuantumQueryComplexity.Quantum.Transfer.BBBV
+import QuantumQueryComplexity.Quantum.Transducer
 set_option linter.style.header false
 
 /-!
@@ -286,7 +289,10 @@ Layers, in dependency order:
 | `RoutineClose` | **approximate preparations inside larger routines**: errors add and phases multiply under composition; lifting along an oracle-compatible split and query-free unitaries keeps the error and the phase |
 | `PromiseOr` | **combining one-sided promise tests with unequal costs** (variable-time search by dyadic classes): `Õ(√(∑ q_i²))` with explicit constant and logarithms |
 | `IndexCopy` | **copied input bits cost one query each** in the value-oracle model (`Realizes.reindex`, any `φ : κ → ι`) |
+| `ReadGadget` | **reads-controlled unitaries**: at control `c`, apply `M c (readAnswers addr x c)` to the target (slot `j`: `some (x i)` at `addr c j = some i`, blank at an idle address), by one fixed routine of exactly `2k` swap queries on the parked sector (`exists_readGadget`); free lifts of fixed unitaries (`readLift`) |
+| `DecisionTree` | **decision trees over the swap oracle** (`ReadTree`): a tree of depth `≤ T` with a nonempty output type is realized with exactly `T` queries as a point mass (`ReadTree.realizes`); **derived oracles**: letters computed by trees of depth `≤ T`, `0 < T`, are simulated at `2T` queries per query by one algorithm for every query count, same success for every relation (`exists_treeSim`, `Realizes.treeSim`, non-adaptive `exists_readsSim` with `0 < k`) |
 | `Walk/Chain` | reversible chains and the discriminant (`disc_herm`, `disc_r`, `r_unit`); complete resampling (gap `1`) and the lazy two-state chain (gap `2p`) |
+| `Transducer` | **transducers** [BJY23, Theorem 5.5]: from a catalyst identity `S(ξ + v) = τ + v` (`Transduces`; privacy is a predicate on basis states) to one fixed routine of `K · R.len` queries (uniform clock, `K` controlled runs of `R`, cyclic clock advance on the private part) mapping `|0⟩ ⊗ ξ` to within `2‖v‖/√K` of `|0⟩ ⊗ τ` for every catalyst `v`; the matrix form `Transducer.circuit` |
 
 Two different notions of amplification live here: `Amplify` is classical *majority*
 amplification of a Boolean answer (error reduction by repetition); `Amplitude/*` is
