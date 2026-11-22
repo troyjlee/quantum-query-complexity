@@ -2,8 +2,7 @@
 
 ## Unreleased
 
-- Adds query gadgets, decision trees and derived oracles for the swap oracle (statements for
-  review; proofs pending):
+- Adds query gadgets, decision trees and derived oracles for the swap oracle:
   - `Quantum/ReadGadget.lean`: reads-controlled unitaries. For addresses `addr c j : Option ι`
     (`j < k`) chosen by a control value `c` and unitaries `M c s` on a target register, one
     routine fixed before the input makes exactly `2k` queries and acts on the parked sector
