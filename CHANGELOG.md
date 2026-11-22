@@ -18,6 +18,24 @@
     `Quantum/Characterization.lean`);
   - audited and pinned in `Test/AdversaryAxioms.lean`.
 
+- Adds query gadgets, decision trees and derived oracles for the swap oracle:
+  - `Quantum/ReadGadget.lean`: reads-controlled unitaries. For addresses `addr c j : Option ι`
+    (`j < k`) chosen by a control value `c` and unitaries `M c s` on a target register, one
+    routine fixed before the input makes exactly `2k` queries and acts on the parked sector
+    (query registers idle and blank, scratch blank) as
+    `|c⟩|d⟩ ↦ |c⟩ M(c, readAnswers addr x c)|d⟩` for every input, slot `j` of the answers being
+    `some (x i)` at `addr c j = some i` and blank at an idle address (`exists_readGadget`,
+    `readGadget`, `readCtrlMat`, `readPark`); free lifts of fixed unitaries on the control and
+    target registers (`readLift`).
+  - `Quantum/DecisionTree.lean`: decision trees `ReadTree ι σ O` reading an input `ι → σ`
+    (`eval`, `depth`, `bind`, non-adaptive `reads`). A tree of depth at most `T` with a nonempty
+    output type is realized with exactly `T` queries, its output a point mass
+    (`ReadTree.realizes`). Derived oracles: if every letter of `y` is computed from `x` by a tree
+    of depth at most `T > 0`, every algorithm querying `y` has a simulation, fixed before the
+    input and the query count, with `2Tq` queries to `x` and the same success probability for
+    every relation on outputs (`exists_treeSim`, `treeInput`; for outcome laws
+    `Realizes.treeSim`; non-adaptive reads, `0 < k`, `2kq` queries, `exists_readsSim`).
+
 - Adds elementary facts used by the triangle and four-cycle lower bounds of the problems
   repository, moved there from their private helpers (statements unchanged up to names):
   - events (`JointState/Conditioning.lean`): `FinDist.probOf_congr`, `FinDist.probOf_pos_of_mem`,
