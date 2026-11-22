@@ -166,8 +166,6 @@ theorem qProb_toXor_state (A : PAlg ι O W) (a : ι → Bool) (t : ℕ) (o : O) 
     qProb A.toXor.readout (xorState A.toXor a t) o = qProb A.readout (A.state a t) o := by
   rw [xorState_toXor, qProb_toXor]
 
-variable [Fintype X]
-
 /-- **Standard to library**: a standard-model decider is a library XOR-model decider on the same
 workspace, with the same query count and error. -/
 theorem xorComputes_toXor {A : PAlg ι O W} {q : ℕ} {read : X → ι → Bool} {f : X → O} {ε : ℝ}
@@ -364,8 +362,6 @@ theorem qProb_toPlain_state (A : QAlg ι Bool O W) (i₀ : ι) (a : ι → Bool)
       = qProb A.readout (xorState A a t) o := by
   rw [state_toPlain, qProb_toPlain]
 
-variable [Fintype X]
-
 /-- **Library to standard**: a library XOR-model decider is simulated by a standard-model decider
 with the same query count and error, for any parking index `i₀`. -/
 theorem plainComputes_toPlain {A : QAlg ι Bool O W} (i₀ : ι) {q : ℕ} {read : X → ι → Bool}
@@ -381,7 +377,7 @@ theorem plainComputes_toPlain {A : QAlg ι Bool O W} (i₀ : ι) {q : ℕ} {read
 theorem xorQueryCounts_of_plain {read : X → ι → Bool} {f : X → O} {ε : ℝ} {q : ℕ}
     (h : q ∈ PlainQueryCounts read f ε) : q ∈ XorQueryCounts read f ε := by
   obtain ⟨W, _, _, A, hA⟩ := h
-  exact mem_xorQueryCounts (xorComputes_toXor hA)
+  exact ⟨W, inferInstance, inferInstance, A.toXor, xorComputes_toXor hA⟩
 
 /-- For a nonempty index type, a library XOR-model query count is a standard-model query
 count. -/

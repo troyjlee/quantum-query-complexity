@@ -10,8 +10,9 @@ set_option linter.unusedFintypeInType false
 The library's oracle models (`Oracle.lean`, `XorOracle.lean`, `AddOracle.lean`) run algorithms
 on the basis `QBasis ι σ W = Option ι × Option σ × W`: besides the indices `some i` and the
 answers `some s`, the query register has an *idle* value `none` and the answer register a
-*blank* value `none`, on which every oracle acts as the identity. The textbook model has
-neither. Its basis is
+*blank* value `none`. Every oracle acts as the identity on an idle query; the XOR and additive
+oracles also leave a blank answer unchanged, while the value oracle writes the answer into it. The
+textbook model has neither value. Its basis is
 
   `PBasis ι W = ι × Bool × W`,
 
@@ -119,7 +120,7 @@ theorem state_isQState (A : PAlg ι O W) (a : ι → Bool) (t : ℕ) : IsQState 
 
 end PAlg
 
-variable [DecidableEq O] [Fintype X]
+variable [DecidableEq O]
 
 /-- `A` computes `f` on the promise `read` with error at most `ε` in `q` **standard XOR
 queries**: on every input `x` the readout announces `f x` with probability at least `1 - ε`
@@ -134,7 +135,8 @@ def PlainQueryCounts (read : X → ι → Bool) (f : X → O) (ε : ℝ) : Set �
   {q | ∃ (W : Type) (_ : Fintype W) (_ : DecidableEq W) (A : PAlg ι O W),
     PlainComputesWithErrorOn A q read f ε}
 
-/-- **Quantum query complexity in the standard XOR model**: the least achievable query count. -/
+/-- **Quantum query complexity in the standard XOR model**: the infimum of the achievable query
+counts, which is the least of them when some count is achievable and `0` (`sInf ∅`) when none is. -/
 noncomputable def plainQQueryOn (read : X → ι → Bool) (f : X → O) (ε : ℝ) : ℕ :=
   sInf (PlainQueryCounts read f ε)
 

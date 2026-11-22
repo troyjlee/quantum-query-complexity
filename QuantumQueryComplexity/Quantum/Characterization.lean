@@ -53,7 +53,8 @@ per query.  Convention, stated for precision: that XOR model lives on the
 same basis `Option ι × Option Bool × W`, acting as the textbook XOR on the
 `some`-answer sector and as the identity on the idle and blank sectors.
 `PlainSimulation.lean` proves that model equivalent, with no overhead, to the
-standard XOR model on the literal basis `ι × Bool × W`; the characterization
+standard XOR model on the literal basis `ι × Bool × W`, for every nonempty
+index type `ι`; the characterization
 on that basis is `Plain.plainQQuery_characterized_by_advPM`, at the end of
 this file.
 -/
