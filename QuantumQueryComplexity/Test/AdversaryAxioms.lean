@@ -18,7 +18,9 @@ group with their two-query simulations (`Quantum/AddOracle`, `Quantum/AddSimulat
 duals (`LearningGraph/ArcSystem`), algorithms at a fixed budget from promise duals with their
 amplification (`Quantum/DualAlgorithm`), and the standard XOR model on the literal basis
 `ι × Bool × W` with its equivalence to the library's XOR model (`Quantum/PlainOracle`,
-`Quantum/PlainSimulation`).
+`Quantum/PlainSimulation`), transducers [BJY23, Theorem 5.5] (`Quantum/Transducer`), and
+reads-controlled unitaries, decision trees and derived oracles (`Quantum/ReadGadget`,
+`Quantum/DecisionTree`).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -39,7 +41,10 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.AddOracle,
     QuantumQueryComplexity.Quantum.AddSimulation,
     QuantumQueryComplexity.LearningGraph.ArcSystem,
-    QuantumQueryComplexity.Quantum.DualAlgorithm]
+    QuantumQueryComplexity.Quantum.DualAlgorithm,
+    QuantumQueryComplexity.Quantum.Transducer,
+    QuantumQueryComplexity.Quantum.ReadGadget,
+    QuantumQueryComplexity.Quantum.DecisionTree]
   pins [
     QuantumQueryComplexity.advDual_eq_advPM,
     QuantumQueryComplexity.advPM_composeFun_eq,
@@ -80,4 +85,17 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Plain.plainComputes_toPlain,
     QuantumQueryComplexity.Plain.plainQueryCounts_eq,
     QuantumQueryComplexity.Plain.plainQQueryOn_eq,
-    QuantumQueryComplexity.Plain.plainQQuery_characterized_by_advPM]
+    QuantumQueryComplexity.Plain.plainQQuery_characterized_by_advPM,
+    QuantumQueryComplexity.Transducer.circuit_mem_unitaryGroup,
+    QuantumQueryComplexity.Transducer.loop_catalyst,
+    QuantumQueryComplexity.Transducer.circuit_close,
+    QuantumQueryComplexity.exists_transducerRoutine_encoded,
+    QuantumQueryComplexity.exists_transducerRoutine,
+    QuantumQueryComplexity.exists_transducerRoutine_of_realizes,
+    QuantumQueryComplexity.exists_readGadget,
+    QuantumQueryComplexity.readCtrlMat_mem_unitaryGroup,
+    QuantumQueryComplexity.readGadget_run_readPark,
+    QuantumQueryComplexity.ReadTree.realizes,
+    QuantumQueryComplexity.exists_treeSim,
+    QuantumQueryComplexity.Realizes.treeSim,
+    QuantumQueryComplexity.exists_readsSim]
