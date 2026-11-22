@@ -119,10 +119,10 @@ infimum defining query complexity.
 | --- | --- |
 | Adversary definitions and spectral estimates | `Defs`, `Spectral`, `Basic`, `Dual`, `Promise/Defs` |
 | Strong duality and composition | `Duality/`, `Composition/`, `Relational/`, `DualCompose` |
-| Reusable dual constructions | `HasDual`, `Weighted*`, `Promise/`, `Scan/`, `Adaptive`, `DecisionTree`, `PredictionTree*`, `TreeSearch/` |
+| Reusable dual constructions | `HasDual`, `Weighted*`, `Promise/`, `Scan/`, `Adaptive`, `DecisionTree`, `PredictionTree*`, `TreeSearch/`, `LearningGraph/` (including block arc systems, `BlockSys`) |
 | Quantum states, algorithms and extraction | `Quantum/FiniteHilbert`, `Oracle`, `Algorithm`, `Complexity`, `UniformExtraction`, `UniformHasDual`, `DualAlgorithm` |
 | Lower bounds and oracle simulations | `Quantum/LowerBound/`, `Characterization`, `Simulation`, `OneHot*` |
-| Polynomial method | `Polynomial/`, `Quantum/PolynomialMethod`, `XorPolynomialMethod`, `PolynomialLowerBound` |
+| Polynomial method | `Polynomial/` (including Markov/Bernstein and integer-grid bounds), `Quantum/PolynomialMethod`, `XorPolynomialMethod`, `PolynomialLowerBound`, `AlphabetPolynomialMethod` |
 | Amplification, estimation and search | `Quantum/Amplitude/`, `RobustSearch/`, `Walk/` |
 | Transducers, read gadgets and derived oracles | `Quantum/Transducer`, `Quantum/ReadGadget`, `Quantum/DecisionTree` |
 | Joint states, conditional resampling and comparison of computations | `Quantum/JointState/`, `Quantum/Records/`, `Quantum/Transfer/` |

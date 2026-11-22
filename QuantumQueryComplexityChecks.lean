@@ -4,6 +4,7 @@ import QuantumQueryComplexity.Test.LibraryBoundary
 import QuantumQueryComplexity.Test.AxiomSupport
 import QuantumQueryComplexity.Test.PredictionTreeCompose
 import QuantumQueryComplexity.Test.PolynomialMethod
+import QuantumQueryComplexity.Test.AlphabetPolynomial
 import QuantumQueryComplexity.Test.AmplitudeAmplification
 import QuantumQueryComplexity.Test.AmplitudeEstimation
 import QuantumQueryComplexity.Test.RobustSearch

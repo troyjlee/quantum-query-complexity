@@ -79,6 +79,7 @@ import QuantumQueryComplexity.LearningGraph.Defs
 import QuantumQueryComplexity.LearningGraph.Cut
 import QuantumQueryComplexity.LearningGraph.Dual
 import QuantumQueryComplexity.LearningGraph.ArcSystem
+import QuantumQueryComplexity.LearningGraph.BlockSys
 import QuantumQueryComplexity.ED.Defs
 import QuantumQueryComplexity.ED.Flow
 import QuantumQueryComplexity.ED.Count
@@ -146,6 +147,9 @@ import QuantumQueryComplexity.Polynomial.Boolean
 import QuantumQueryComplexity.Quantum.PolynomialMethod
 import QuantumQueryComplexity.Quantum.XorPolynomialMethod
 import QuantumQueryComplexity.Quantum.PolynomialLowerBound
+import QuantumQueryComplexity.Quantum.AlphabetPolynomialMethod
+import QuantumQueryComplexity.Polynomial.Markov
+import QuantumQueryComplexity.Polynomial.IntegerGrid
 import QuantumQueryComplexity.Quantum.Records.BooleanDegree
 
 /-!
@@ -160,8 +164,12 @@ characterization, and the classic examples (element distinctness,
 with their operational endpoints and statement pins, and the polynomial method
 (`Quantum/PolynomialMethod.lean`: for Boolean inputs, acceptance probabilities
 are polynomials of degree at most `2T`, for the native and the XOR oracle,
-with the lower-bound transfer; `Quantum/Records/BooleanDegree.lean` re-derives the amplitude
-bound from the record decomposition of the uniform distribution).
+with the lower-bound transfer; `Quantum/AlphabetPolynomialMethod.lean`: the same over a finite
+alphabet in the one-hot variables `δ_{i,j} = [a i = j]`; `Quantum/Records/BooleanDegree.lean`
+re-derives the amplitude bound from the record decomposition of the uniform distribution), with
+the approximation theory it needs (`Polynomial/Markov.lean`: Markov's and Bernstein's
+inequalities; `Polynomial/IntegerGrid.lean`: two explicit cases of Paturi's theorem), and block
+arc systems for promise duals (`LearningGraph/BlockSys.lean`).
 
 `Test/LibraryBoundary.lean` checks that this library's imports stay within
 Lean, Mathlib, and `QuantumQueryComplexity`.
