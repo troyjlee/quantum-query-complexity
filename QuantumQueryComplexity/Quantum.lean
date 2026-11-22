@@ -152,6 +152,7 @@ import QuantumQueryComplexity.Quantum.Transfer.Endpoint
 import QuantumQueryComplexity.Quantum.Transfer.Verifier
 import QuantumQueryComplexity.Quantum.Transfer.Comparison
 import QuantumQueryComplexity.Quantum.Transfer.BBBV
+import QuantumQueryComplexity.Quantum.Transducer
 set_option linter.style.header false
 
 /-!
@@ -287,6 +288,7 @@ Layers, in dependency order:
 | `PromiseOr` | **combining one-sided promise tests with unequal costs** (variable-time search by dyadic classes): `Õ(√(∑ q_i²))` with explicit constant and logarithms |
 | `IndexCopy` | **copied input bits cost one query each** in the value-oracle model (`Realizes.reindex`, any `φ : κ → ι`) |
 | `Walk/Chain` | reversible chains and the discriminant (`disc_herm`, `disc_r`, `r_unit`); complete resampling (gap `1`) and the lazy two-state chain (gap `2p`) |
+| `Transducer` | **transducers** [BJY23, Theorem 5.5]: from a catalyst identity `S(ξ + v) = τ + v` (`Transduces`; privacy is a predicate on basis states) to one fixed routine of `K · R.len` queries (uniform clock, `K` controlled runs of `R`, cyclic clock advance on the private part) mapping `|0⟩ ⊗ ξ` to within `2‖v‖/√K` of `|0⟩ ⊗ τ` for every catalyst `v`; the matrix form `Transducer.circuit` |
 
 Two different notions of amplification live here: `Amplify` is classical *majority*
 amplification of a Boolean answer (error reduction by repetition); `Amplitude/*` is
