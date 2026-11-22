@@ -30,6 +30,8 @@ import QuantumQueryComplexity.Quantum.HadamardTest
 import QuantumQueryComplexity.Quantum.UpperBound
 import QuantumQueryComplexity.Quantum.XorOracle
 import QuantumQueryComplexity.Quantum.Simulation
+import QuantumQueryComplexity.Quantum.PlainOracle
+import QuantumQueryComplexity.Quantum.PlainSimulation
 import QuantumQueryComplexity.Quantum.OneHot
 import QuantumQueryComplexity.Quantum.OneHotSimulation
 import QuantumQueryComplexity.Quantum.OneHotReadAll
@@ -202,6 +204,8 @@ Layers, in dependency order:
 | `UpperBound` | **the dual-to-algorithm extraction**: `Q_{1/16}(f) ≤ 8192(1 + 4√|σ|·c)` |
 | `XorOracle` | the standard Boolean XOR oracle, and its query model (`xorQQueryOn`) |
 | `Simulation` | **oracle simulation**: transposition ↔ XOR at two queries per query |
+| `PlainOracle` | the standard XOR oracle on the literal basis `ι × Bool × W`, and its model |
+| `PlainSimulation` | **standard XOR ≡ library XOR**: equal query counts, no overhead |
 | `OneHot` | **Milestone G**: the canonical one-hot XOR oracle model (`Hot σ`, `oneHotQQueryOn`) |
 | `OneHotSimulation` | **Milestone G**: transposition ↔ one-hot XOR, direct, two queries per query |
 | `OneHotReadAll` | **Milestone G**: exact `|ι|`-query one-hot read-all, `oneHotQQueryOn ≤ |ι|` |

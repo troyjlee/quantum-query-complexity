@@ -1,6 +1,7 @@
 import QuantumQueryComplexity.Quantum.UpperBound
 import QuantumQueryComplexity.Quantum.UniformHasDual
 import QuantumQueryComplexity.Quantum.Simulation
+import QuantumQueryComplexity.Quantum.PlainSimulation
 import QuantumQueryComplexity.Quantum.FiniteOutput
 import QuantumQueryComplexity.Promise.Post
 import QuantumQueryComplexity.Quantum.LowerBound.Main
@@ -50,9 +51,11 @@ characterization into the conventional model
 oracle with explicit idle-index and blank-answer sectors**, at two queries
 per query.  Convention, stated for precision: that XOR model lives on the
 same basis `Option ι × Option Bool × W`, acting as the textbook XOR on the
-`some`-answer sector and as the identity on the idle and blank sectors; the
-further padding equivalence to a literal `ι × Bool × W` basis is a standard
-harmless extension and is not separately formalized.
+`some`-answer sector and as the identity on the idle and blank sectors.
+`PlainSimulation.lean` proves that model equivalent, with no overhead, to the
+standard XOR model on the literal basis `ι × Bool × W`; the characterization
+on that basis is `Plain.plainQQuery_characterized_by_advPM`, at the end of
+this file.
 -/
 
 namespace QuantumQueryComplexity
@@ -526,5 +529,19 @@ theorem qQueryOn_characterized_by_advPMOn_third_mul {O : Type} [Fintype O]
     qQueryOn_le_mul_advPMOn_finiteOutput read f hdet⟩
 
 end Promise
+
+namespace Plain
+
+/-- **The adversary characterization on the literal basis**: for a total Boolean function on a
+nonempty index type, the bounded-error query complexity in the standard XOR model at error `1/3`
+lies between `ADV±(f)/72` and `2^15·ADV±(f)`, as in the library's XOR model
+(`xorQQuery_characterized_by_advPM`). -/
+theorem plainQQuery_characterized_by_advPM [Nonempty ι] (f : (ι → Bool) → Bool) :
+    (1 / 72 : ℝ) * advPM f ≤ (plainQQueryOn (id : (ι → Bool) → ι → Bool) f (1 / 3) : ℝ) ∧
+      (plainQQueryOn (id : (ι → Bool) → ι → Bool) f (1 / 3) : ℝ) ≤ 2 ^ 15 * advPM f := by
+  rw [plainQQueryOn_eq]
+  exact xorQQuery_characterized_by_advPM f
+
+end Plain
 
 end QuantumQueryComplexity

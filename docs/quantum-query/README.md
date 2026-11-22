@@ -83,8 +83,11 @@ answer sector.
 
 [Simulation.lean](../../QuantumQueryComplexity/Quantum/Simulation.lean) proves
 factor-two simulations in both directions for Boolean XOR queries. The XOR
-model retains the idle and blank sectors. Equivalence to a basis with those
-sectors removed is not separately formalized.
+model retains the idle and blank sectors.
+[PlainSimulation.lean](../../QuantumQueryComplexity/Quantum/PlainSimulation.lean) proves it
+equivalent to the standard XOR model on the literal basis `ι × Bool × W` of
+[PlainOracle.lean](../../QuantumQueryComplexity/Quantum/PlainOracle.lean), with no overhead in
+either direction: for every nonempty index type the two models have the same query counts.
 [OneHotSimulation.lean](../../QuantumQueryComplexity/Quantum/OneHotSimulation.lean)
 gives a factor-two comparison with a specified one-hot XOR encoding for finite
 alphabets; the statement concerns that encoding.
