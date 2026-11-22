@@ -1,5 +1,6 @@
 import QuantumQueryComplexity.Quantum.Postcomp
 import QuantumQueryComplexity.Quantum.Characterization
+import QuantumQueryComplexity.Quantum.PlainSimulation
 
 /-! A consumer project uses only public imports from its Lake dependency. -/
 
@@ -17,3 +18,8 @@ example {ι : Type} [Fintype ι] [DecidableEq ι] (f : (ι → Bool) → Bool)
   have hq := mul_advPM_le_boundedErrorQQuery f
   have hk : (k : ℝ) ≤ (boundedErrorQQuery f : ℝ) := by linarith
   exact_mod_cast hk
+
+example {ι : Type} [Fintype ι] [DecidableEq ι] [Nonempty ι] (f : (ι → Bool) → Bool) :
+    Plain.plainQQueryOn (id : (ι → Bool) → ι → Bool) f (1 / 3)
+      = xorQQueryOn (id : (ι → Bool) → ι → Bool) f (1 / 3) :=
+  Plain.plainQQueryOn_eq _ _ _

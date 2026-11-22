@@ -15,8 +15,10 @@ operational oracle model and the dual-to-algorithm construction, and the
 general adversary bound for rectangular matrices (`Quantum/LowerBound/Rect`), weighted
 counting (`Quantum/LowerBound/WeightedCounting`), additive oracles over a finite abelian
 group with their two-query simulations (`Quantum/AddOracle`, `Quantum/AddSimulation`), arc-system
-duals (`LearningGraph/ArcSystem`), and algorithms at a fixed budget from promise duals with their
-amplification (`Quantum/DualAlgorithm`).
+duals (`LearningGraph/ArcSystem`), algorithms at a fixed budget from promise duals with their
+amplification (`Quantum/DualAlgorithm`), and the standard XOR model on the literal basis
+`ι × Bool × W` with its equivalence to the library's XOR model (`Quantum/PlainOracle`,
+`Quantum/PlainSimulation`).
 -/
 
 open QuantumQueryComplexity.AxiomAudit
@@ -30,6 +32,8 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.UniformExtraction,
     QuantumQueryComplexity.Quantum.UniformHasDual,
     QuantumQueryComplexity.Quantum.Simulation,
+    QuantumQueryComplexity.Quantum.PlainOracle,
+    QuantumQueryComplexity.Quantum.PlainSimulation,
     QuantumQueryComplexity.Quantum.LowerBound.Rect,
     QuantumQueryComplexity.Quantum.LowerBound.WeightedCounting,
     QuantumQueryComplexity.Quantum.AddOracle,
@@ -67,4 +71,13 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.LGFlow.toArcSystem_feasible,
     QuantumQueryComplexity.LGFlow.hasDual_of_arcSystem,
     QuantumQueryComplexity.exists_alg_of_hasDualOn,
-    QuantumQueryComplexity.exists_alg_amplify]
+    QuantumQueryComplexity.exists_alg_amplify,
+    QuantumQueryComplexity.Plain.plainOracleMat_mem_unitaryGroup,
+    QuantumQueryComplexity.Plain.PAlg.state_isQState,
+    QuantumQueryComplexity.Plain.qProb_toXor_state,
+    QuantumQueryComplexity.Plain.qProb_toPlain_state,
+    QuantumQueryComplexity.Plain.xorComputes_toXor,
+    QuantumQueryComplexity.Plain.plainComputes_toPlain,
+    QuantumQueryComplexity.Plain.plainQueryCounts_eq,
+    QuantumQueryComplexity.Plain.plainQQueryOn_eq,
+    QuantumQueryComplexity.Plain.plainQQuery_characterized_by_advPM]

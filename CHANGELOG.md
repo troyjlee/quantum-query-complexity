@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- Adds the standard XOR oracle on the literal basis `ι × Bool × W`, with no idle query index or
+  blank answer, and proves it equivalent to the library's XOR model:
+  - the model (`Quantum/PlainOracle.lean`, namespace `QuantumQueryComplexity.Plain`): the oracle
+    `|i, b, w⟩ ↦ |i, b ⊕ a i, w⟩` (`plainOracleMat`), algorithms `PAlg` with their states
+    `PAlg.state`, `PlainComputesWithErrorOn`, `PlainQueryCounts`, `plainQQueryOn`;
+  - the equivalence (`Quantum/PlainSimulation.lean`): a standard algorithm is a library XOR
+    algorithm on the same workspace (`Plain.PAlg.toXor`), and a library XOR algorithm is simulated
+    by a standard one whose workspace is its basis (`QAlg.toPlain`), both with the same number of
+    queries and the same output distribution after every query (`Plain.qProb_toXor_state`,
+    `Plain.qProb_toPlain_state`, and `Plain.xorComputes_toXor`, `Plain.plainComputes_toPlain` for
+    deciders); hence equal query counts and complexities for every nonempty index type
+    (`Plain.plainQueryCounts_eq`, `Plain.plainQQueryOn_eq`), and the adversary characterization on
+    the literal basis (`Plain.plainQQuery_characterized_by_advPM`, in the integration file
+    `Quantum/Characterization.lean`);
+  - audited and pinned in `Test/AdversaryAxioms.lean`.
+
 - Adds elementary facts used by the triangle and four-cycle lower bounds of the problems
   repository, moved there from their private helpers (statements unchanged up to names):
   - events (`JointState/Conditioning.lean`): `FinDist.probOf_congr`, `FinDist.probOf_pos_of_mem`,
