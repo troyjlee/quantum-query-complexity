@@ -1,5 +1,6 @@
 import QuantumQueryComplexity.Test.AxiomSupport
 import QuantumQueryComplexity.Test.PolynomialMethod
+import QuantumQueryComplexity.Test.AlphabetPolynomial
 set_option linter.style.header false
 
 /-!
@@ -21,12 +22,23 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.Quantum.PolynomialMethod,
     QuantumQueryComplexity.Quantum.XorPolynomialMethod,
     QuantumQueryComplexity.Quantum.PolynomialLowerBound,
-    QuantumQueryComplexity.Test.PolynomialMethod]
+    QuantumQueryComplexity.Quantum.AlphabetPolynomialMethod,
+    QuantumQueryComplexity.Polynomial.Markov,
+    QuantumQueryComplexity.Polynomial.IntegerGrid,
+    QuantumQueryComplexity.Test.PolynomialMethod,
+    QuantumQueryComplexity.Test.AlphabetPolynomial]
   pins [
     QuantumQueryComplexity.QAlg.exists_probability_polynomial,
     QuantumQueryComplexity.exists_xor_probability_polynomial,
     QuantumQueryComplexity.PolynomialMethodAcceptance.acceptance_degree_native,
-    QuantumQueryComplexity.PolynomialMethodAcceptance.acceptance_degree_xor]
+    QuantumQueryComplexity.PolynomialMethodAcceptance.acceptance_degree_xor,
+    QuantumQueryComplexity.QAlg.exists_probability_polynomial_oneHot,
+    QuantumQueryComplexity.ComputesWithErrorOn.exists_approx_polynomial_oneHot,
+    QuantumQueryComplexity.lt_two_mul_qQueryOn_oneHot_of_det,
+    QuantumQueryComplexity.abs_derivative_eval_le_markov,
+    QuantumQueryComplexity.abs_derivative_eval_le_bernstein,
+    QuantumQueryComplexity.sq_natDegree_ge_of_endpoint_jump,
+    QuantumQueryComplexity.natDegree_ge_of_center_bump]
 
 /-! ## The failure paths are exercised -/
 
