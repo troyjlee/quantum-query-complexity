@@ -1,6 +1,7 @@
 import QuantumQueryComplexity.Quantum.AlphabetPolynomialMethod
 import QuantumQueryComplexity.Polynomial.IntegerGrid
 import QuantumQueryComplexity.LearningGraph.BlockSys
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Chebyshev.RootsExtrema
 
 set_option linter.style.header false
 set_option linter.unusedSectionVars false
@@ -16,11 +17,16 @@ Checks for `Quantum/AlphabetPolynomialMethod.lean`, `Polynomial/Markov.lean`,
 1. **One-hot points**: each row of `oneHot a` has exactly one `true`.
 2. **A worked obstruction over an alphabet**: no constant approximates the indicator
    `[a i = j₁]` within `ε < 1/2`, hence `1 ≤ Q_ε` from the alphabet polynomial method alone.
-3. **Markov is sharp at the endpoint**: `T₂ = 2X² - 1` is bounded by `1` on `[-1, 1]` and has
-   `T₂'(1) = 4 = 2²`, the bound of `abs_derivative_eval_one_le`.
-4. **Instances of the derivative and grid lemmas**, including a cubic that vanishes at the grid
-   `0, 1, 2` and has a bump of size `6` at `3/2` (so the centre lemma's hypotheses are met by a
-   genuine bump, not vacuously).
+3. **Markov is sharp at the endpoint**: every Chebyshev polynomial `T_n` is bounded by `1` on
+   `[-1, 1]` and has `T_n'(1) = n²`, the bound of `abs_derivative_eval_one_le`; `T₂ = 2X² - 1`
+   is checked by hand.
+4. **Instances of the derivative and grid lemmas**: Bernstein at the centre for the oscillatory
+   `T₅` (bound `15`, true value `5`; linear in the degree, where Markov would give `4 · 25`), and
+   a cubic that vanishes at the grid `0, 1, 2` and has a bump of size `6` at `3/2` (so the centre
+   lemma's hypotheses are met by a genuine bump, not vacuously).
+
+Every check is a named theorem, so that the axiom drivers visit it (anonymous `example`s are
+discarded after elaboration).
 5. **A block arc system with a nontrivial observation map**: one bit of a promise read through
    `read x = fun _ => x`, one block, one path, dual cost `1` from `hasDualOn_of_paths`.
 
@@ -62,8 +68,8 @@ theorem oneHotObstruction_indicator_zero {ι σ : Type} [Fintype ι] [DecidableE
   linarith [h0.2, h1.1]
 
 /-- `1 ≤ Q_ε([a i = j₁])` for every `0 ≤ ε < 1/2`, from the alphabet polynomial method. -/
-example {ι σ : Type} [Fintype ι] [DecidableEq ι] [Fintype σ] [DecidableEq σ] (i : ι)
-    {j₀ j₁ : σ} (hj : j₀ ≠ j₁) {ε : ℝ} (hε0 : 0 ≤ ε) (hε : ε < 1 / 2) :
+theorem one_le_qQueryOn_indicator {ι σ : Type} [Fintype ι] [DecidableEq ι] [Fintype σ]
+    [DecidableEq σ] (i : ι) {j₀ j₁ : σ} (hj : j₀ ≠ j₁) {ε : ℝ} (hε0 : 0 ≤ ε) (hε : ε < 1 / 2) :
     1 ≤ qQueryOn (id : (ι → σ) → ι → σ) (fun a => decide (a i = j₁)) ε := by
   have h := lt_two_mul_qQueryOn_oneHot_of_det
     (fun _ _ h => congrArg (fun a : ι → σ => decide (a i = j₁)) h) hε0
@@ -72,8 +78,21 @@ example {ι σ : Type} [Fintype ι] [DecidableEq ι] [Fintype σ] [DecidableEq �
 
 /-! ## 3. Markov is sharp at the endpoint -/
 
+/-- Every Chebyshev polynomial `T_n` meets the hypotheses of the endpoint Markov inequality
+with `d = n` and attains its bound: `T_n'(1) = n²`. -/
+theorem markov_sharp_chebyshev (n : ℕ) :
+    (∀ x ∈ Set.Icc (-1 : ℝ) 1, |(Chebyshev.T ℝ (n : ℤ)).eval x| ≤ 1) ∧
+      |(Chebyshev.T ℝ (n : ℤ)).derivative.eval 1| ≤ (n : ℝ) ^ 2 ∧
+      (Chebyshev.T ℝ (n : ℤ)).derivative.eval 1 = (n : ℝ) ^ 2 := by
+  have hb : ∀ x ∈ Set.Icc (-1 : ℝ) 1, |(Chebyshev.T ℝ (n : ℤ)).eval x| ≤ 1 :=
+    fun _ hx => Chebyshev.abs_eval_T_real_le_one _ (abs_le.mpr hx)
+  refine ⟨hb, abs_derivative_eval_one_le (by simp [Chebyshev.natDegree_T]) hb, ?_⟩
+  rw [Chebyshev.T_derivative_eq_U, eval_mul, Chebyshev.U_eval_one]
+  simp
+  ring
+
 /-- `T₂ = 2X² - 1` meets the hypotheses of the endpoint Markov inequality with `d = 2`. -/
-example : |(2 * X ^ 2 - 1 : ℝ[X]).derivative.eval 1| ≤ ((2 : ℕ) : ℝ) ^ 2 := by
+theorem markov_T₂ : |(2 * X ^ 2 - 1 : ℝ[X]).derivative.eval 1| ≤ ((2 : ℕ) : ℝ) ^ 2 := by
   refine abs_derivative_eval_one_le ?_ fun x hx => ?_
   · compute_degree!
   · simp only [eval_sub, eval_mul, eval_pow, eval_X, eval_ofNat, eval_one]
@@ -81,7 +100,7 @@ example : |(2 * X ^ 2 - 1 : ℝ[X]).derivative.eval 1| ≤ ((2 : ℕ) : ℝ) ^ 2
     constructor <;> nlinarith [hx.1, hx.2]
 
 /-- …and attains it: `T₂'(1) = 4`. -/
-example : (2 * X ^ 2 - 1 : ℝ[X]).derivative.eval 1 = 4 := by
+theorem derivative_T₂_one : (2 * X ^ 2 - 1 : ℝ[X]).derivative.eval 1 = 4 := by
   simp only [derivative_sub, derivative_mul, derivative_X_pow, derivative_one, derivative_ofNat,
     eval_sub, eval_add, eval_mul, eval_ofNat, eval_C, eval_pow, eval_X, eval_zero, zero_mul]
   norm_num
@@ -89,7 +108,7 @@ example : (2 * X ^ 2 - 1 : ℝ[X]).derivative.eval 1 = 4 := by
 /-! ## 4. Instances of the derivative and grid lemmas -/
 
 /-- Markov on `[0, 2]` for `X²`: `|p'(1)| ≤ 4 · 2² · 4 / 2`. -/
-example : |(X ^ 2 : ℝ[X]).derivative.eval 1| ≤ 4 * ((2 : ℕ) : ℝ) ^ 2 * 4 / (2 - 0) := by
+theorem markov_sq : |(X ^ 2 : ℝ[X]).derivative.eval 1| ≤ 4 * ((2 : ℕ) : ℝ) ^ 2 * 4 / (2 - 0) := by
   refine abs_derivative_eval_le_markov (by compute_degree!) (by norm_num) (fun x hx => ?_)
     ⟨by norm_num, by norm_num⟩
   simp only [eval_pow, eval_X]
@@ -97,11 +116,25 @@ example : |(X ^ 2 : ℝ[X]).derivative.eval 1| ≤ 4 * ((2 : ℕ) : ℝ) ^ 2 * 4
   nlinarith [hx.1, hx.2]
 
 /-- Bernstein at the centre for `X` on `[-1, 1]`: `|p'(0)| ≤ 3`. -/
-example : |(X : ℝ[X]).derivative.eval 0| ≤ 3 * ((1 : ℕ) : ℝ) * 1 / 1 := by
+theorem bernstein_X : |(X : ℝ[X]).derivative.eval 0| ≤ 3 * ((1 : ℕ) : ℝ) * 1 / 1 := by
   refine abs_derivative_eval_le_bernstein (by simp) one_pos fun x hx => ?_
   simp only [eval_X]
   rw [abs_le]
   constructor <;> linarith [hx.1, hx.2]
+
+/-- Bernstein at the centre for the oscillatory `T₅` on `[-1, 1]`: the theorem gives
+`|T₅'(0)| ≤ 3 · 5 = 15`, and the true value is `5` (Markov would only give `4 · 5² / 2 = 50`). -/
+theorem bernstein_T₅ :
+    |(Chebyshev.T ℝ 5).derivative.eval 0| ≤ 15 ∧
+      |(Chebyshev.T ℝ 5).derivative.eval 0| = 5 := by
+  constructor
+  · have h := abs_derivative_eval_le_bernstein (p := Chebyshev.T ℝ 5) (d := 5)
+      (by norm_num [Chebyshev.natDegree_T]) (c := 0) (r := 1) (B := 1) zero_lt_one
+      (fun x hx => Chebyshev.abs_eval_T_real_le_one _ (abs_le.mpr (by simpa using hx)))
+    norm_num at h ⊢
+    exact h
+  · rw [Chebyshev.T_derivative_eq_U, eval_mul, Chebyshev.U_eval_zero]
+    norm_num [show Even (4 : ℤ) from ⟨2, rfl⟩]
 
 /-- The cubic `16 x (x - 1)(x - 2)` vanishes on the grid `0, 1, 2`. -/
 private lemma cubic_grid (i : ℕ) (hi : i ≤ 2) :
@@ -110,13 +143,14 @@ private lemma cubic_grid (i : ℕ) (hi : i ≤ 2) :
 
 /-- …and has a bump of size `6` at `3/2`, within `2` of the centre `1`: the centre lemma's
 hypotheses hold for a genuine bump, and its conclusion `2 ≤ 2000 · deg` follows. -/
-example : ((2 : ℕ) : ℝ) ≤ 2000 * (16 * X * (X - 1) * (X - 2) : ℝ[X]).natDegree := by
+theorem center_bump_cubic :
+    ((2 : ℕ) : ℝ) ≤ 2000 * (16 * X * (X - 1) * (X - 2) : ℝ[X]).natDegree := by
   refine natDegree_ge_of_center_bump (ξ := 3 / 2) cubic_grid ?_ ?_
   · norm_num
   · norm_num
 
 /-- The endpoint lemma for `X` on the grid `1, …, 5` (`B = 5`, jump `1`). -/
-example : min ((((5 : ℕ) : ℝ) - 1) / 4) (1 * (((5 : ℕ) : ℝ) - 1) / (8 * 5))
+theorem endpoint_jump_X : min ((((5 : ℕ) : ℝ) - 1) / 4) (1 * (((5 : ℕ) : ℝ) - 1) / (8 * 5))
     ≤ ((X : ℝ[X]).natDegree : ℝ) ^ 2 := by
   refine sq_natDegree_ge_of_endpoint_jump (by norm_num) one_pos (fun i _ hi => ?_) ?_
   · simp only [eval_X]

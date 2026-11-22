@@ -21,10 +21,10 @@ input puts `λ · m / √c`, where `m` is its **mass** on the block (`BlockSys.a
 * Inside a block the first disagreements telescope (`BlockSys.sum_load_firstDiff`): their
   indicator sum is the agreement indicator on `inn b` minus the one on `out b = inn b ∪ load b`.
   A position that is already loaded never contributes.
-* So the cross sum of a positive and a negative input is `∑_b m_b (agree(inn b) − agree(out b))`
-  (`BlockSys.arcSys_cross`), as soon as the conductance is positive wherever the mass is not
-  zero. The conductance agrees at a first disagreement because it is read from the record on
-  `inn b`.
+* So, for a scale `λ ≠ 0`, the cross sum of a positive and a negative input is
+  `∑_b m_b (agree(inn b) − agree(out b))` (`BlockSys.arcSys_cross`), as soon as the conductance
+  is positive wherever the mass is not zero (with `λ = 0` every amplitude vanishes). The
+  conductance agrees at a first disagreement because it is read from the record on `inn b`.
 * A positive input chooses a weighted family of block paths (`pathMass`); the mass of a block is
   the total weight of the paths through it. Along one path the differences telescope, so a family
   of total weight one whose every path telescopes to one gives cross sum one
@@ -139,9 +139,10 @@ theorem sum_load_firstDiff (b : β) (x y : ι → σ) :
 
 variable [Fintype β]
 
-/-- **The cross sum of a block arc system.** For a positive `x` and a negative `y`, if every block
-on which `x` has nonzero mass has positive conductance for `x`, the cross sum is
-`∑_b mass x b · (agree(inn b) − agree(out b))` on the observed inputs. -/
+/-- **The cross sum of a block arc system.** For a scale `λ ≠ 0`, a positive `x` and a negative
+`y`, if every block on which `x` has nonzero mass has positive conductance for `x`, the cross sum
+is `∑_b mass x b · (agree(inn b) − agree(out b))` on the observed inputs. (With `λ = 0` both
+amplitudes vanish and the cross sum is `0`.) -/
 theorem arcSys_cross {read : X → ι → σ} {f : X → Bool} {mass : X → β → ℝ} {lam : ℝ}
     (hlam : lam ≠ 0) {x y : X} (hx : f x = true) (hy : f y = false)
     (hsupp : ∀ b, mass x b ≠ 0 → 0 < S.condOf b (read x)) :

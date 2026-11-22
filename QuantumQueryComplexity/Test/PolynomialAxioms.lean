@@ -38,7 +38,10 @@ open QuantumQueryComplexity.AxiomAudit
     QuantumQueryComplexity.abs_derivative_eval_le_markov,
     QuantumQueryComplexity.abs_derivative_eval_le_bernstein,
     QuantumQueryComplexity.sq_natDegree_ge_of_endpoint_jump,
-    QuantumQueryComplexity.natDegree_ge_of_center_bump]
+    QuantumQueryComplexity.natDegree_ge_of_center_bump,
+    QuantumQueryComplexity.AlphabetPolynomialAcceptance.one_le_qQueryOn_indicator,
+    QuantumQueryComplexity.AlphabetPolynomialAcceptance.bernstein_T₅,
+    QuantumQueryComplexity.AlphabetPolynomialAcceptance.center_bump_cubic]
 
 /-! ## The failure paths are exercised -/
 
